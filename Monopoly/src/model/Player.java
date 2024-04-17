@@ -111,7 +111,7 @@ public class Player implements PlayerInterface{
 	    	if (displacement == 0)
 	    		this.goToJail();
 	    	// if you are not in jail
-	        if (!inJail) {
+	    	else if (!inJail) {
 	        	System.out.println(displacement);
 	            int previousPosition = this.positionIndex;
 	            int newPosition = (previousPosition + displacement) % game.getBoard().getBoxes().size();

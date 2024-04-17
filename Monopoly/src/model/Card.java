@@ -2,20 +2,20 @@ package model;
 
 public class Card {
 	
-	//CAMPI
+	// FIELDS
 	private final String description;
     private final int value;
     private final ActionType action;
 
     
-    //COSTRUTTORI
+    // CONSTRUCTOR
     public Card(final String description, final int value, final ActionType action) {
         this.description = description;
     	this.value = value;
     	this.action = action;
     }
 
-    //METODI
+    // METODS
     public String getDescription() {
         return this.description;
     }
