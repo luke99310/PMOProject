@@ -50,23 +50,13 @@ public class Player implements PlayerInterface{
 	            box.markAsSold();
 	            System.out.println(this.name + " bought the property " + box.getName() 
 				   + " at " + cost +"$" );
-	        } else if (box instanceof ChanceBox) {
+	        /*} else if (box instanceof ChanceBox) {
 	            ((ChanceBox) box).executeAction(this);
 	        } else if (box instanceof UnexpectedBox) {
-	            ((UnexpectedBox) box).executeAction(this);
+	            ((UnexpectedBox) box).executeAction(this);*/
 	        }
 	    }
 	    
-	    // checks if the player has all the properties of the same color
-	    public boolean ownsAllBoxesOfType(BoxType type) {
-	        int count = 0;
-	        for (Box box : this.properties) {
-	            if (box.getType() == type) {
-	                count++;
-	            }
-	        }
-	        return count == type.getNumberOfStreets();
-	    }
 	    
 	    // checks how many properties of the same color a player has
 	    public int numberOfOwnedPropertiesOfType(BoxType type) {
@@ -79,6 +69,11 @@ public class Player implements PlayerInterface{
 	        return count;
 	    }
 	
+	    // checks if the player has all the properties of the same color
+	    public boolean ownsAllBoxesOfType(BoxType type) {
+	    	return this.numberOfOwnedPropertiesOfType(type) == type.getNumberOfStreets();
+	    }
+	 
 	    // method used for transactions
 	    public void updateBalance(int amount) {
 	        this.balance += amount;
