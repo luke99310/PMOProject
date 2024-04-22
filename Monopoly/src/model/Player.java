@@ -1,3 +1,4 @@
+
 package model;
 
 import java.util.HashSet;
@@ -50,14 +51,15 @@ public class Player implements PlayerInterface{
 	            box.markAsSold();
 	            System.out.println(this.name + " bought the property " + box.getName() 
 				   + " at " + cost +"$" );
-	        } else if (box instanceof ChanceBox) {
+	        /*} else if (box instanceof ChanceBox) {
 	            ((ChanceBox) box).executeAction(this);
 	        } else if (box instanceof UnexpectedBox) {
-	            ((UnexpectedBox) box).executeAction(this);
+	            ((UnexpectedBox) box).executeAction(this);*/
 	        }
 	    }
 	    
-	 // checks how many properties of the same color a player has
+	    
+	    // checks how many properties of the same color a player has
 	    public int numberOfOwnedPropertiesOfType(BoxType type) {
 	        int count = 0;
 	        for (Box box : this.properties) {
@@ -67,12 +69,12 @@ public class Player implements PlayerInterface{
 	        }
 	        return count;
 	    }
-
+	
 	    // checks if the player has all the properties of the same color
 	    public boolean ownsAllBoxesOfType(BoxType type) {
 	    	return this.numberOfOwnedPropertiesOfType(type) == type.getNumberOfStreets();
 	    }
-	
+	 
 	    // method used for transactions
 	    public void updateBalance(int amount) {
 	        this.balance += amount;
@@ -83,12 +85,14 @@ public class Player implements PlayerInterface{
 	        if(box.getType().equals(BoxType.STATION)) {
 	        	int numberOfProperties = box.getOwner().get().numberOfOwnedPropertiesOfType(BoxType.STATION);
 	        	int rent = 0;
-	        	while(numberOfProperties > 0) {
+	        	while(numberOfProperties > 0) { 
 	        		rent += 25;
 	        		numberOfProperties --;
 	        	}
+	        	// SI PUO TOGLIERE?
 	        	this.updateBalance(-rent);
 	            box.getOwner().get().updateBalance(rent);
+	            // ----------------------------------------
 	        } else if (box.getOwner().isPresent() && !this.properties.contains(box)) {
 	            int rent = box.getRent();
 	            if (box.getOwner().get().ownsAllBoxesOfType(box.getType())) {
@@ -147,9 +151,7 @@ public class Player implements PlayerInterface{
 	    
 	    // method that generates a random boolean emulating player's choice
 	    private Boolean askPlayer() {
-	    	Random rand = new Random();
-	    	Boolean choice = rand.nextBoolean();
-	    	return choice;
+	    	return new Random().nextBoolean();
 	    }
 	    
 	    // method that manages player's choice regarding the auction
@@ -157,7 +159,7 @@ public class Player implements PlayerInterface{
 	    	System.out.println("is " + this.name + " going to buy the property "+ BoxUpForAuction.getName() 
 	    	                   + " at " + cost + "$ ?");
 	    	// if the player wants and he can buy the box
-	    	if (this.askPlayer()) 
+	    	if (true) //if (this.askPlayer()) 
 	    		this.buyBox(BoxUpForAuction, cost);
 	    	else
 	    		System.out.println(this.name + " did not buy the property.");
@@ -200,7 +202,7 @@ public class Player implements PlayerInterface{
 	    		if (this.ownsAllBoxesOfType(box.getType())) {
 	    			if (this.balance >= HOUSE_COST) {
 	    				box.buildHouse();
-	    				this.updateBalance(HOUSE_COST);
+	    				this.updateBalance(-HOUSE_COST);
 	    			} else {
 	    				System.out.println("doesn't have enough money to buy the house");
 	    			}

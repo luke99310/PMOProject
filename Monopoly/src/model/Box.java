@@ -50,7 +50,8 @@ public class Box implements BoxInterface{
     }
     
     public int fullColorRent() {
-    	return this.rent * (this.builtHouses > 0 ? 1 + this.builtHouses : DOUBLE_RENT_FOR_COMPLETE_SERIES);
+    	return this.rent * (this.builtHouses > 0 ? DOUBLE_RENT_FOR_COMPLETE_SERIES + this.builtHouses : 
+    		                                       DOUBLE_RENT_FOR_COMPLETE_SERIES);
     }
     
 	public int getBuiltHouses() {
