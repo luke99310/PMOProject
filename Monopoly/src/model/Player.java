@@ -61,13 +61,9 @@ public class Player implements PlayerInterface{
 	    
 	    // checks how many properties of the same color a player has
 	    public int numberOfOwnedPropertiesOfType(BoxType type) {
-	        int count = 0;
-	        for (Box box : this.properties) {
-	            if (box.getType() == type) {
-	                count++;
-	            }
-	        }
-	        return count;
+	        return  (int)this.properties.stream()
+	        					        .filter(box -> box.getType()== type)
+	        					        .count();
 	    }
 	
 	    // checks if the player has all the properties of the same color
@@ -82,30 +78,41 @@ public class Player implements PlayerInterface{
 	    
 	    // method that allows the player to pay the rent
 	    public void payRent(Box box) {
-	        if(box.getType().equals(BoxType.STATION)) {
-	        	int numberOfProperties = box.getOwner().get().numberOfOwnedPropertiesOfType(BoxType.STATION);
-	        	int rent = 0;
-	        	while(numberOfProperties > 0) { 
-	        		rent += 25;
-	        		numberOfProperties --;
-	        	}
-	        	// SI PUO TOGLIERE?
-	        	this.updateBalance(-rent);
-	            box.getOwner().get().updateBalance(rent);
-	            // ----------------------------------------
-	        } else if (box.getOwner().isPresent() && !this.properties.contains(box)) {
-	            int rent = box.getRent();
-	            if (box.getOwner().get().ownsAllBoxesOfType(box.getType())) {
-	                rent = box.fullColorRent();
+	    	// if someone else owns the property you have to pay the rent
+	    	if (box.getOwner().isPresent() && !this.properties.contains(box)) {
+	            int rent = 0;
+	            if (box.getType().equals(BoxType.STATION)) {
+	                rent = 25 * box.getOwner().get().numberOfOwnedPropertiesOfType(BoxType.STATION);
+	            } else {
+	            	// if the owner has full set the rent is higher
+	            	rent = box.getOwner().get().ownsAllBoxesOfType(box.getType())?
+	            																  box.fullColorRent():
+	            																  box.getRent();
 	            }
+	            // transaction
 	        	this.updateBalance(-rent);
 	            box.getOwner().get().updateBalance(rent);
 	        }
 	    }
 
+	    // method that manages the action of the box
+	    private void manageBoxAction() {
+	    	// checking the type of box the player landed on
+            if (positionBox instanceof ChanceBox) 
+            	((ChanceBox) positionBox).executeAction(this);
+            else if (positionBox instanceof UnexpectedBox)
+            	((UnexpectedBox) positionBox).executeAction(this);
+            // you go to jail if you land on the "go to jail" box (position 19)
+            else if (this.positionBox.getName().equals("Jail")) 
+                this.goToJail();
+            // if the box belong to someone you have to pay the rent
+            else if (positionBox.getOwner().isPresent() && !this.properties.contains(positionBox))
+                payRent(this.positionBox);
+	    }
+	    
 	    // method that manages player movement
 	    public void move(int displacement) {
-	    	// if the displacement is 0 means that you got double three times in a row (illegal throw)
+	    	// if the displacement is 0 means that you got "double" three times in a row (illegal throw)
 	    	if (displacement == 0)
 	    		this.goToJail();
 	    	// if you are not in jail
@@ -117,21 +124,12 @@ public class Player implements PlayerInterface{
 	            this.positionBox = game.getBoard().getBoxes().get(newPosition);
 	            
 	            // if you pass the start box you get +200$
-	            if (displacement > 0 && previousPosition > newPosition) {
+	            if (displacement > 0 && previousPosition > newPosition)
 	                this.updateBalance(MONEY_EVERY_LAP);
-	            }
+	                  
+	            // based on the box the player landed has to do something
+	            this.manageBoxAction();
 	            
-	            // checking the type of box the player landed on
-	            if (positionBox instanceof ChanceBox) 
-	            	((ChanceBox) positionBox).executeAction(this);
-	            else if (positionBox instanceof UnexpectedBox)
-	            	((UnexpectedBox) positionBox).executeAction(this);
-	            // you go to jail if you land on the "go to jail" box (position 19)
-	            else if (this.positionBox.getName().equals("Jail")) 
-	                this.goToJail();
-	            // if the box belong to someone you have to pay the rent
-	            else if (positionBox.getOwner().isPresent() && !this.properties.contains(positionBox))
-	                payRent(this.positionBox);
 	        // if you are in jail
 	    	}else {
 	            this.turnsInJail--;
@@ -151,7 +149,7 @@ public class Player implements PlayerInterface{
 	    
 	    // method that generates a random boolean emulating player's choice
 	    private Boolean askPlayer() {
-	    	return new Random().nextBoolean();
+	    	return true;//new Random().nextBoolean();
 	    }
 	    
 	    // method that manages player's choice regarding the auction
@@ -159,7 +157,7 @@ public class Player implements PlayerInterface{
 	    	System.out.println("is " + this.name + " going to buy the property "+ BoxUpForAuction.getName() 
 	    	                   + " at " + cost + "$ ?");
 	    	// if the player wants and he can buy the box
-	    	if (true) //if (this.askPlayer()) 
+	    	if (this.askPlayer()) 
 	    		this.buyBox(BoxUpForAuction, cost);
 	    	else
 	    		System.out.println(this.name + " did not buy the property.");
