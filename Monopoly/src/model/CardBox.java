@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Random;
 
 public abstract class CardBox extends Box{
-	private static final int JAIL_POSITION_INDEX = 6;
 	
 	// FIELDS
 	private List<Card> cards;
@@ -30,7 +29,7 @@ public abstract class CardBox extends Box{
 			player.move(card.getValue());
 			break;
 		case JAIL:
-			player.move(JAIL_POSITION_INDEX - player.getPositionIndex());
+			player.move(0); // sends them to prison
 			break;
 		default:
 			System.out.println("Errore, azione non riconosciuta !!");

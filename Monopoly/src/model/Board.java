@@ -54,7 +54,7 @@ public class Board implements BoardInterface{
         this.boxes.add(new Box("Stazione NORD", 200, 25, BoxType.STATION, false));
         this.boxes.add(new Box("Piazza Giulio Cesare", 280, 24, BoxType.YELLOW, false));
         this.boxes.add(new ChanceBox("Probabilità", chanceCards,BoxType.CHANCE));
-        this.boxes.add(new Box("Prigione", 0, 0, BoxType.JAIL, true));
+        this.boxes.add(new Box("Vai in prigione", 0, 0, BoxType.JAIL, true));
         this.boxes.add(new Box("Via Roma", 300, 26, BoxType.GREEN, false));
         this.boxes.add(new Box("Corso Impero", 300, 26, BoxType.GREEN, false));
         this.boxes.add(new Box("Stazione EST", 200, 25, BoxType.STATION, false));

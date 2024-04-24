@@ -45,7 +45,7 @@ public class Player implements PlayerInterface{
 	            this.updateBalance(-cost);
 	            box.setOwner(Optional.ofNullable(this));
 	            this.properties.add(box);
-	            box.markAsSold();
+	            box.markAsSellable(false);
 	            System.out.println(this.name + " bought the property " + box.getName() 
 				   + " at " + cost +"$" );
 	        }
@@ -78,7 +78,7 @@ public class Player implements PlayerInterface{
 	            } else {
 	            	// if the owner has full set the rent is higher
 	            	rent = box.getOwner().get().ownsAllBoxesOfType(box.getType())?
-	            																  box.fullColorRent():
+	            																  box.fullSet():
 	            																  box.getRent();
 	            }
 	            // transaction
@@ -128,8 +128,8 @@ public class Player implements PlayerInterface{
             	((ChanceBox) positionBox).executeAction(this);
             else if (positionBox instanceof UnexpectedBox)
             	((UnexpectedBox) positionBox).executeAction(this);
-            // you go to jail if you land on the "go to jail" box (position 19)
-            else if (this.positionBox.getName().equals("Prigione")) 
+            // you go to jail if you land on the "go to jail" box (box 19)
+            else if (this.positionBox.equals(this.game.getBoard().getBox(JAIL_BOX_INDEX_ON_BOARD))) 
                 this.goToJail();
             // if the box belong to someone you have to pay the rent
             else if (positionBox.getOwner().isPresent() && !this.properties.contains(positionBox))
@@ -161,15 +161,19 @@ public class Player implements PlayerInterface{
 	    }
 	    
 	    // method that manages the auction
-	    public void putUpForAuction(Player seller, Box propertyToSell) {
+	    public void putUpForAuction(Box propertyToSell) {
 	    	// if the seller is actually the owner of the property he can put it to auction
-	    	if (seller.getProperties().contains(propertyToSell)) {
-	    		System.out.println(seller.getName() + " puts the property " + propertyToSell +" up for auction ");
-	    		propertyToSell.sell();
-	    		int decrement = 0;
+	    	if (this.getProperties().contains(propertyToSell)) {
+	    		System.out.println(this.getName() + " puts the property " + propertyToSell +" up for auction ");
+	    		
+	    		// variable for preventing the property being sold to the owner
+	    		Player seller = this;         	
+	    		// property is now sellable
+	    		propertyToSell.markAsSellable(true);	
+	    		int decrement = 0;      
 	    		// asking every player (except seller) 3 times if they want to buy the property 
-	    		// and lowering the price very time
-	    		// checking if the property is sellable for loop optimization
+	    		// and lowering the price every time
+	    		// checking if the property is sellable for loop optimization (if it's sold the loop stops)
 	    		for (int i = 0; i < 3 && propertyToSell.isSellable(); i++) {
 	    			// reduction of the cost by 10% every loop
 	    			decrement += (propertyToSell.getCost() / 10);

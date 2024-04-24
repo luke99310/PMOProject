@@ -14,18 +14,17 @@ public interface BoxInterface {
 
     Optional<Player> getOwner();
     
-    int fullColorRent();
+    int fullSet();
     
     void setOwner(Optional<Player> owner);
-    
-    void sell(); //questo metodo fa partire l'asta, 
-    			 //oppure se nessuno acquista la casella, la compra la banca 
 
 	boolean isSpecial();
 
     String toString();
 
     boolean isSellable();
+    
+    public void markAsSellable(boolean b);
 
     void buildHouse();
 	

@@ -299,47 +299,37 @@ public class PlayerTest {
 		Assert.assertFalse("Player shouldn't be in jail", player1.isInJail());
 	}
 	
-	// testing putUpForAuction method FLAKY TESTS!!!
+	// testing putUpForAuction method FLAKY TESTS (1 and 2)!!!
 	@Test
 	public void testPutUpForAuction1() {
 		player1.buyBox(box1, 0);
-		player1.putUpForAuction(player1, box1);
+		player1.putUpForAuction(box1);
 		Assert.assertEquals("player1 sells the property for 450$",1950, player1.getBalance());
 		Assert.assertEquals("player2 buys the property for 450$",1050, player2.getBalance());
 		Assert.assertTrue("player1 doesn't own the property anymore", box1.getOwner().get() != player1);
 		Assert.assertTrue("player2 does own the property anymore", box1.getOwner().get() == player2);
-		}
-		
-	@Test
-	public void testPutUpForAuction2() {
-		player2.buyBox(box1, 0);
-		player2.putUpForAuction(player2, box1);
-		Assert.assertEquals("player1 sells the property for 450$",1950, player2.getBalance());
-		Assert.assertEquals("player2 buys the property for 450$",1050, player1.getBalance());
-		Assert.assertTrue("player1 doesn't own the property anymore", box1.getOwner().get() != player2);
-		Assert.assertTrue("player2 does own the property anymore", box1.getOwner().get() == player1);
 	}
 		
 	@Test
-	public void testPutUpForAuction3() {
+	public void testPutUpForAuction2() {
 		player1.buyBox(box1, 0);
-		player2.putUpForAuction(player2, box1);
+		player2.putUpForAuction(box1);
 		Assert.assertEquals("player1 doesn't buy the property",1500, player1.getBalance());
 		Assert.assertTrue("player1 still owns the property", box1.getOwner().get() == player1);	
 	}
 		
 	@Test
-	public void testPutUpForAuction4() {
-		player2.putUpForAuction(player2, notSellableBox);
+	public void testPutUpForAuction3() {
+		player2.putUpForAuction(notSellableBox);
 		Assert.assertEquals("player1 can't buy the property",1500, player1.getBalance());
 		Assert.assertTrue("none can buy this property", notSellableBox.getOwner().isEmpty());	
 	}
 	
 	@Test
-	public void testPutUpForAuction5() {
+	public void testPutUpForAuction4() {
 		player1.buyBox(box1, 0);
 		player2.buyBox(box2, 1500);
-		player1.putUpForAuction(player1, box1);
+		player1.putUpForAuction(box1);
 		Assert.assertEquals("player1 sold it to the bank",1850, player1.getBalance());
 		Assert.assertEquals("player2 has 0$",0, player2.getBalance());
 		Assert.assertTrue("none owns the property", box1.getOwner().isEmpty());
