@@ -208,6 +208,20 @@ public class Player implements PlayerInterface{
 	    	}
 	    }
 	    
+	    // equals
+	    @Override
+	    public boolean equals(Object o) {
+	    	if (o == this)
+	    		return true;
+	    	if (!(o instanceof Player))
+	    		return false;
+	    	Player p = (Player)o;
+	    	return this.getName().equals(p.getName()) && this.getBalance() == p.getBalance() 
+	    		&& this.positionIndex == p.getPositionIndex() && this.positionBox.equals(p.getPosition())
+	    		&& this.inJail == p.isInJail() && this.turnsInJail == p.getTurnsInJail()
+	    		&& this.properties.equals(p.getProperties());
+	    } 
+	    
 	    // getters
 		public String getName() {
 			return this.name;
@@ -223,6 +237,10 @@ public class Player implements PlayerInterface{
 	    
 		public int getPositionIndex() {
 			return this.positionIndex;
+		}
+		
+		public int getTurnsInJail() {
+			return this.turnsInJail;
 		}
 	    
 		public boolean isInJail() {

@@ -89,6 +89,20 @@ public class Box implements BoxInterface{
     public String toString() {
     	return this.name;
     }
+    
+    // equals
+    @Override
+    public boolean equals(Object o) {
+    	if (o == this)
+    		return true;
+    	if (!(o instanceof Box))
+    		return false;
+    	Box b = (Box)o;
+    	return this.name.equals(b.getName()) && this.cost == b.getCost()
+    		   && this.owner.equals(b.getOwner()) && this.type.equals(b.getType())
+    		   && this.rent == b.getRent() && this.builtHouses == b.getBuiltHouses()
+    		   && this.sellable == b.isSellable() && this.isSpecial == b.isSpecial();
+    } 
 
 }
 
