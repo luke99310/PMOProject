@@ -395,4 +395,33 @@ public class PlayerTest {
 		Assert.assertEquals("player1 can't own the property", 1500, player1.getBalance());
 		Assert.assertEquals("the house is not built", 0, box1.getBuiltHouses());
 	}
+	
+	@Test
+	public void testEquals1() {
+		Assert.assertTrue(player1.equals(player1));
+	}
+	
+	@Test
+	public void testEquals2() {
+		Assert.assertFalse(player1.equals(player2));
+	}
+	
+	@Test
+	public void testEquals3() {
+		Player player3 = player1;
+		Assert.assertTrue("different reference same player", player1.equals(player3));
+	}
+	
+	@Test
+	public void testEquals4() {
+		player1.buyBox(box1, 0);
+		Player player3 = new Player("Luca", game);
+		Assert.assertFalse("same fields except properties", player1.equals(player3));
+	}
+	
+	@Test
+	public void testEquals5() {
+		Assert.assertFalse("not a player", player1.equals(box1));
+	}
+	
 }
