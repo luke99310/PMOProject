@@ -15,7 +15,6 @@ public class Player implements PlayerInterface{
 	    private static final int HOUSE_COST = 100;
 	    private static final int MONEY_EVERY_LAP = 200;
 
-
 	    //FIELDS
 	    private String name;
 	    private int balance;
@@ -25,7 +24,6 @@ public class Player implements PlayerInterface{
 	    private int turnsInJail;
 	    private Game game;
 	    private Set<Box> properties = new HashSet<>();
-
 	    
 	    //CONSTRUCTORS
 	    public Player(String name, Game game) {
@@ -38,7 +36,6 @@ public class Player implements PlayerInterface{
 	        this.game = game;
 	        game.addPlayer(this);
 	    }
-
 	    
 	    //METHODS
 	    // method that allows to buy a box
@@ -51,13 +48,8 @@ public class Player implements PlayerInterface{
 	            box.markAsSold();
 	            System.out.println(this.name + " bought the property " + box.getName() 
 				   + " at " + cost +"$" );
-	        /*} else if (box instanceof ChanceBox) {
-	            ((ChanceBox) box).executeAction(this);
-	        } else if (box instanceof UnexpectedBox) {
-	            ((UnexpectedBox) box).executeAction(this);*/
 	        }
 	    }
-	    
 	    
 	    // checks how many properties of the same color a player has
 	    public int numberOfOwnedPropertiesOfType(BoxType type) {
@@ -94,21 +86,6 @@ public class Player implements PlayerInterface{
 	            box.getOwner().get().updateBalance(rent);
 	        }
 	    }
-
-	    // method that manages the action of the box
-	    private void manageBoxAction() {
-	    	// checking the type of box the player landed on
-            if (positionBox instanceof ChanceBox) 
-            	((ChanceBox) positionBox).executeAction(this);
-            else if (positionBox instanceof UnexpectedBox)
-            	((UnexpectedBox) positionBox).executeAction(this);
-            // you go to jail if you land on the "go to jail" box (position 19)
-            else if (this.positionBox.getName().equals("Jail")) 
-                this.goToJail();
-            // if the box belong to someone you have to pay the rent
-            else if (positionBox.getOwner().isPresent() && !this.properties.contains(positionBox))
-                payRent(this.positionBox);
-	    }
 	    
 	    // method that manages player movement
 	    public void move(int displacement) {
@@ -119,12 +96,15 @@ public class Player implements PlayerInterface{
 	    	else if (!inJail) {
 	        	System.out.println(displacement);
 	            int previousPosition = this.positionIndex;
+	            // calculating the index of the new position using % for a circular array
 	            int newPosition = (previousPosition + displacement) % game.getBoard().getBoxes().size();
 	            this.positionIndex = newPosition;
+	            
+	            // actually finding the new position on the board using the calculated index
 	            this.positionBox = game.getBoard().getBoxes().get(newPosition);
 	            
 	            // if you pass the start box you get +200$
-	            if (displacement > 0 && previousPosition > newPosition)
+	            if (displacement > 0 && previousPosition > this.positionIndex)
 	                this.updateBalance(MONEY_EVERY_LAP);
 	                  
 	            // based on the box the player landed has to do something
@@ -136,8 +116,24 @@ public class Player implements PlayerInterface{
 	            if (this.turnsInJail == 0) {
 	                this.inJail = false;
 	                this.positionBox = game.getBoard().getBoxes().get(JAIL_EXIT_BOX_INDEX_ON_BOARD);
+	                this.positionIndex = JAIL_EXIT_BOX_INDEX_ON_BOARD;
 	            }
 	        }
+	    }
+	    
+	    // method that manages the action of the box
+	    private void manageBoxAction() {
+	    	// checking the type of box the player landed on
+            if (positionBox instanceof ChanceBox) 
+            	((ChanceBox) positionBox).executeAction(this);
+            else if (positionBox instanceof UnexpectedBox)
+            	((UnexpectedBox) positionBox).executeAction(this);
+            // you go to jail if you land on the "go to jail" box (position 19)
+            else if (this.positionBox.getName().equals("Prigione")) 
+                this.goToJail();
+            // if the box belong to someone you have to pay the rent
+            else if (positionBox.getOwner().isPresent() && !this.properties.contains(positionBox))
+                payRent(this.positionBox);
 	    }
 	    
 	    // method that send the player to prison
@@ -149,11 +145,11 @@ public class Player implements PlayerInterface{
 	    
 	    // method that generates a random boolean emulating player's choice
 	    private Boolean askPlayer() {
-	    	return true;//new Random().nextBoolean();
+	    	return new Random().nextBoolean();
 	    }
 	    
 	    // method that manages player's choice regarding the auction
-	    public void managePlayerChoice(Box BoxUpForAuction, int cost) {
+	    private void managePlayerChoice(Box BoxUpForAuction, int cost) {
 	    	System.out.println("is " + this.name + " going to buy the property "+ BoxUpForAuction.getName() 
 	    	                   + " at " + cost + "$ ?");
 	    	// if the player wants and he can buy the box
@@ -164,7 +160,7 @@ public class Player implements PlayerInterface{
 	    	
 	    }
 	    
-	    // method that manages the auction itself
+	    // method that manages the auction
 	    public void putUpForAuction(Player seller, Box propertyToSell) {
 	    	// if the seller is actually the owner of the property he can put it to auction
 	    	if (seller.getProperties().contains(propertyToSell)) {
@@ -176,7 +172,7 @@ public class Player implements PlayerInterface{
 	    		// checking if the property is sellable for loop optimization
 	    		for (int i = 0; i < 3 && propertyToSell.isSellable(); i++) {
 	    			// reduction of the cost by 10% every loop
-	    			decrement +=(propertyToSell.getCost() / 10);
+	    			decrement += (propertyToSell.getCost() / 10);
 	    			for (Player p: this.game.getPlayers()) {
 	    				if (propertyToSell.isSellable() && p != seller)
 	    					p.managePlayerChoice(propertyToSell, propertyToSell.getCost() - decrement);
@@ -188,7 +184,7 @@ public class Player implements PlayerInterface{
 	    			System.out.println(seller.getName() +  " sold the property " + propertyToSell.getName() +
 	    					           " to the bank for " + (propertyToSell.getCost() - decrement) + "$");
 	    		}
-	    		// either the bank or the other players bought the property 
+	    		// either the bank or other players bought the property 
 	    		seller.updateBalance(propertyToSell.getCost() - decrement); 
 	    		seller.properties.remove(propertyToSell);
 	    	}
@@ -212,6 +208,7 @@ public class Player implements PlayerInterface{
 	    	}
 	    }
 	    
+	    // getters
 		public String getName() {
 			return this.name;
 		}
