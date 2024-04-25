@@ -24,7 +24,7 @@ public class Player implements PlayerInterface{
 	    private int turnsInJail;
 	    private Game game;
 	    private Set<Box> properties = new HashSet<>();
-	    
+	     
 	    //CONSTRUCTORS
 	    public Player(String name, Game game) {
 	        this.name = name;
@@ -52,24 +52,28 @@ public class Player implements PlayerInterface{
 	    }
 	    
 	    // checks how many properties of the same color a player has
-	    public int numberOfOwnedPropertiesOfType(BoxType type) {
+	    private int numberOfOwnedPropertiesOfType(BoxType type) {
 	        return  (int)this.properties.stream()
 	        					        .filter(box -> box.getType()== type)
 	        					        .count();
 	    }
 	
 	    // checks if the player has all the properties of the same color
-	    public boolean ownsAllBoxesOfType(BoxType type) {
-	    	return this.numberOfOwnedPropertiesOfType(type) == type.getNumberOfStreets();
+	    private boolean ownsAllBoxesOfType(BoxType type) {
+	    	return this.numberOfOwnedPropertiesOfType(type) == type.getNumberOfStreets(); 
 	    }
 	 
 	    // method used for transactions
 	    public void updateBalance(int amount) {
-	        this.balance += amount;
+	        // pays the amount	
+	    	this.balance += amount;
+	    	// balance reached a negative value so the player lost
+	        if (this.balance < 0)
+	        	game.getPlayers().remove(this);
 	    }
 	    
 	    // method that allows the player to pay the rent
-	    public void payRent(Box box) {
+	    private void payRent(Box box) {
 	    	// if someone else owns the property you have to pay the rent
 	    	if (box.getOwner().isPresent() && !this.properties.contains(box)) {
 	            int rent = 0;
@@ -141,6 +145,7 @@ public class Player implements PlayerInterface{
 	        this.inJail = true;
 	        this.turnsInJail = TURNS_IN_JAIL;
 	        this.positionBox = game.getBoard().getBoxes().get(JAIL_BOX_INDEX_ON_BOARD);
+	        this.positionIndex = JAIL_BOX_INDEX_ON_BOARD;
 	    }
 	    
 	    // method that generates a random boolean emulating player's choice
@@ -253,6 +258,5 @@ public class Player implements PlayerInterface{
 		
 		public Set<Box> getProperties() {
 			return new HashSet<Box>(this.properties);
-		}
-			
+		}	
 	}

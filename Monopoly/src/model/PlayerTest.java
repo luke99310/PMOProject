@@ -71,48 +71,6 @@ public class PlayerTest {
 		
 	}
 	
-	// testing numberOfOwnedPropertiesOfType method
-	@Test
-	public void TestNumberOfOwnedPropertiesOfType1() {
-		Assert.assertEquals("player owns 0 blue properties", 0, player1.numberOfOwnedPropertiesOfType(BoxType.BLUE));
-	}
-	
-	@Test
-	public void TestNumberOfOwnedPropertiesOfType2() {
-		player1.buyBox(box1, 0);
-		Assert.assertEquals("player owns 1 blue property", 1, player1.numberOfOwnedPropertiesOfType(BoxType.BLUE));
-	}
-	
-	@Test
-	public void TestNumberOfOwnedPropertiesOfType3() {
-		player1.buyBox(box1, 0);
-		player1.buyBox(box2, 0);
-		Assert.assertEquals("player owns 2 blue properties", 2, player1.numberOfOwnedPropertiesOfType(BoxType.BLUE));
-	}
-
-	@Test
-	public void TestNumberOfOwnedPropertiesOfType4() {
-		player1.buyBox(box1, 0);
-		player1.buyBox(box2, 0);
-		Assert.assertEquals("player owns 0 red properties", 0, player1.numberOfOwnedPropertiesOfType(BoxType.RED));
-	}
-	
-	// testing ownsAllBoxesOfType method
-	@Test
-	public void TestOwnsAllBoxesOfType1() {
-		player1.buyBox(box1, 0);
-		player1.buyBox(box2, 0);
-		player1.buyBox(box3, 0);
-		Assert.assertTrue("player has all the boxes", player1.ownsAllBoxesOfType(BoxType.BLUE));
-	}
-	
-	@Test
-	public void TestOwnsAllBoxesOfType2() {
-		player1.buyBox(box1, 0);
-		player1.buyBox(box2, 0);
-		Assert.assertFalse(" player doesn't own all the boxes", player1.ownsAllBoxesOfType(BoxType.BLUE));
-	}
-	
 	// testing updateBalance method
 	@Test
 	public void testUpdateBalance1() {
@@ -132,74 +90,11 @@ public class PlayerTest {
 		Assert.assertEquals(1400, player1.getBalance());
 	}
 	
-	// testing payRent method
 	@Test
-	public void testPayRent1() {
-		player1.buyBox(box1, 0);
-		player2.payRent(box1);
-		Assert.assertEquals("player1 recieves 6$",1506, player1.getBalance());
-		Assert.assertEquals("player2 pays 6$",1494, player2.getBalance());
-	}
-	
-	@Test
-	public void testPayRent2() {
-		player1.buyBox(box1, 0);
-		player1.payRent(box1);
-		Assert.assertEquals("player1 does not pay for his property",1500, player1.getBalance());
-	}
-	
-	@Test
-	public void testPayRent3() {
-		player1.buyBox(box1, 0);
-		player1.buyBox(box2, 0);
-		player1.buyBox(box3, 0);
-		player2.payRent(box1);
-		Assert.assertEquals("player1 recieves double the money",1512, player1.getBalance());
-		Assert.assertEquals("player2 pays extra for full set",1488, player2.getBalance());
-	}
-	
-	@Test
-	public void testPayRent4() {
-		player1.buyBox(box1, 0);
-		player1.buyBox(box2, 0);
-		player1.buyBox(box3, 0);
-		player2.payRent(box1);
-		Assert.assertEquals("player1 recieves double the money",1512, player1.getBalance());
-		Assert.assertEquals("player2 pays extra for full set",1488, player2.getBalance());
-	}
-	
-	@Test
-	public void testPayRent5() {
-		player1.buyBox(box1, 0);
-		player1.buyBox(box2, 0);
-		player1.buyBox(box3, 0);
-		player1.buildHouse(box1);
-		player2.payRent(box1);
-		Assert.assertEquals("player1 recieves triple the money (- house_cost)",1418, player1.getBalance());
-		Assert.assertEquals("player2 pays extra for full set",1482, player2.getBalance());
-	}
-	
-	@Test
-	public void testPayRent6() {
-		player1.payRent(notSellableBox);
-		Assert.assertEquals("player1 doesn't pay any rent on this box",1500, player1.getBalance());
-	}
-	
-	@Test
-	public void testPayRent7() {
-		player1.buyBox(station1, 0);
-		player2.payRent(station1);
-		Assert.assertEquals("player1 recieves 25$ (25$ every station)",1525, player1.getBalance());
-		Assert.assertEquals("player2 pays 25$ (25$ every station)",1475, player2.getBalance());
-	}
-	
-	@Test
-	public void testPayRent8() {
-		player1.buyBox(station1, 0);
-		player1.buyBox(station2, 0);
-		player2.payRent(station1);
-		Assert.assertEquals("player1 recieves 50$ (25$ every station)",1550, player1.getBalance());
-		Assert.assertEquals("player2 pays 50$ (25$ every station)",1450, player2.getBalance());
+	public void testUpdateBalance4() {
+		player1.updateBalance(-1600);
+		Assert.assertEquals(-100, player1.getBalance());
+		Assert.assertFalse("player1 is no longer in the game", game.getPlayers().contains(player1));
 	}
 	
 	// testing the move method forcing players to buy the properties
@@ -297,6 +192,30 @@ public class PlayerTest {
 		player1.move(1);
 		Assert.assertEquals("player moved 1 space (exit box is index 6) ", 7, player1.getPositionIndex());
 		Assert.assertFalse("Player shouldn't be in jail", player1.isInJail());
+	}
+	
+	@Test
+	public void testMove11() {
+		player2.buyBox(game.getBoard().getBox(1), 0);
+		player2.buyBox(game.getBoard().getBox(2), 0);
+		player2.buyBox(game.getBoard().getBox(4), 0);
+		player1.move(1);
+		Assert.assertEquals("the index must be updated", 1, player1.getPositionIndex());
+		Assert.assertEquals("player1 payed 12$ to player 2 (fullSet)", 1488, player1.getBalance());
+		Assert.assertEquals("player2 earned 12$", 1512, player2.getBalance());
+	}
+	
+	@Test
+	public void testMove12() {
+		player2.buyBox(game.getBoard().getBox(3), 0);
+		player2.buyBox(game.getBoard().getBox(9), 0);
+		// box 2 belongs to player2 so player1 pays the rent
+		player1.move(3);
+		Assert.assertEquals("the index must be updated", 3, player1.getPositionIndex());
+		Assert.assertTrue("Player should be on box 4",
+				          player1.getPosition() == game.getBoard().getBoxes().get(3));
+		Assert.assertEquals("player1 payed 50$ to player 2", 1450, player1.getBalance());
+		Assert.assertEquals("player2 earned 6$", 1550, player2.getBalance());
 	}
 	
 	// testing putUpForAuction method FLAKY TESTS (1 and 2)!!!

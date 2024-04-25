@@ -30,12 +30,6 @@ public class Game implements GameInterface{
 	public void startGame() {
 		Collections.shuffle(players);
 	}
-
-
-	private int rollDice() {
-		Random rand = new Random();
-		return rand.nextInt(6) + 1 + rand.nextInt(6) + 1;
-	}
 	
 	public int rollDices(){
 		int sum = 0;
@@ -43,9 +37,9 @@ public class Game implements GameInterface{
 		int throw1 = 0;
 		int throw2 = 0;
 		for (int i = 0;(throw1 == throw2) && (i < 3); i++) {
-			throw1 = this.rollDice();
+			throw1 = new Random().nextInt(6) + 1;
 			System.out.println("You got " + throw1 + " with the first dice");
-			throw2 = this.rollDice();
+			throw2 = new Random().nextInt(6) + 1;
 			System.out.println("You got " + throw2 + " with the second dice");
 			sum = throw1 + throw2;
 			if (throw1 == throw2)
