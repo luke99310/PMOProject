@@ -12,17 +12,17 @@ public enum BoxType {
 	TRANSIT("Transit", 6),
 	JAIL("Jail", 1);
 
-	//CAMPI
+	// FIELDS
 	private final String description;
 	private final int numberOfStreets;
 
-	 //COSTRUTTORI
+	 // CONSTRUCTOR
 	 private BoxType(final String description, final int numberOfStreets) {
 		 this.description = description;
 	     this.numberOfStreets = numberOfStreets;
 	 }
 
-	 //METODI
+	 // METHODS
 	 public String getDescription() {
 		 return this.description;
 	 }

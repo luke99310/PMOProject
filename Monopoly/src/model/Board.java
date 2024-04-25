@@ -35,46 +35,42 @@ public class Board implements BoardInterface{
     	this.chanceCards.add(new Card("Bonus: avanzate di altre 5 poszioni", 5, ActionType.POSITION));
 
     	
-        // board's boxes
-        this.boxes.add(new Box("Partenza", 0, 0, BoxType.START, true));
-        this.boxes.add(new Box("Bastioni Gran Sasso", 100, 6, BoxType.BLUE, false));
-        this.boxes.add(new Box("Viale Monte Rosa", 100, 6, BoxType.BLUE, false));
-        this.boxes.add(new Box("Stazione SUD", 200, 25, BoxType.STATION, false));
-        this.boxes.add(new Box("Viale Vesuvio", 120, 8, BoxType.BLUE, false));
-        this.boxes.add(new ChanceBox("Probabilità", chanceCards,BoxType.CHANCE));
-        this.boxes.add(new Box("Transito", 0, 0, BoxType.TRANSIT, true));
-        this.boxes.add(new Box("Via Marco Polo", 220, 18, BoxType.RED, false));       
-        this.boxes.add(new Box("Corso Magellano", 220, 18, BoxType.RED, false));
-        this.boxes.add(new Box("Stazione OVEST", 200, 25, BoxType.STATION, false));
-        this.boxes.add(new Box("Largo Colombo", 240, 20, BoxType.RED, false));
-        this.boxes.add(new UnexpectedBox("Imprevisti", unexpectedCards,BoxType.UNEXPECTED));
-        this.boxes.add(new Box("Transito", 0, 0, BoxType.TRANSIT, true));
-        this.boxes.add(new Box("Viale Costantino", 260, 22, BoxType.YELLOW, false));
-        this.boxes.add(new Box("Viale Traiano", 260, 22, BoxType.YELLOW, false));
-        this.boxes.add(new Box("Stazione NORD", 200, 25, BoxType.STATION, false));
-        this.boxes.add(new Box("Piazza Giulio Cesare", 280, 24, BoxType.YELLOW, false));
-        this.boxes.add(new ChanceBox("Probabilità", chanceCards,BoxType.CHANCE));
-        this.boxes.add(new Box("Vai in prigione", 0, 0, BoxType.JAIL, true));
-        this.boxes.add(new Box("Via Roma", 300, 26, BoxType.GREEN, false));
-        this.boxes.add(new Box("Corso Impero", 300, 26, BoxType.GREEN, false));
-        this.boxes.add(new Box("Stazione EST", 200, 25, BoxType.STATION, false));
-        this.boxes.add(new Box("Largo Augusto", 320, 28, BoxType.GREEN, false));
-        this.boxes.add(new UnexpectedBox("Imprevisti", unexpectedCards,BoxType.UNEXPECTED));
-
+/*box*/ // board's boxes
+ /*1*/  this.boxes.add(new Box("Partenza", 0, 0, BoxType.START, true));
+ /*2*/  this.boxes.add(new Box("Bastioni Gran Sasso", 100, 6, BoxType.BLUE, false));
+ /*3*/  this.boxes.add(new Box("Viale Monte Rosa", 100, 6, BoxType.BLUE, false));
+ /*4*/  this.boxes.add(new Box("Stazione SUD", 200, 25, BoxType.STATION, false));
+ /*5*/  this.boxes.add(new Box("Viale Vesuvio", 120, 8, BoxType.BLUE, false));
+ /*6*/  this.boxes.add(new ChanceBox("Probabilità", chanceCards,BoxType.CHANCE));
+ /*7*/  this.boxes.add(new Box("Transito/Prigione", 0, 0, BoxType.TRANSIT, true));
+ /*8*/  this.boxes.add(new Box("Via Marco Polo", 220, 18, BoxType.RED, false));       
+ /*9*/  this.boxes.add(new Box("Corso Magellano", 220, 18, BoxType.RED, false));
+ /*10*/ this.boxes.add(new Box("Stazione OVEST", 200, 25, BoxType.STATION, false));
+ /*11*/ this.boxes.add(new Box("Largo Colombo", 240, 20, BoxType.RED, false));
+ /*12*/ this.boxes.add(new UnexpectedBox("Imprevisti", unexpectedCards,BoxType.UNEXPECTED));
+ /*13*/ this.boxes.add(new Box("Transito", 0, 0, BoxType.TRANSIT, true));
+ /*14*/ this.boxes.add(new Box("Viale Costantino", 260, 22, BoxType.YELLOW, false));
+ /*15*/ this.boxes.add(new Box("Viale Traiano", 260, 22, BoxType.YELLOW, false));
+ /*16*/ this.boxes.add(new Box("Stazione NORD", 200, 25, BoxType.STATION, false));
+ /*17*/ this.boxes.add(new Box("Piazza Giulio Cesare", 280, 24, BoxType.YELLOW, false));
+ /*18*/ this.boxes.add(new ChanceBox("Probabilità", chanceCards,BoxType.CHANCE));
+ /*19*/ this.boxes.add(new Box("Vai in prigione", 0, 0, BoxType.JAIL, true));
+ /*20*/ this.boxes.add(new Box("Via Roma", 300, 26, BoxType.GREEN, false));
+ /*21*/ this.boxes.add(new Box("Corso Impero", 300, 26, BoxType.GREEN, false));
+ /*22*/ this.boxes.add(new Box("Stazione EST", 200, 25, BoxType.STATION, false));
+ /*23*/ this.boxes.add(new Box("Largo Augusto", 320, 28, BoxType.GREEN, false));
+ /*24*/ this.boxes.add(new UnexpectedBox("Imprevisti", unexpectedCards,BoxType.UNEXPECTED));
     }
 
 	// METHODS
-	
-	//da eliminare
 	public List<Box> getBoxes() {
 		return this.boxes;
 	}
 
 	public Box getBox(int boxIndex) {
-		if (boxIndex >= 0 && boxIndex < boxes.size()) {
+		if (boxIndex >= 0 && boxIndex < boxes.size()) 
 			return boxes.get(boxIndex);
-		} else {
-			throw new IllegalArgumentException("The index of the box on the board is not valid");
-		}
+		else 
+			throw new IllegalArgumentException("The index of the box on the board is not valid");	
 	}
 }

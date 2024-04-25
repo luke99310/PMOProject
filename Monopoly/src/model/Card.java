@@ -6,7 +6,6 @@ public class Card {
 	private final String description;
     private final int value;
     private final ActionType action;
-
     
     // CONSTRUCTOR
     public Card(final String description, final int value, final ActionType action) {

@@ -12,8 +12,6 @@ public interface GameInterface {
 	List<Player> getPlayers();
 
 	Board getBoard();
-
-	void checkPlayerFunds(Player p);
 	
 	Player getCurrentPlayer();
 

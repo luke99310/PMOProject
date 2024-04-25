@@ -102,6 +102,7 @@ public class PlayerTest {
 	public void testMove1() {
 		player1.move(0);
 		Assert.assertTrue("Player should be in jail", player1.isInJail());
+		Assert.assertEquals("the index must be updated", 6, player1.getPositionIndex());
 	}
 	
 	@Test
@@ -169,7 +170,7 @@ public class PlayerTest {
 	public void testMove8() {
 		// player lands on "go to jail"
 		player1.move(18);
-		Assert.assertEquals("the index must be updated", 18, player1.getPositionIndex());
+		Assert.assertEquals("the index must be updated", 6, player1.getPositionIndex());
 		Assert.assertTrue("Player should be in jail", player1.isInJail());	
 	}
 
@@ -178,7 +179,7 @@ public class PlayerTest {
 		// player is in jail and tries to move"
 		player1.move(18);
 		player1.move(1);
-		Assert.assertEquals("player doesn't move", 18, player1.getPositionIndex());
+		Assert.assertEquals("player doesn't move", 6, player1.getPositionIndex());
 		Assert.assertTrue("Player should be in jail", player1.isInJail());
 	}
 	
@@ -190,7 +191,7 @@ public class PlayerTest {
 		player1.move(1);
 		player1.move(1);
 		player1.move(1);
-		Assert.assertEquals("player moved 1 space (exit box is index 6) ", 7, player1.getPositionIndex());
+		Assert.assertEquals("player moved 1 space (jail box has index 6) ", 7, player1.getPositionIndex());
 		Assert.assertFalse("Player shouldn't be in jail", player1.isInJail());
 	}
 	

@@ -9,13 +9,13 @@ import java.util.Set;
 public class Player implements PlayerInterface{
 		
 	    private static final int START_BOX_INDEX_ON_BOARD = 0;
-	    private static final int JAIL_EXIT_BOX_INDEX_ON_BOARD = 6;
-	    private static final int JAIL_BOX_INDEX_ON_BOARD = 18;
+	    private static final int JAIL_INDEX_ON_BOARD = 6;
+	    private static final int GO_TO_JAIL_BOX_INDEX_ON_BOARD = 18;
 	    private static final int TURNS_IN_JAIL = 3;
 	    private static final int HOUSE_COST = 100;
 	    private static final int MONEY_EVERY_LAP = 200;
 
-	    //FIELDS
+	    // FIELDS
 	    private String name;
 	    private int balance;
 	    private int positionIndex;
@@ -25,7 +25,7 @@ public class Player implements PlayerInterface{
 	    private Game game;
 	    private Set<Box> properties = new HashSet<>();
 	     
-	    //CONSTRUCTORS
+	    // CONSTRUCTORS
 	    public Player(String name, Game game) {
 	        this.name = name;
 	        this.balance = 1500;
@@ -37,7 +37,7 @@ public class Player implements PlayerInterface{
 	        game.addPlayer(this);
 	    }
 	    
-	    //METHODS
+	    // METHODS
 	    // method that allows to buy a box
 	    public void buyBox(Box box, int cost) {
 	        if (this.balance >= cost && box.isSellable()) {
@@ -67,7 +67,7 @@ public class Player implements PlayerInterface{
 	    public void updateBalance(int amount) {
 	        // pays the amount	
 	    	this.balance += amount;
-	    	// balance reached a negative value so the player lost
+	    	// balance reached a negative value, the player lost
 	        if (this.balance < 0)
 	        	game.getPlayers().remove(this);
 	    }
@@ -117,11 +117,8 @@ public class Player implements PlayerInterface{
 	        // if you are in jail
 	    	}else {
 	            this.turnsInJail--;
-	            if (this.turnsInJail == 0) {
+	            if (this.turnsInJail == 0)
 	                this.inJail = false;
-	                this.positionBox = game.getBoard().getBoxes().get(JAIL_EXIT_BOX_INDEX_ON_BOARD);
-	                this.positionIndex = JAIL_EXIT_BOX_INDEX_ON_BOARD;
-	            }
 	        }
 	    }
 	    
@@ -133,7 +130,7 @@ public class Player implements PlayerInterface{
             else if (positionBox instanceof UnexpectedBox)
             	((UnexpectedBox) positionBox).executeAction(this);
             // you go to jail if you land on the "go to jail" box (box 19)
-            else if (this.positionBox.equals(this.game.getBoard().getBox(JAIL_BOX_INDEX_ON_BOARD))) 
+            else if (this.positionBox.equals(this.game.getBoard().getBox(GO_TO_JAIL_BOX_INDEX_ON_BOARD))) 
                 this.goToJail();
             // if the box belong to someone you have to pay the rent
             else if (positionBox.getOwner().isPresent() && !this.properties.contains(positionBox))
@@ -144,8 +141,8 @@ public class Player implements PlayerInterface{
 	    private void goToJail() {
 	        this.inJail = true;
 	        this.turnsInJail = TURNS_IN_JAIL;
-	        this.positionBox = game.getBoard().getBoxes().get(JAIL_BOX_INDEX_ON_BOARD);
-	        this.positionIndex = JAIL_BOX_INDEX_ON_BOARD;
+	        this.positionBox = game.getBoard().getBoxes().get(JAIL_INDEX_ON_BOARD);
+	        this.positionIndex = JAIL_INDEX_ON_BOARD;
 	    }
 	    
 	    // method that generates a random boolean emulating player's choice

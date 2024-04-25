@@ -8,7 +8,6 @@ public class BoardTest {
 	Box box1;
 	Box box2;
 	
-	
 	@Before
 	public void setUpBoard() {
 		board = new Board();
@@ -16,15 +15,19 @@ public class BoardTest {
 		box2 = new Box("Stazione OVEST", 200, 25, BoxType.STATION, false);
 	}
 	
+	// testing getbox method
 	@Test
 	public void testGetBox_1() {
-		String expected = box1.getName();
-		Assert.assertEquals("casella all'indice 1 del tabellone", expected, board.getBox(1).getName());
+		Assert.assertEquals("casella all'indice 1 del tabellone", box1.getName(), board.getBox(1).getName());
 	}
 
 	@Test
 	public void testGetBox_2() {
-		String expected = box2.getName();
-		Assert.assertEquals("casella all'indice 9", expected, board.getBox(9).getName());
+		Assert.assertEquals("casella all'indice 9", box2.getName(), board.getBox(9).getName());
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetBox_3() {
+		board.getBox(100);
 	}
 }

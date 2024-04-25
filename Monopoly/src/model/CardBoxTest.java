@@ -16,7 +16,6 @@ public class CardBoxTest {
 	private List<Card> chanceCards;
 	private List<Card> unexpectedCards;
 	
-	
 	@Before
 	public void setUpCardBoxTest() {
 		board = new Board();
@@ -29,16 +28,17 @@ public class CardBoxTest {
     	unexpected = new UnexpectedBox("Imprevisti", unexpectedCards,BoxType.UNEXPECTED);
 	}
 	
+	// testing executeAction method
 	@Test
 	public void testExecuteActionUnexpected() {
 		this.unexpected.executeAction(player);
-		Assert.assertEquals(18, player.getPositionIndex());
+		Assert.assertEquals("player goes to jail", 6, player.getPositionIndex());
 	}
 	
 	@Test
 	public void testExecuteActionChance() {
 		this.chance.executeAction(player);
-		Assert.assertEquals(1555, player.getBalance());
+		Assert.assertEquals("player earns 55$", 1555, player.getBalance());
 	}
 	
 	
