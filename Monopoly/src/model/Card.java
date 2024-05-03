@@ -14,7 +14,7 @@ public class Card {
     	this.action = action;
     }
 
-    // METODS
+    // METHODS
     public String getDescription() {
         return this.description;
     }
