@@ -24,7 +24,7 @@ public interface BoxInterface {
 
     boolean isSellable();
     
-    public void markAsSellable(boolean b);
+    void markAsSellable(boolean b);
 
     void buildHouse();
 	

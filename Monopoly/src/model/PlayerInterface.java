@@ -4,7 +4,7 @@ import java.util.Set;
 
 public interface PlayerInterface {
 
-    public void buyBox(Box box, int cost);
+    void buyBox(Box box, int cost);
 
     void updateBalance(int amount);
 
