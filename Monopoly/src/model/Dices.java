@@ -28,37 +28,48 @@ public class Dices {
     	this.dice1 = new Random().nextInt(6) + 1;
         this.dice2 = new Random().nextInt(6) + 1;
         
-        // the first thrower initializes the lastPlayer field
+        // lastPlayer tracks the last player who threw the dices
         if (this.lastPlayer.isEmpty())
         	this.lastPlayer = Optional.ofNullable(player);
+        else
+        	this.lastPlayer = this.thrower;
         
         // updates the thrower
         this.thrower = Optional.ofNullable(player);
         	
-    	// if the thrower is the same two times in a row the counter increases
-    	if (this.thrower.get().equals(lastPlayer.get())) {
-    		// player got double so the counter increases
-    		if (this.dice1 == this.dice2) 
-    			this.doublesCounter++;
-    		else
-    			this.doublesCounter = -1; // prevents player from throwing the dices again
-    	}
-    	// if it is not the same player he can throw
-    	else
-    		this.doublesCounter = 0;
+        // if thrower is not the last player the counter resets
+        if (!this.thrower.get().equals(lastPlayer.get()))
+        	this.doublesCounter = 0;
+
+        // player got double so the counter increases
+        if (this.dice1 == this.dice2 && this.doublesCounter != -1) 
+        	this.doublesCounter++;
     	
-    	switch (this.doublesCounter) {
-    		// if 0,1,2 throw is allowed  
-    		case 0,1,2:
-    			this.dicesSum = this.dice1 + this.dice2;
-    		//if 3 goes to prison(illegal throw)
-    		case 3:
-    			this.dicesSum = -1;
-    		// if -1 player is not allowed to move again
-    		case -1:
-    			this.dicesSum = 0;
-    	}
-    
+        switch(this.doublesCounter) {
+	    	// player did not make double so he can't throw again
+        	case 0:
+	    		this.dicesSum = this.dice1 + this.dice2;
+	    		System.out.println("LANCIO REGOLARE!!! dado1: " + this.dice1 + " dado2: " + this.dice2);
+	    		this.doublesCounter = -1; // prevents the player from throwing again
+	    		break;
+	    	// player moves normally after he got double
+	    	case 1,2:
+	    		// if he gets a normal throw after a double he can't throw again
+	    		if (this.dice1 != this.dice2)
+	    			this.doublesCounter = -1; 
+	    		this.dicesSum = this.dice1 + this.dice2;
+	    		System.out.println("dado1: " + this.dice1 + " dado2: " + this.dice2);
+	    		break;
+	    	// player goes to prison
+	    	case 3:
+	    		System.out.println("IN PRIGIONE!!! dado1: " + this.dice1 + " dado2: " + this.dice2);
+	    		this.dicesSum = -1;
+	    	// player can't move
+	    	case -1:
+	    		System.err.println("non puoi piu spostarti");
+	    		this.dicesSum = 0;
+        }
+        
     	return this.dicesSum;
     }
 

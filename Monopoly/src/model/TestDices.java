@@ -26,11 +26,21 @@ public class TestDices {
 		players.addAll(Arrays.asList(player1, player2));
 	}
 	
-	// tsting the rollDices method
+	/* tsting the rollDices method
 	@Test
 	public void testRollDices1() {
 		player1.move(game.getDices().rollDices(player1));
 		Assert.assertNotEquals("player should have moved",0, player1.getPositionIndex());
+	}
+	*/
+	@Test
+	public void testRollDices2() {
+		player1.move(game.getDices().rollDices(player1));
+		player1.move(game.getDices().rollDices(player1));
+		player1.move(game.getDices().rollDices(player1));
+		int positionIndex = player1.getPositionIndex();
+		player1.move(game.getDices().rollDices(player1));
+		Assert.assertEquals("player should not have moved from the third trow",positionIndex, player1.getPositionIndex());
 	}
 	
 }
