@@ -7,8 +7,6 @@ public interface GameInterface {
 
 	void startGame();
 
-	int rollDices();
-
 	List<Player> getPlayers();
 
 	Board getBoard();
