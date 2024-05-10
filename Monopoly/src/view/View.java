@@ -3,7 +3,7 @@ package view;
 import javax.swing.*;
 import java.awt.*;
 
-public class p {
+public class View {
 	
 	//FIELDS
     private JFrame frame;
@@ -12,7 +12,7 @@ public class p {
     private PlayerField playerFields;
     
     //CONSTRUCOTORS
-    public p() {
+    public View() {
     	
     		frame = new JFrame("Monopoly Board");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

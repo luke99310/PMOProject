@@ -42,6 +42,8 @@ public class MonopolyCell extends JPanel {
             int j = 1;
             labels[i] = new JLabel("" + (j+i), SwingConstants.CENTER);
             subPanel.add(labels[i]);
+            //----
+            labels[i].setVisible(false);
         }
         this.add(subPanel, BorderLayout.CENTER);
     }
@@ -57,7 +59,6 @@ public class MonopolyCell extends JPanel {
 
     public void setLabelVisibility(int index, boolean visibility) {
         if (index >= 0 && index < labels.length) {
-            labels[index].setText("ciaoo");
             labels[index].setVisible(visibility);
         }
     }

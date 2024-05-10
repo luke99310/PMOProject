@@ -4,8 +4,10 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import org.junit.Assert;
@@ -100,7 +102,7 @@ public class PlayerTest {
 	// testing the move method forcing players to buy the properties
 	@Test
 	public void testMove1() {
-		player1.move(0);
+		player1.move(-1);
 		Assert.assertTrue("Player should be in jail", player1.isInJail());
 		Assert.assertEquals("the index must be updated", 6, player1.getPositionIndex());
 	}
@@ -150,8 +152,9 @@ public class PlayerTest {
 	
 	@Test
 	public void testMove6() {
-		// player lands on a ChanceBox FLAKY TEST!!!
+		// player draws a chance card FLAKY TEST!!!
 		player1.move(5);
+		Assert.assertEquals("balance changed", 1500, player1.getBalance());
 		Assert.assertEquals("the index must be updated", 5, player1.getPositionIndex());
 		Assert.assertTrue("Player should be on box 6",
 				          player1.getPosition() == game.getBoard().getBoxes().get(5));
@@ -159,11 +162,12 @@ public class PlayerTest {
 	
 	@Test
 	public void testMove7() {
-		// player lands on an UnexpectedBox FLAKY TEST!!!
+		// player draws an unexpected card FLAKY TEST!!!
 		player1.move(11);
 		Assert.assertEquals("the index must be updated", 11, player1.getPositionIndex());
 		Assert.assertTrue("Player should be on box 12",
 				          player1.getPosition() == game.getBoard().getBoxes().get(11));
+		Assert.assertEquals("balance changed", 1500, player1.getBalance());
 	}
 	
 	@Test

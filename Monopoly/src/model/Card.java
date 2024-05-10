@@ -1,6 +1,6 @@
 package model;
 
-public class Card {
+public class Card implements CardInterface{
 	
 	// FIELDS
 	private final String description;
@@ -12,6 +12,11 @@ public class Card {
         this.description = description;
     	this.value = value;
     	this.action = action;
+    }
+    
+    // JAIL CONSTRUCTOR
+    public Card(final String description, final ActionType action) {
+    	this(description, -1, action);
     }
 
     // METHODS

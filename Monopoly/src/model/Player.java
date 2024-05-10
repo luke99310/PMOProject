@@ -39,16 +39,16 @@ public class Player implements PlayerInterface{
 	    
 	    // METHODS
 	    // method that allows to buy a box
-	    public void buyBox(Box box, int cost) {
+	    public String buyBox(Box box, int cost) {
 	        if (this.balance >= cost && box.isSellable()) {
 	            // The player becomes the new owner of the box
 	            this.updateBalance(-cost);
 	            box.setOwner(Optional.ofNullable(this));
 	            this.properties.add(box);
 	            box.markAsSellable(false);
-	            System.out.println(this.name + " bought the property " + box.getName() 
-				   + " at " + cost +"$" );
-	        }
+	            return "bought: " + box.getName()+ " at " + cost +"$" ;
+	        }else
+	        	return "you cannot buy this property";
 	    }
 	    
 	    // checks how many properties of the same color a player has
@@ -92,12 +92,14 @@ public class Player implements PlayerInterface{
 	    }
 	    
 	    // method that manages player movement
-	    public void move(int displacement) {
+	    public String move(int displacement) {
 	    	// if the displacement is 0 means that you got "double" three times in a row (illegal throw)
-	    	if (displacement == 0)
+	    	if (displacement == -1) {
 	    		this.goToJail();
+	    		return "Hai fatto 3 volte doppio, vai in prigione";
+	    	}
 	    	// if you are not in jail
-	    	else if (!inJail) {
+	    	else if (!inJail && displacement != 0) {
 	        	System.out.println(displacement);
 	            int previousPosition = this.positionIndex;
 	            // calculating the index of the new position using % for a circular array
@@ -112,30 +114,57 @@ public class Player implements PlayerInterface{
 	                this.updateBalance(MONEY_EVERY_LAP);
 	                  
 	            // based on the box the player landed has to do something
-	            this.manageBoxAction();
+	            return this.manageBoxAction();
+	            
 	            
 	        // if you are in jail
 	    	}else {
 	            this.turnsInJail--;
 	            if (this.turnsInJail == 0)
 	                this.inJail = false;
+	            return "Hai scontato la pena di 1";
 	        }
 	    }
 	    
 	    // method that manages the action of the box
-	    private void manageBoxAction() {
+	    private String manageBoxAction() {
 	    	// checking the type of box the player landed on
-            if (positionBox instanceof ChanceBox) 
-            	((ChanceBox) positionBox).executeAction(this);
-            else if (positionBox instanceof UnexpectedBox)
-            	((UnexpectedBox) positionBox).executeAction(this);
+            if (positionBox instanceof CardBox) 
+            	return this.executeAction();
             // you go to jail if you land on the "go to jail" box (box 19)
-            else if (this.positionBox.equals(this.game.getBoard().getBox(GO_TO_JAIL_BOX_INDEX_ON_BOARD))) 
+            else if (this.positionBox.equals(this.game.getBoard().getBox(GO_TO_JAIL_BOX_INDEX_ON_BOARD))) { 
                 this.goToJail();
+                return "Sei andato in Prigione !";
+            }
             // if the box belong to someone you have to pay the rent
-            else if (positionBox.getOwner().isPresent() && !this.properties.contains(positionBox))
+            else if (positionBox.getOwner().isPresent() && !this.properties.contains(positionBox)) {
                 payRent(this.positionBox);
+                return "Hai pagato l'affitto !";
+            }
+			return "";
 	    }
+	    
+	    // method that executes the action in a card box
+		private String executeAction() {
+			int cardIndex = new Random().nextInt(((CardBox)this.positionBox).getCards().size());
+			Card card = ((CardBox)this.positionBox).getCards().get(cardIndex);
+			System.out.println(card.getDescription());
+			switch (card.getAction()) {
+			case BALANCE :
+				this.updateBalance(card.getValue());
+				break;
+			case POSITION:
+				this.move(card.getValue());
+				break;
+			case JAIL:
+				this.move(card.getValue()); // sends them to prison
+				break;
+			default:
+				System.out.println("Errore, azione non riconosciuta !!");
+				break;
+			}
+			return card.getDescription();
+		}
 	    
 	    // method that send the player to prison
 	    private void goToJail() {
@@ -197,20 +226,21 @@ public class Player implements PlayerInterface{
 	    }
 	    
 	    // method that allows the player to buy a house
-	    public void buildHouse(Box box) {
+	    public String buildHouse(Box box) {
 	    	if (this.properties.contains(box) && box.getType() != BoxType.STATION && !box.isSpecial()) {
 	    		if (this.ownsAllBoxesOfType(box.getType())) {
 	    			if (this.balance >= HOUSE_COST) {
 	    				box.buildHouse();
 	    				this.updateBalance(-HOUSE_COST);
+	    				return "house created";
 	    			} else {
-	    				System.out.println("doesn't have enough money to buy the house");
+	    				return "doesn't have enough money to buy the house";
 	    			}
 	    		} else {
-	    			System.out.println("you dont have the complete series");
+	    			return "you dont have the full set";
 	    		}
 	    	} else {
-	    		System.out.println("you can't build a house in this property");
+	    		return "you can't build a house in this property";
 	    	}
 	    }
 	    
@@ -256,4 +286,8 @@ public class Player implements PlayerInterface{
 		public Set<Box> getProperties() {
 			return new HashSet<Box>(this.properties);
 		}	
+		
+		public String toString() {
+	        return this.name;
+	    }
 	}

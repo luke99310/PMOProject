@@ -8,7 +8,6 @@ import javax.swing.SwingUtilities;
 
 public class Main {
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
             // Crea il Model
             Game game = new Game();
 
@@ -16,11 +15,10 @@ public class Main {
             p view = new p();
 
             // Crea il Controller e collega il Model e la View
-            //Controller controller = new Controller(game, view);
+            Controller controller = new Controller(game, view);
 
             // Visualizza la View
             System.out.println("giocatori: " + game.getPlayers());
-        });
 
     }
 }
