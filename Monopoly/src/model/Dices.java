@@ -29,8 +29,8 @@ public class Dices {
     public int rollDices(Player player) {
     	
     	// rolls the two dices
-    	this.dice1 = new Random().nextInt(1) + 0;
-        this.dice2 = new Random().nextInt(1) + 0;
+    	this.dice1 = new Random().nextInt(6) + 1;
+        this.dice2 = new Random().nextInt(6) + 1;
         
         // lastPlayer tracks the last player who threw the dices
         // if player is the first one to throw the dices initializes the variable

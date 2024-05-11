@@ -8,7 +8,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestDices {
+public class DicesTest {
 	
 	Game game;
 	Player player1;
