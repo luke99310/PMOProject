@@ -21,6 +21,8 @@ public interface PlayerInterface {
     Box getPosition();
 
     int getPositionIndex();
+    
+    public int getTurnsInJail();
 
     boolean isInJail();
 

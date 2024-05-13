@@ -2,6 +2,8 @@ package model;
 
 import java.util.Optional;
 
+import enumeration.BoxType;
+
 public interface BoxInterface {
 	
 	String getName();

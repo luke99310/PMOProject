@@ -14,8 +14,8 @@ public class Game implements GameInterface{
 	    
 	// CONSTRUCTOR
 	public Game() {
-		players = new ArrayList<>();
-		board = new Board();
+		this.players = new ArrayList<>();
+		this.board = new Board();
         this.currentPlayer = 0;
 	}
 
@@ -28,7 +28,7 @@ public class Game implements GameInterface{
 		Collections.shuffle(players);
 	}
 	
-	public int rollDices(){
+	/*public int rollDices(){
 		int sum = 0;
 		int counter = 0;
 		int throw1 = 0;
@@ -49,7 +49,7 @@ public class Game implements GameInterface{
 			return 0;
 		}
 		
-	}
+	}*/
 
 	public List<Player> getPlayers() {
 		return this.players;

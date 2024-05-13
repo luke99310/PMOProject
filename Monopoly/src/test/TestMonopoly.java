@@ -1,4 +1,7 @@
-package model;
+package test;
+
+import model.Game;
+import model.Player;
 
 public class TestMonopoly {
 	public static void main (String args[]) {      

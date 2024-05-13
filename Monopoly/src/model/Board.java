@@ -3,6 +3,9 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import enumeration.ActionType;
+import enumeration.BoxType;
+
 public class Board implements BoardInterface{
 		
 	// FIELDS

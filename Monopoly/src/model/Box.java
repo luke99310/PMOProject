@@ -2,6 +2,8 @@ package model;
 
 import java.util.Optional;
 
+import enumeration.BoxType;
+
 public class Box implements BoxInterface{
     
 	private static final int DOUBLE_RENT_FOR_COMPLETE_SERIES = 2;

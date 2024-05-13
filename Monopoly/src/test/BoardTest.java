@@ -1,6 +1,10 @@
-package model;
+package test;
 
 import org.junit.*;
+
+import enumeration.BoxType;
+import model.Board;
+import model.Box;
 
 public class BoardTest {
 

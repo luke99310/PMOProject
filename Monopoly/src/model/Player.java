@@ -6,6 +6,8 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 
+import enumeration.BoxType;
+
 public class Player implements PlayerInterface{
 		
 	    private static final int START_BOX_INDEX_ON_BOARD = 0;

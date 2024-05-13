@@ -1,4 +1,4 @@
-package model;
+package enumeration;
 
 public enum ActionType {
 	BALANCE,

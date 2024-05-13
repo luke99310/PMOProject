@@ -15,8 +15,8 @@ import javax.swing.JTextField;
 import javax.swing.Timer;
 import javax.swing.WindowConstants;
 
+import enumeration.BoxType;
 import model.Box;
-import model.BoxType;
 import model.Game;
 import model.Player;
 import view.MonopolyCell;

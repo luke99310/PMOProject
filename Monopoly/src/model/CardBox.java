@@ -2,6 +2,8 @@ package model;
 
 import java.util.List;
 
+import enumeration.BoxType;
+
 public class CardBox extends Box{
 	
 	// FIELDS

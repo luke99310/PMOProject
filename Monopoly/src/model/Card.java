@@ -1,5 +1,7 @@
 package model;
 
+import enumeration.ActionType;
+
 public class Card implements CardInterface{
 	
 	// FIELDS

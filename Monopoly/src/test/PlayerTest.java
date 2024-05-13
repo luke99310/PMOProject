@@ -1,13 +1,14 @@
-package model;
+package test;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import enumeration.BoxType;
+import model.Box;
+import model.Player;
+import model.Game;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import org.junit.Assert;

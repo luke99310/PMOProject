@@ -1,4 +1,4 @@
-package model;
+package enumeration;
 
 public enum BoxType {
 	BLUE("Blue", 3),
