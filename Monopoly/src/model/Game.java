@@ -11,12 +11,14 @@ public class Game implements GameInterface{
 	private List<Player> players;
 	private Board board;
     private int currentPlayer; // current player index
+    public static Dices dices;
 	    
 	// CONSTRUCTOR
 	public Game() {
 		this.players = new ArrayList<>();
 		this.board = new Board();
         this.currentPlayer = 0;
+        dices = Dices.getInstance();
 	}
 
 	// METHODS
@@ -68,5 +70,12 @@ public class Game implements GameInterface{
     public void nextPlayer() {
         currentPlayer = (currentPlayer + 1) % players.size();
     }
+
+    // return the dices
+	public Dices getDices() {
+		return dices;
+	}
+    
+    
 	    
 }

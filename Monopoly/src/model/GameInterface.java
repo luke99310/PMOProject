@@ -7,7 +7,7 @@ public interface GameInterface {
 	void addPlayer(Player player);
 
 	void startGame();
-
+	
 	// int rollDices();
 
 	List<Player> getPlayers();
