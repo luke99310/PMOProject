@@ -55,14 +55,14 @@ public class Dices {
         	// the counter is -1, that means the player can't move
         	case -1:{
         		this.dicesSum = 0;
-        		this.log.add("non puoi piu spostarti!!!!!     counter: "+this.doublesCounter);
+        		this.log.add("you can't move, turns terminated!!!!   counter: "+this.doublesCounter);
         		break;
         	}
 	    	// player did not make double so he can't throw again
         	case 0:{
 	    		this.dicesSum = this.dice1 + this.dice2;
 	    		this.doublesCounter = -1; // prevents the player from throwing again
-	    		this.log.add("LANCIO REGOLARE!!! dado1: " + this.dice1 + " dado2: " + this.dice2 +" counter: "+ this.doublesCounter);
+	    		this.log.add("REGULAR THROW!!!   dice1: " + this.dice1 + " dice2: " + this.dice2 +" counter: "+ this.doublesCounter);
 	    		break;
         	}
 	    	// player moves normally after he got double
@@ -71,14 +71,14 @@ public class Dices {
 	    		if (this.dice1 != this.dice2)
 	    			this.doublesCounter = -1; 
 	    		this.dicesSum = this.dice1 + this.dice2;
-	    		this.log.add("dado1: " + this.dice1 + " dado2: " + this.dice2 +" counter: "+ this.doublesCounter);
+	    		this.log.add("dice1: " + this.dice1 + " dice2:: " + this.dice2 +" counter: "+ this.doublesCounter);
 	    		break;
 	    	}
 	    	// player goes to prison
 	    	case 3:{
 	    		this.doublesCounter = -1; // prevents the player from throwing again
 	    		this.dicesSum = -1;
-	    		this.log.add("IN PRIGIONE!!! dado1: " + this.dice1 + " dado2: " + this.dice2+" counter: "+ this.doublesCounter);
+	    		this.log.add("GO TO PRISON!!! dice1: " + this.dice1 + " dice2:: " + this.dice2+" counter: "+ this.doublesCounter);
 	    		break;
 	    	}
         }
