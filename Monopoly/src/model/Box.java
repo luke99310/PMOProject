@@ -12,7 +12,7 @@ public class Box implements BoxInterface{
 	private final String name;		// box name
 	private final int cost;			// box cost
 	private Optional<Player> owner;	// box owner
-	private final BoxType type;		// box typer
+	private final BoxType type;		// box type
 	private final int rent;			// box rent
     private int builtHouses;		// amount of houses on the box
 	private boolean sellable;		// is sellable

@@ -53,34 +53,30 @@ public class Dices {
         // using the doublesCounter to decide what value to return
         switch(this.doublesCounter) {
         	// the counter is -1, that means the player can't move
-        	case -1:{
+        	case -1:
         		this.dicesSum = 0;
         		this.log.add("you can't move, turns terminated!!!!   counter: "+this.doublesCounter);
         		break;
-        	}
 	    	// player did not make double so he can't throw again
-        	case 0:{
+        	case 0:
 	    		this.dicesSum = this.dice1 + this.dice2;
 	    		this.doublesCounter = -1; // prevents the player from throwing again
 	    		this.log.add("REGULAR THROW!!!   dice1: " + this.dice1 + " dice2: " + this.dice2 +" counter: "+ this.doublesCounter);
 	    		break;
-        	}
 	    	// player moves normally after he got double
-	    	case 1,2:{
+	    	case 1,2:
 	    		// if he gets a normal throw after a double he can't throw again
 	    		if (this.dice1 != this.dice2)
 	    			this.doublesCounter = -1; 
 	    		this.dicesSum = this.dice1 + this.dice2;
 	    		this.log.add("dice1: " + this.dice1 + " dice2:: " + this.dice2 +" counter: "+ this.doublesCounter);
 	    		break;
-	    	}
 	    	// player goes to prison
-	    	case 3:{
+	    	case 3:
 	    		this.doublesCounter = -1; // prevents the player from throwing again
 	    		this.dicesSum = -1;
 	    		this.log.add("GO TO PRISON!!! dice1: " + this.dice1 + " dice2:: " + this.dice2+" counter: "+ this.doublesCounter);
 	    		break;
-	    	}
         }
         
     	return this.dicesSum;

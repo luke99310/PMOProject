@@ -1,6 +1,7 @@
 package model;
 
 import java.util.List;
+import enumeration.BoxType;
 
 public interface GameInterface {
 	
@@ -17,4 +18,8 @@ public interface GameInterface {
 	Player getCurrentPlayer();
 
     void nextPlayer();
+    
+    Dices getDices();
+    
+    Card drawCard(BoxType boxtype) throws IllegalArgumentException;
 }

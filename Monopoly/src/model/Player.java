@@ -109,7 +109,7 @@ public class Player implements PlayerInterface{
             this.positionIndex = newPosition;
             
             // actually finding the new position on the board using the calculated index
-            this.positionBox = game.getBoard().getBoxes().get(newPosition);
+            this.positionBox = game.getBoard().getBox(newPosition);
             
             // if you pass the start box you get +200$
             if (displacement > 0 && previousPosition > this.positionIndex)
@@ -131,7 +131,7 @@ public class Player implements PlayerInterface{
     // method that manages the action of the box
     private String manageBoxAction() {
     	// checking the type of box the player landed on
-        if (positionBox instanceof CardBox) 
+        if (this.positionBox.getType().equals(BoxType.CHANCE) || this.positionBox.getType().equals(BoxType.UNEXPECTED))
         	return this.executeAction();
         // you go to jail if you land on the "go to jail" box (box 19)
         else if (this.positionBox.equals(this.game.getBoard().getBox(GO_TO_JAIL_BOX_INDEX_ON_BOARD))) { 
@@ -139,7 +139,7 @@ public class Player implements PlayerInterface{
             return "you go to prison!";
         }
         // if the box belong to someone you have to pay the rent
-        else if (positionBox.getOwner().isPresent() && !this.properties.contains(positionBox)) {
+        else if (this.positionBox.getOwner().isPresent() && !this.properties.contains(positionBox)) {
             payRent(this.positionBox);
             return "You pay the rent!";
         }
@@ -148,8 +148,8 @@ public class Player implements PlayerInterface{
     
     // method that executes the action in a card box
 	private String executeAction() {
-		int cardIndex = new Random().nextInt(((CardBox)this.positionBox).getCards().size());
-		Card card = ((CardBox)this.positionBox).getCards().get(cardIndex);
+		// draws a card
+		Card card = this.game.drawCard(this.positionBox.getType());
 		System.out.println(card.getDescription());
 		switch (card.getAction()) {
 		case BALANCE :

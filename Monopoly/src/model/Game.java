@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
+import enumeration.BoxType;
 
 public class Game implements GameInterface{
 		
@@ -12,6 +12,8 @@ public class Game implements GameInterface{
 	private Board board;
     private int currentPlayer; // current player index
     public static Dices dices;
+    private int unexpectedIndex;
+    private int chanceIndex;
 	    
 	// CONSTRUCTOR
 	public Game() {
@@ -19,6 +21,8 @@ public class Game implements GameInterface{
 		this.board = new Board();
         this.currentPlayer = 0;
         dices = Dices.getInstance();
+        this.unexpectedIndex = 0;
+        this.chanceIndex = 0;
 	}
 
 	// METHODS
@@ -76,4 +80,45 @@ public class Game implements GameInterface{
 		return dices;
 	} 
 	
+	public Card drawCard(BoxType boxtype) {
+		Card drawnCard;
+		switch (boxtype) {
+			case UNEXPECTED:
+				// if even the last card has been drawn the deck is shuffled
+				if (this.unexpectedIndex == this.board.getCards(boxtype).size()) {
+					this.unexpectedIndex = 0;
+					Collections.shuffle(this.board.getCards(boxtype));
+				}
+				// drawing the card
+				drawnCard = this.board.getCards(boxtype).get(this.unexpectedIndex++);
+				break;
+			case CHANCE:
+				// if even the last card has been drawn the deck is shuffled
+				if (this.chanceIndex == this.board.getCards(boxtype).size()) {
+					this.chanceIndex = 0;
+					Collections.shuffle(this.board.getCards(boxtype));
+				}
+				// drawing the card
+				drawnCard = this.board.getCards(boxtype).get(this.chanceIndex++);
+				break;
+			// if the wrong type of box is given an exception is thrown
+			default:
+				throw new IllegalArgumentException("the specified box type is not a card type");
+		}
+		return drawnCard;
+	}
+	
+	
+	/*private void checkDeck(BoxType boxtype) {
+		if (this.unexpectedIndex == this.board.getCards(boxtype).size()) {
+			this.unexpectedIndex = 0;
+			this.board.shuffleCards(boxtype);
+		}
+	}*/
+	
+		
+		
+		
+		
+		
 }
