@@ -73,7 +73,7 @@ public class Game implements GameInterface{
 
     // return the dices
 	public Dices getDices() {
-		return dices;
+		return dices; 
 	} 
 	
 }
