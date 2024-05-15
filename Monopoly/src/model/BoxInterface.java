@@ -14,11 +14,11 @@ public interface BoxInterface {
 
     BoxType getType();
 
-    Optional<Player> getOwner();
+    Optional<PlayerInterface> getOwner();
     
     int fullSet();
     
-    void setOwner(Optional<Player> owner);
+    void setOwner(Optional<PlayerInterface> owner);
 
 	boolean isSpecial();
 

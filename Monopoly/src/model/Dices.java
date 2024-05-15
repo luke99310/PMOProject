@@ -5,14 +5,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
-public class Dices {
+public class Dices implements DicesInterface {
 	    
-    private static Dices dicesInstance;
+    private static DicesInterface dicesInstance;
     private int dice1;
     private int dice2;
     private int doublesCounter;
-    private Optional<Player> thrower;
-    private Optional<Player> lastPlayer;
+    private Optional<PlayerInterface> thrower;
+    private Optional<PlayerInterface> lastPlayer;
     private int dicesSum;
     private List<String> log;
     
@@ -26,7 +26,8 @@ public class Dices {
         this.log = new ArrayList<String>();
     }
     
-    public int rollDices(Player player) {
+    @Override
+	public int rollDices(Player player) {
     	
     	// rolls the two dices
     	this.dice1 = new Random().nextInt(6) + 1;
@@ -84,14 +85,15 @@ public class Dices {
 
 
     // pattern singleton only allows to create one object of this type
-    public static Dices getInstance() {
+    public static DicesInterface getInstance() {
     	if (dicesInstance == null)
     		dicesInstance = new Dices();
     	return dicesInstance;
     }
     
     // DA TOGLIERE
-    public void getLog() {
+    @Override
+	public void getLog() {
     	this.log.stream()
     			.forEach(i -> System.out.println(i));
     }

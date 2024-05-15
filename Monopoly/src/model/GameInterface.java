@@ -5,21 +5,21 @@ import enumeration.BoxType;
 
 public interface GameInterface {
 	
-	void addPlayer(Player player);
+	void addPlayer(PlayerInterface player);
 
 	void startGame();
 	
 	// int rollDices();
 
-	List<Player> getPlayers();
+	List<PlayerInterface> getPlayers();
 
-	Board getBoard();
+	BoardInterface getBoard();
 	
-	Player getCurrentPlayer();
+	PlayerInterface getCurrentPlayer();
 
     void nextPlayer();
     
-    Dices getDices();
+    DicesInterface getDices();
     
-    Card drawCard(BoxType boxtype) throws IllegalArgumentException;
+    CardInterface drawCard(BoxType boxtype) throws IllegalArgumentException;
 }

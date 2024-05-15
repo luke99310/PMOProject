@@ -6,10 +6,10 @@ import enumeration.BoxType;
 
 public interface BoardInterface {
 
-	List<Box> getBoxes();
+	List<BoxInterface> getBoxes();
 	
-	List<Card> getCards(BoxType boxtype) throws IllegalArgumentException;
+	List<CardInterface> getCards(BoxType boxtype) throws IllegalArgumentException;
 
-	Box getBox(int boxIndex);
+	BoxInterface getBox(int boxIndex);
 	
 }

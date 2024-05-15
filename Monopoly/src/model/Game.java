@@ -8,10 +8,10 @@ import enumeration.BoxType;
 public class Game implements GameInterface{
 		
 	// FIELDS
-	private List<Player> players;
-	private Board board;
+	private List<PlayerInterface> players;
+	private BoardInterface board;
     private int currentPlayer; // current player index
-    public static Dices dices;
+    public static DicesInterface dices;
     private int unexpectedIndex;
     private int chanceIndex;
 	    
@@ -26,7 +26,7 @@ public class Game implements GameInterface{
 	}
 
 	// METHODS
-	public void addPlayer(Player player) {
+	public void addPlayer(PlayerInterface player) {
 		this.players.add(player);
 	}
 
@@ -57,16 +57,16 @@ public class Game implements GameInterface{
 		
 	}*/
 
-	public List<Player> getPlayers() {
+	public List<PlayerInterface> getPlayers() {
 		return this.players;
 	}
 
-	public Board getBoard() {
+	public BoardInterface getBoard() {
 		return this.board;
 	}
 	
 	// returns current player
-    public Player getCurrentPlayer() {
+    public PlayerInterface getCurrentPlayer() {
         return players.get(currentPlayer);
     }
 
@@ -76,12 +76,12 @@ public class Game implements GameInterface{
     }
 
     // return the dices
-	public Dices getDices() {
+	public DicesInterface getDices() {
 		return dices;
 	} 
 	
-	public Card drawCard(BoxType boxtype) {
-		Card drawnCard;
+	public CardInterface drawCard(BoxType boxtype) {
+		CardInterface drawnCard;
 		switch (boxtype) {
 			case UNEXPECTED:
 				// if even the last card has been drawn the deck is shuffled

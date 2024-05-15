@@ -9,9 +9,9 @@ import enumeration.BoxType;
 public class Board implements BoardInterface{
 
 	// FIELDS
-	private List<Card> chanceCards;
-	private List<Card> unexpectedCards;
-	private List<Box> boxes;
+	private List<CardInterface> chanceCards;
+	private List<CardInterface> unexpectedCards;
+	private List<BoxInterface> boxes;
 
 	// CONSTRUCTOR
 	public Board() {
@@ -67,12 +67,12 @@ public class Board implements BoardInterface{
     }
 
 	// METHODS
-	public List<Box> getBoxes() {
+	public List<BoxInterface> getBoxes() {
 		return this.boxes;
 	}
 	
-	public List<Card> getCards(BoxType boxtype){
-		List<Card> cards;
+	public List<CardInterface> getCards(BoxType boxtype){
+		List<CardInterface> cards;
 		switch(boxtype) { 
 			case UNEXPECTED:
 				cards = this.unexpectedCards;
@@ -86,7 +86,7 @@ public class Board implements BoardInterface{
 		return cards; 
 	}
 
-	public Box getBox(int boxIndex) {
+	public BoxInterface getBox(int boxIndex) {
 		if (boxIndex >= 0 && boxIndex < boxes.size())
 			return boxes.get(boxIndex);
 		else 

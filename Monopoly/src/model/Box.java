@@ -11,7 +11,7 @@ public class Box implements BoxInterface{
 	// FIELDS
 	private final String name;		// box name
 	private final int cost;			// box cost
-	private Optional<Player> owner;	// box owner
+	private Optional<PlayerInterface> owner;	// box owner
 	private final BoxType type;		// box type
 	private final int rent;			// box rent
     private int builtHouses;		// amount of houses on the box
@@ -47,7 +47,7 @@ public class Box implements BoxInterface{
     	return this.type;
     }
     
-    public Optional<Player> getOwner() {
+    public Optional<PlayerInterface> getOwner() {
         return this.owner;
     }
     
@@ -56,7 +56,7 @@ public class Box implements BoxInterface{
     		                                       DOUBLE_RENT_FOR_COMPLETE_SERIES);
     }
 
-    public void setOwner(Optional<Player> owner) {
+    public void setOwner(Optional<PlayerInterface> owner) {
     	this.owner = owner;
     }
     

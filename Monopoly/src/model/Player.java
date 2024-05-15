@@ -21,11 +21,11 @@ public class Player implements PlayerInterface{
     private String name;
     private int balance;
     private int positionIndex;
-    private Box positionBox;
+    private BoxInterface positionBox;
     private boolean inJail;
     private int turnsInJail;
-    private Game game;
-    private Set<Box> properties = new HashSet<>();
+    private GameInterface game;
+    private Set<BoxInterface> properties = new HashSet<>();
      
     // CONSTRUCTORS
     public Player(String name, Game game) {
@@ -41,7 +41,7 @@ public class Player implements PlayerInterface{
     
     // METHODS
     // method that allows to buy a box
-    public String buyBox(Box box, int cost) {
+    public String buyBox(BoxInterface box, int cost) {
         if (this.balance >= cost && box.isSellable()) {
             // The player becomes the new owner of the box
             this.updateBalance(-cost);
@@ -54,14 +54,14 @@ public class Player implements PlayerInterface{
     }
     
     // checks how many properties of the same color a player has
-    private int numberOfOwnedPropertiesOfType(BoxType type) {
-        return  (int)this.properties.stream()
-        					        .filter(box -> box.getType()== type)
-        					        .count();
+    public int numberOfOwnedPropertiesOfType(BoxType type) {
+        return (int)this.properties.stream()
+        					       .filter(box -> box.getType()== type)
+        					       .count();
     }
 
     // checks if the player has all the properties of the same color
-    private boolean ownsAllBoxesOfType(BoxType type) {
+    public boolean ownsAllBoxesOfType(BoxType type) {
     	return this.numberOfOwnedPropertiesOfType(type) == type.getNumberOfStreets(); 
     }
  
@@ -69,7 +69,7 @@ public class Player implements PlayerInterface{
     public void updateBalance(int amount) {
         // pays the amount	
     	this.balance += amount;
-    	// balance reached a negative value, the player lost
+    	// balance reached a negative value, the player loses
         if (this.balance < 0)
         	game.getPlayers().remove(this);
     }
@@ -105,11 +105,11 @@ public class Player implements PlayerInterface{
         	System.out.println(displacement);
             int previousPosition = this.positionIndex;
             // calculating the index of the new position using % for a circular array
-            int newPosition = (previousPosition + displacement) % game.getBoard().getBoxes().size();
+            int newPosition = (previousPosition + displacement) % this.game.getBoard().getBoxes().size();
             this.positionIndex = newPosition;
             
             // actually finding the new position on the board using the calculated index
-            this.positionBox = game.getBoard().getBox(newPosition);
+            this.positionBox = this.game.getBoard().getBox(newPosition);
             
             // if you pass the start box you get +200$
             if (displacement > 0 && previousPosition > this.positionIndex)
@@ -140,7 +140,7 @@ public class Player implements PlayerInterface{
         }
         // if the box belong to someone you have to pay the rent
         else if (this.positionBox.getOwner().isPresent() && !this.properties.contains(positionBox)) {
-            payRent(this.positionBox);
+            this.payRent((Box)this.positionBox);
             return "You pay the rent!";
         }
 		return "";
@@ -149,7 +149,7 @@ public class Player implements PlayerInterface{
     // method that executes the action in a card box
 	private String executeAction() {
 		// draws a card
-		Card card = this.game.drawCard(this.positionBox.getType());
+		CardInterface card = this.game.drawCard(this.positionBox.getType());
 		System.out.println(card.getDescription());
 		switch (card.getAction()) {
 		case BALANCE :
@@ -182,7 +182,7 @@ public class Player implements PlayerInterface{
     }
     
     // method that manages player's choice regarding the auction
-    private void managePlayerChoice(Box BoxUpForAuction, int cost) {
+    public void managePlayerChoice(BoxInterface BoxUpForAuction, int cost) {
     	System.out.println("is " + this.name + " going to buy the property "+ BoxUpForAuction.getName() 
     	                   + " at " + cost + "$ ?");
     	// if the player wants and he can buy the box
@@ -194,7 +194,7 @@ public class Player implements PlayerInterface{
     }
     
     // method that manages the auction
-    public void putUpForAuction(Box propertyToSell) {
+    public void putUpForAuction(BoxInterface propertyToSell) {
     	// if the seller is actually the owner of the property he can put it to auction
     	if (this.getProperties().contains(propertyToSell)) {
     		System.out.println(this.getName() + " puts the property " + propertyToSell +" up for auction ");
@@ -210,7 +210,7 @@ public class Player implements PlayerInterface{
     		for (int i = 0; i < 3 && propertyToSell.isSellable(); i++) {
     			// reduction of the cost by 10% every loop
     			decrement += (propertyToSell.getCost() / 10);
-    			for (Player p: this.game.getPlayers()) {
+    			for (PlayerInterface p: this.game.getPlayers()) {
     				if (propertyToSell.isSellable() && p != seller)
     					p.managePlayerChoice(propertyToSell, propertyToSell.getCost() - decrement);
     			}
@@ -228,7 +228,7 @@ public class Player implements PlayerInterface{
     }
     
     // method that allows the player to buy a house
-    public String buildHouse(Box box) {
+    public String buildHouse(BoxInterface box) {
     	if (this.properties.contains(box) && box.getType() != BoxType.STATION && !box.isSpecial()) {
     		if (this.ownsAllBoxesOfType(box.getType())) {
     			if (this.balance >= HOUSE_COST) {
@@ -269,7 +269,7 @@ public class Player implements PlayerInterface{
 		return this.balance;
 	}
 
-    public Box getPosition() {
+    public BoxInterface getPosition() {
         return this.positionBox;
     }
     
@@ -285,8 +285,8 @@ public class Player implements PlayerInterface{
 		return this.inJail;
 	}
 	
-	public Set<Box> getProperties() {
-		return new HashSet<Box>(this.properties);
+	public Set<BoxInterface> getProperties() {
+		return new HashSet<BoxInterface>(this.properties);
 	}	
 	
 	public String toString() {
