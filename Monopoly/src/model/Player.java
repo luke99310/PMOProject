@@ -75,7 +75,7 @@ public class Player implements PlayerInterface{
     }
     
     // method that allows the player to pay the rent
-    private void payRent(Box box) {
+    private void payRent(BoxInterface box) {
     	// if someone else owns the property you have to pay the rent
     	if (box.getOwner().isPresent() && !this.properties.contains(box)) {
             int rent = 0;
@@ -140,7 +140,7 @@ public class Player implements PlayerInterface{
         }
         // if the box belong to someone you have to pay the rent
         else if (this.positionBox.getOwner().isPresent() && !this.properties.contains(positionBox)) {
-            this.payRent((Box)this.positionBox);
+            this.payRent(this.positionBox);
             return "You pay the rent!";
         }
 		return "";
@@ -292,4 +292,4 @@ public class Player implements PlayerInterface{
 	public String toString() {
         return this.name;
     }
-	}
+}

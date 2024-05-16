@@ -16,7 +16,7 @@ public interface PlayerInterface {
 
     String move(int displacement);
     
-    public void managePlayerChoice(BoxInterface BoxUpForAuction, int cost);
+    void managePlayerChoice(BoxInterface BoxUpForAuction, int cost);
 
     void putUpForAuction(BoxInterface propertyToSell);
 
