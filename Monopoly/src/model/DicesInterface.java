@@ -2,8 +2,10 @@ package model;
 
 public interface DicesInterface {
 
-	int rollDices(Player player);
+	void throwDices();
+	
+	int getDice1();
 
-	void getLog();
+	int getDice2();
 
 }

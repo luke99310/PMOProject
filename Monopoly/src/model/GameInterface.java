@@ -9,7 +9,7 @@ public interface GameInterface {
 
 	void startGame();
 	
-	// int rollDices();
+	int rollDices();
 
 	List<PlayerInterface> getPlayers();
 
@@ -19,7 +19,5 @@ public interface GameInterface {
 
     void nextPlayer();
     
-    DicesInterface getDices();
-    
-    CardInterface drawCard(BoxType boxtype) throws IllegalArgumentException;
+    CardInterface drawCard(BoxType boxType) throws IllegalArgumentException;
 }
