@@ -10,12 +10,12 @@ import enumeration.BoxType;
 
 public class Player implements PlayerInterface{
 	
+	// CONSTANTS
     private static final int START_BOX_INDEX_ON_BOARD = 0;
     private static final int JAIL_INDEX_ON_BOARD = 6;
     private static final int GO_TO_JAIL_BOX_INDEX_ON_BOARD = 18;
     private static final int TURNS_IN_JAIL = 3;
     private static final int HOUSE_COST = 100;
-    private static final int MONEY_EVERY_LAP = 200;
 
     // FIELDS
     private String name;
@@ -43,8 +43,11 @@ public class Player implements PlayerInterface{
     // method that allows to buy a box
     public String buyBox(BoxInterface box, int cost) {
         if (this.balance >= cost && box.isSellable()) {
-            // The player becomes the new owner of the box
-            this.updateBalance(-cost);
+        	// player pays the bank
+        	this.updateBalance(-cost);
+        	this.game.getBank().transaction(cost);
+        	
+        	// The player becomes the new owner of the box
             box.setOwner(Optional.ofNullable(this));
             this.properties.add(box);
             box.markAsSellable(false);
@@ -61,7 +64,7 @@ public class Player implements PlayerInterface{
     }
 
     // checks if the player has all the properties of the same color
-    public boolean ownsAllBoxesOfType(BoxType type) {
+    public boolean hasFullSet(BoxType type) {
     	return this.numberOfOwnedPropertiesOfType(type) == type.getNumberOfStreets(); 
     }
  
@@ -71,7 +74,7 @@ public class Player implements PlayerInterface{
     	this.balance += amount;
     	// balance reached a negative value, the player loses
         if (this.balance < 0)
-        	game.getPlayers().remove(this);
+        	this.game.getPlayers().remove(this);
     }
     
     // method that allows the player to pay the rent
@@ -83,7 +86,7 @@ public class Player implements PlayerInterface{
                 rent = 25 * box.getOwner().get().numberOfOwnedPropertiesOfType(BoxType.STATION);
             } else {
             	// if the owner has full set the rent is higher
-            	rent = box.getOwner().get().ownsAllBoxesOfType(box.getType())?
+            	rent = box.getOwner().get().hasFullSet(box.getType())?
             																  box.fullSet():
             																  box.getRent();
             }
@@ -111,9 +114,9 @@ public class Player implements PlayerInterface{
             // actually finding the new position on the board using the calculated index
             this.positionBox = this.game.getBoard().getBox(newPosition);
             
-            // if you pass the start box you get +200$
+            // if you pass the start box you get +200$ from the bank
             if (displacement > 0 && previousPosition > this.positionIndex)
-                this.updateBalance(MONEY_EVERY_LAP);
+                this.updateBalance(this.game.getBank().getStartMoney());
                   
             // based on the box the player landed has to do something
             return this.manageBoxAction();
@@ -153,6 +156,8 @@ public class Player implements PlayerInterface{
 		System.out.println(card.getDescription());
 		switch (card.getAction()) {
 		case BALANCE :
+			// deposits or withdraws from the bank
+			this.game.getBank().transaction(card.getValue()); 
 			this.updateBalance(card.getValue());
 			break;
 		case POSITION:
@@ -217,7 +222,9 @@ public class Player implements PlayerInterface{
     		}
     		// if none buys the property it is sold to the bank
     		if (propertyToSell.isSellable()) {
+    			// resets owner
     			propertyToSell.setOwner(Optional.empty());
+    			this.game.getBank().transaction(-(propertyToSell.getCost() - decrement));
     			System.out.println(seller.getName() +  " sold the property " + propertyToSell.getName() +
     					           " to the bank for " + (propertyToSell.getCost() - decrement) + "$");
     		}
@@ -230,10 +237,13 @@ public class Player implements PlayerInterface{
     // method that allows the player to buy a house
     public String buildHouse(BoxInterface box) {
     	if (this.properties.contains(box) && box.getType() != BoxType.STATION && !box.isSpecial()) {
-    		if (this.ownsAllBoxesOfType(box.getType())) {
+    		if (this.hasFullSet(box.getType())) {
     			if (this.balance >= HOUSE_COST) {
-    				box.buildHouse();
+    				// pays the bank the price of a house
     				this.updateBalance(-HOUSE_COST);
+    				this.game.getBank().transaction(HOUSE_COST);
+    				// builds the house on this specific box
+    				box.buildHouse();
     				return "house created";
     			} else {
     				return "doesn't have enough money to buy the house";

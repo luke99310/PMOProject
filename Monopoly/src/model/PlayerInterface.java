@@ -10,7 +10,7 @@ public interface PlayerInterface {
     
     int numberOfOwnedPropertiesOfType(BoxType type);
     
-    boolean ownsAllBoxesOfType(BoxType type);
+    boolean hasFullSet(BoxType type);
 
     void updateBalance(int amount);
 

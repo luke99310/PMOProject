@@ -12,17 +12,19 @@ public class Game implements GameInterface{
 	private BoardInterface board;
 	private int lastPlayerIndex;
     private int currentPlayerIndex;
-    private static DicesInterface dices;
+    private DicesInterface dices;
     private int doublesCounter;
     private int unexpectedIndex; // this index is used for drawing a new card every time
     private int chanceIndex;     // same as above but in the chance cards deck 
-	    
+	private BankInterface bank;
+	
 	// CONSTRUCTOR
 	public Game() {
 		this.players = new ArrayList<>();
 		this.board = new Board();
         this.lastPlayerIndex = this.currentPlayerIndex = 0;
         dices = Dices.getInstance();
+        bank = Bank.getInstance();
         this.doublesCounter = 0;
         this.unexpectedIndex = 0;
         this.chanceIndex = 0;
@@ -92,8 +94,11 @@ public class Game implements GameInterface{
 		return this.board;
 	}
 	
+	public BankInterface getBank() {
+		return this.bank;
+	}
+
 	// returns current player
-	// DA TOGLIERE
     public PlayerInterface getCurrentPlayer() {
         return players.get(this.currentPlayerIndex);
     }

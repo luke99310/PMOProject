@@ -16,6 +16,8 @@ public interface GameInterface {
 	BoardInterface getBoard();
 	
 	PlayerInterface getCurrentPlayer();
+	
+	public BankInterface getBank();
 
     void nextPlayer();
     
