@@ -61,7 +61,7 @@ public class Player implements PlayerInterface{
     }
 
     // checks if the player has all the properties of the same color
-    public boolean ownsAllBoxesOfType(BoxType type) {
+    public boolean hasFullSet(BoxType type) {
     	return this.numberOfOwnedPropertiesOfType(type) == type.getNumberOfStreets(); 
     }
  
@@ -83,7 +83,7 @@ public class Player implements PlayerInterface{
                 rent = 25 * box.getOwner().get().numberOfOwnedPropertiesOfType(BoxType.STATION);
             } else {
             	// if the owner has full set the rent is higher
-            	rent = box.getOwner().get().ownsAllBoxesOfType(box.getType())?
+            	rent = box.getOwner().get().hasFullSet(box.getType())?
             																  box.fullSet():
             																  box.getRent();
             }
@@ -230,7 +230,7 @@ public class Player implements PlayerInterface{
     // method that allows the player to buy a house
     public String buildHouse(BoxInterface box) {
     	if (this.properties.contains(box) && box.getType() != BoxType.STATION && !box.isSpecial()) {
-    		if (this.ownsAllBoxesOfType(box.getType())) {
+    		if (this.hasFullSet(box.getType())) {
     			if (this.balance >= HOUSE_COST) {
     				box.buildHouse();
     				this.updateBalance(-HOUSE_COST);
