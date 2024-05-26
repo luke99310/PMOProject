@@ -16,3 +16,7 @@
 /PlayerInterface.class
 /PlayerTest.class
 /TestMonopoly.class
+/Bank.class
+/BankInterface.class
+/Dices.class
+/DicesInterface.class

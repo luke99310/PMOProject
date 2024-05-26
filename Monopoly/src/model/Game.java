@@ -17,6 +17,7 @@ public class Game implements GameInterface{
     private int unexpectedIndex; // this index is used for drawing a new card every time
     private int chanceIndex;     // same as above but in the chance cards deck 
 	private BankInterface bank;
+	private boolean gameStarted;
 	
 	// CONSTRUCTOR
 	public Game() {
@@ -28,15 +29,24 @@ public class Game implements GameInterface{
         this.doublesCounter = 0;
         this.unexpectedIndex = 0;
         this.chanceIndex = 0;
+        this.gameStarted = false;
 	}
 
 	// METHODS
 	public void addPlayer(PlayerInterface player) {
-		this.players.add(player);
+		if(this.players.size() < 4)
+			this.players.add(player);
+		else
+			System.out.println("Il numero massimo di giocatori è già stato raggiunto!");
 	}
 
 	public void startGame() {
-		Collections.shuffle(players);
+		if(this.players.size() > 1) {
+			this.gameStarted = true;
+			Collections.shuffle(players);
+		}
+		else
+			notEnoughPlayers();
 	}
 	
 	// this method manages the results of the throws every player does
@@ -148,7 +158,12 @@ public class Game implements GameInterface{
 		}
 	}
 	
-		
+	public void notEnoughPlayers() {
+		if(this.gameStarted)
+			System.out.println("The match is over, player " + this.players + " won the game!");
+		else
+			throw new IllegalArgumentException("You tried to start the game with less than two players!");
+	}
 		
 		
 		
