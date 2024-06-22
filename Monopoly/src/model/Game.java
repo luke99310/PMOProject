@@ -41,15 +41,15 @@ public class Game implements GameInterface{
 	
 	// this method manages the results of the throws every player does
 	public int rollDices(){
+
+		// if current player is not the last player the counter resets
+		if (this.currentPlayerIndex != this.lastPlayerIndex)
+			this.doublesCounter = 0;
 		
 		// rolls the two dices
-		dices.throwDices();
+		dices.throwDices(); 
 		int dice1 = dices.getDice1(); 
-		int dice2 = dices.getDice2();
-        	
-        // if current player is not the last player the counter resets
-        if (this.currentPlayerIndex != this.lastPlayerIndex)
-        	this.doublesCounter = 0;
+		int dice2 = dices.getDice2();	
 
         // player is able to throw the dice and got double so the counter increases
         if (dice1 == dice2 && this.doublesCounter != -1) 
