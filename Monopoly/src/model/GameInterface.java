@@ -1,20 +1,27 @@
 package model;
 
 import java.util.List;
+import enumeration.BoxType;
 
 public interface GameInterface {
 	
-	void addPlayer(Player player);
+	void addPlayer(String name);
 
 	void startGame();
 	
-	// int rollDices();
+	int rollDices();
 
-	List<Player> getPlayers();
+	List<PlayerInterface> getPlayers();
 
-	Board getBoard();
+	BoardInterface getBoard();
 	
-	Player getCurrentPlayer();
+	PlayerInterface getCurrentPlayer();
+	
+	public BankInterface getBank();
 
     void nextPlayer();
+    
+    CardInterface drawCard(BoxType boxType) throws IllegalArgumentException;
+    
+    void notEnoughPlayers();
 }

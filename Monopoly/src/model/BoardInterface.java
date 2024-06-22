@@ -2,10 +2,14 @@ package model;
 
 import java.util.List;
 
+import enumeration.BoxType;
+
 public interface BoardInterface {
 
-	List<Box> getBoxes();
+	List<BoxInterface> getBoxes();
+	
+	List<CardInterface> getCards(BoxType boxtype) throws IllegalArgumentException;
 
-	Box getBox(int boxIndex);
+	BoxInterface getBox(int boxIndex);
 	
 }

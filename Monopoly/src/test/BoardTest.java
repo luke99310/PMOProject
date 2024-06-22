@@ -34,4 +34,9 @@ public class BoardTest {
 	public void testGetBox_3() {
 		board.getBox(100);
 	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testDraw1() {
+		board.getCards(BoxType.BLUE);
+	}
 }

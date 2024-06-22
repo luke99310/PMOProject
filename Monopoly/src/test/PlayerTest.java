@@ -155,7 +155,7 @@ public class PlayerTest {
 	public void testMove6() {
 		// player draws a chance card FLAKY TEST!!!
 		player1.move(5);
-		Assert.assertEquals("balance changed", 1500, player1.getBalance());
+		Assert.assertEquals("balance not changed", 1500, player1.getBalance());
 		Assert.assertEquals("the index must be updated", 5, player1.getPositionIndex());
 		Assert.assertTrue("Player should be on box 6",
 				          player1.getPosition() == game.getBoard().getBoxes().get(5));

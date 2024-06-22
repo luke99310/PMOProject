@@ -1,2 +1,9 @@
 /model/
 /test/
+<<<<<<< HEAD
+=======
+/controller/
+/view/
+>>>>>>> limite_giocatori
+/enumeration/
+/main/

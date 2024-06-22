@@ -2,23 +2,31 @@ package model;
 
 import java.util.Set;
 
+import enumeration.BoxType;
+
 public interface PlayerInterface {
 
-    public String buyBox(Box box, int cost);
+    String buyBox(BoxInterface box, int cost);
+    
+    int numberOfOwnedPropertiesOfType(BoxType type);
+    
+    boolean hasFullSet(BoxType type);
 
     void updateBalance(int amount);
 
     String move(int displacement);
+    
+    void managePlayerChoice(BoxInterface BoxUpForAuction, int cost);
 
-    void putUpForAuction(Box propertyToSell);
+    void putUpForAuction(BoxInterface propertyToSell);
 
-    String buildHouse(Box box);
+    String buildHouse(BoxInterface box);
 
     String getName();
 
     int getBalance();
 
-    Box getPosition();
+    BoxInterface getPosition();
 
     int getPositionIndex();
     
@@ -26,6 +34,6 @@ public interface PlayerInterface {
 
     boolean isInJail();
 
-    Set<Box> getProperties();
+    Set<BoxInterface> getProperties();
 
 }
