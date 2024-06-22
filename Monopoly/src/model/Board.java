@@ -3,8 +3,12 @@ package model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import enumeration.ActionType;
-import enumeration.BoxType;
+
+import model.Interfaces.BoardInterface;
+import model.Interfaces.BoxInterface;
+import model.Interfaces.CardInterface;
+import model.MonopolyTypes.ActionType;
+import model.MonopolyTypes.BoxType;
 
 public class Board implements BoardInterface{
 

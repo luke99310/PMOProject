@@ -1,4 +1,4 @@
-package enumeration;
+package model.MonopolyTypes;
 
 public enum BoxType {
 	BLUE("Blue", 3),

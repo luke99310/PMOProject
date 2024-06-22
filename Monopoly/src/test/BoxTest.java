@@ -2,10 +2,10 @@ package test;
 
 import org.junit.*;
 
-import enumeration.BoxType;
 import model.Box;
 import model.Game;
 import model.Player;
+import model.MonopolyTypes.BoxType;
 
 public class BoxTest {
 	

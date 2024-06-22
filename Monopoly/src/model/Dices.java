@@ -2,6 +2,8 @@ package model;
 
 import java.util.Random;
 
+import model.Interfaces.DicesInterface;
+
 public class Dices implements DicesInterface {
 	    
     private static DicesInterface dicesInstance;

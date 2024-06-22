@@ -2,7 +2,9 @@ package model;
 
 import java.util.Optional;
 
-import enumeration.BoxType;
+import model.Interfaces.BoxInterface;
+import model.Interfaces.PlayerInterface;
+import model.MonopolyTypes.BoxType;
 
 public class Box implements BoxInterface{
     

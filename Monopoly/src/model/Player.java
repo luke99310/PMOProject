@@ -6,7 +6,11 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 
-import enumeration.BoxType;
+import model.Interfaces.BoxInterface;
+import model.Interfaces.CardInterface;
+import model.Interfaces.GameInterface;
+import model.Interfaces.PlayerInterface;
+import model.MonopolyTypes.BoxType;
 
 public class Player implements PlayerInterface{
 	

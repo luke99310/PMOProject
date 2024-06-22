@@ -1,8 +1,8 @@
-package model;
+package model.Interfaces;
 
 import java.util.List;
 
-import enumeration.BoxType;
+import model.MonopolyTypes.BoxType;
 
 public interface BoardInterface {
 

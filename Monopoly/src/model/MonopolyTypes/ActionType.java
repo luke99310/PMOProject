@@ -1,4 +1,4 @@
-package enumeration;
+package model.MonopolyTypes;
 
 public enum ActionType {
 	BALANCE,

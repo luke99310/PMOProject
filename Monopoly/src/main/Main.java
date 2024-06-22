@@ -4,8 +4,6 @@ import model.Game;
 import view.p;
 import controller.Controller;
 
-import javax.swing.SwingUtilities;
-
 public class Main {
     public static void main(String[] args) {
             // Crea il Model

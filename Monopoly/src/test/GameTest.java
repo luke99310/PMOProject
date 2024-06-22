@@ -3,10 +3,10 @@ package test;
 import java.util.List;
 import org.junit.*;
 
-import enumeration.BoxType;
-import model.CardInterface;
 import model.Game;
-import model.PlayerInterface;
+import model.Interfaces.CardInterface;
+import model.Interfaces.PlayerInterface;
+import model.MonopolyTypes.BoxType;
 
 public class GameTest {
 	

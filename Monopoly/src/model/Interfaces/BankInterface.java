@@ -1,4 +1,4 @@
-package model;
+package model.Interfaces;
 
 public interface BankInterface {
 

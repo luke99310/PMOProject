@@ -2,9 +2,9 @@ package test;
 
 import org.junit.*;
 
-import enumeration.BoxType;
 import model.Board;
 import model.Box;
+import model.MonopolyTypes.BoxType;
 
 public class BoardTest {
 

@@ -3,7 +3,14 @@ package model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import enumeration.BoxType;
+
+import model.Interfaces.BankInterface;
+import model.Interfaces.BoardInterface;
+import model.Interfaces.CardInterface;
+import model.Interfaces.DicesInterface;
+import model.Interfaces.GameInterface;
+import model.Interfaces.PlayerInterface;
+import model.MonopolyTypes.BoxType;
 
 public class Game implements GameInterface{
 		

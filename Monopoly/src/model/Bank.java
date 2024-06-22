@@ -1,5 +1,7 @@
 package model;
 
+import model.Interfaces.BankInterface;
+
 public class Bank implements BankInterface {
 
 	private static BankInterface bankInstance;

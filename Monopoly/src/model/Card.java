@@ -1,6 +1,7 @@
 package model;
 
-import enumeration.ActionType;
+import model.Interfaces.CardInterface;
+import model.MonopolyTypes.ActionType;
 
 public class Card implements CardInterface{
 	

@@ -2,9 +2,9 @@ package test;
 
 import org.junit.Test;
 
-import enumeration.BoxType;
 import model.Box;
 import model.Player;
+import model.MonopolyTypes.BoxType;
 import model.Game;
 
 import java.util.Arrays;

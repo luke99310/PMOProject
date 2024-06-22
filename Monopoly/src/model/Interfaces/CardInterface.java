@@ -1,6 +1,6 @@
-package model;
+package model.Interfaces;
 
-import enumeration.ActionType;
+import model.MonopolyTypes.ActionType;
 
 public interface CardInterface {
 
