@@ -1,45 +1,46 @@
 package test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.junit.*;
 
 import enumeration.BoxType;
 import model.CardInterface;
 import model.Game;
-import model.Player;
 import model.PlayerInterface;
 
 public class GameTest {
 	
 	Game game;
-	Player player1;
-	Player player2;
-	Player player3;
-	List<Player> players;
+	PlayerInterface player1;
+	PlayerInterface player2;
+	PlayerInterface player3;
+	List<PlayerInterface> players;
 	
 	@Before
 	public void setUpGameTest() {
 		game = new Game();
-		player1 = new Player("Luca", game);
-		player2 = new Player("Lorenzo", game);
-		player3 = new Player("Marco", game);
+		this.game.addPlayer("Luca");
+		player1 = this.game.getPlayers().get(0);
+		this.game.addPlayer("Lorenzo");
+		player2 = this.game.getPlayers().get(1);
+		this.game.addPlayer("Marco");
+		player3 = this.game.getPlayers().get(2);
 		// players automatically add themselves to the game (addPlayer is invoked inside the constructor)
-		players = new ArrayList<Player>();
-		players.addAll(Arrays.asList(player1, player2, player3));
+		players = this.game.getPlayers();
 	}
 
 	// testing addPlayer method
 	@Test
-	public void testAddPlayer() {
+	public void testAddPlayer1() {
 		Assert.assertTrue(game.getPlayers().contains(player1));
+		Assert.assertTrue(game.getPlayers().contains(player2));
+		Assert.assertTrue(game.getPlayers().contains(player3));
 	}
 	
-	// testing getPlayers method
-	@Test
-	public void testGetPlayers() {
-		Assert.assertEquals(players, game.getPlayers());
+	@Test(expected = IllegalArgumentException.class)
+	public void testAddPlayer2() {
+		this.game.addPlayer("Pluto");
+		this.game.addPlayer("Pippo");
 	}
 	
 	// the player goes to prison FLAKY TEST
@@ -81,7 +82,7 @@ public class GameTest {
 		Assert.assertNotEquals("the current player is changed", player1, game.getCurrentPlayer());
 	}
 	
-	// testing the draw card method
+	// testing the draw card method, FLAKY TESTS
 	@Test
 	public void testDrawCard1() {	
 		CardInterface card = game.drawCard(BoxType.UNEXPECTED);

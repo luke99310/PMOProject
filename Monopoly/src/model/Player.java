@@ -36,7 +36,6 @@ public class Player implements PlayerInterface{
         this.inJail = false;
         this.turnsInJail = 0;
         this.game = game;
-        game.addPlayer(this);
     }
     
     // METHODS
@@ -45,7 +44,9 @@ public class Player implements PlayerInterface{
         if (this.balance >= cost && box.isSellable()) {
         	// player pays the bank
         	this.updateBalance(-cost);
-        	this.game.getBank().transaction(cost);
+        	// bank takes money if the box is bought for the first time
+        	if (box.getOwner().isEmpty())
+        		this.game.getBank().transaction(cost);
         	
         	// The player becomes the new owner of the box
             box.setOwner(Optional.ofNullable(this));
@@ -73,8 +74,12 @@ public class Player implements PlayerInterface{
         // pays the amount	
     	this.balance += amount;
     	// balance reached a negative value, the player loses
-        if (this.balance < 0)
+        if (this.balance < 0) {
         	this.game.getPlayers().remove(this);
+        	if(this.game.getPlayers().size() == 1)
+        		this.game.notEnoughPlayers();
+        	
+        }
     }
     
     // method that allows the player to pay the rent

@@ -10,7 +10,6 @@ public class Game implements GameInterface{
 	// FIELDS
 	private List<PlayerInterface> players;
 	private BoardInterface board;
-	private int lastPlayerIndex;
     private int currentPlayerIndex;
     private DicesInterface dices;
     private int doublesCounter;
@@ -23,7 +22,7 @@ public class Game implements GameInterface{
 	public Game() {
 		this.players = new ArrayList<>();
 		this.board = new Board();
-        this.lastPlayerIndex = this.currentPlayerIndex = 0;
+        this.currentPlayerIndex = 0;
         dices = Dices.getInstance();
         bank = Bank.getInstance();
         this.doublesCounter = 0;
@@ -33,11 +32,11 @@ public class Game implements GameInterface{
 	}
 
 	// METHODS
-	public void addPlayer(PlayerInterface player) {
+	public void addPlayer(String name) {
 		if(this.players.size() < 4)
-			this.players.add(player);
+			this.players.add(new Player(name, this));
 		else
-			System.out.println("Il numero massimo di giocatori è già stato raggiunto!");
+			throw new IllegalArgumentException("Il numero massimo di giocatori è già stato raggiunto!");
 	}
 
 	public void startGame() {
@@ -46,7 +45,7 @@ public class Game implements GameInterface{
 			Collections.shuffle(players);
 		}
 		else
-			notEnoughPlayers();
+			this.notEnoughPlayers();
 	}
 	
 	// this method manages the results of the throws every player does
@@ -56,10 +55,6 @@ public class Game implements GameInterface{
 		dices.throwDices();
 		int dice1 = dices.getDice1(); 
 		int dice2 = dices.getDice2();
-        	
-        // if current player is not the last player the counter resets
-        if (this.currentPlayerIndex != this.lastPlayerIndex)
-        	this.doublesCounter = 0;
 
         // player is able to throw the dice and got double so the counter increases
         if (dice1 == dice2 && this.doublesCounter != -1) 
@@ -115,8 +110,8 @@ public class Game implements GameInterface{
 
     // passes the turn to the next player
     public void nextPlayer() {
-    	this.lastPlayerIndex = this.currentPlayerIndex;
         this.currentPlayerIndex = (this.currentPlayerIndex + 1) % this.players.size();
+        this.doublesCounter = 0;
     }
 	
 	public CardInterface drawCard(BoxType boxType) {
@@ -164,8 +159,5 @@ public class Game implements GameInterface{
 		else
 			throw new IllegalArgumentException("You tried to start the game with less than two players!");
 	}
-		
-		
-		
-		
+
 }

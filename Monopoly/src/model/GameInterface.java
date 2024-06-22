@@ -5,7 +5,7 @@ import enumeration.BoxType;
 
 public interface GameInterface {
 	
-	void addPlayer(PlayerInterface player);
+	void addPlayer(String name);
 
 	void startGame();
 	
@@ -22,4 +22,6 @@ public interface GameInterface {
     void nextPlayer();
     
     CardInterface drawCard(BoxType boxType) throws IllegalArgumentException;
+    
+    void notEnoughPlayers();
 }
