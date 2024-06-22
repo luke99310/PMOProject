@@ -17,6 +17,7 @@ import javax.swing.WindowConstants;
 
 import enumeration.BoxType;
 import model.Box;
+import model.BoxInterface;
 import model.Game;
 import model.Player;
 import view.MonopolyCell;
@@ -73,8 +74,8 @@ public class Controller {
             JTextField[] players = view.getPlayerField().getFields();
             for(int i = 0; i < players.length; i++) {
                 if(!players[i].getText().equals("")) {
-                    String playerName = players[i].getText();
-                    new Player(playerName, game);
+                    //new Player(playerName, game);
+                    this.game.addPlayer(players[i].getText());
                     counter++;
                 }
             }    
@@ -220,7 +221,7 @@ public class Controller {
     private void updateProperties() {
         view.getButtons().clearProperties();
 
-        for (Box box : game.getCurrentPlayer().getProperties()) {
+        for (BoxInterface box : game.getCurrentPlayer().getProperties()) {
             view.getButtons().addProperty(box.getName());
         }
     }
