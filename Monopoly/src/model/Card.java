@@ -16,7 +16,7 @@ public class Card implements CardInterface{
     	this.action = action;
     }
     
-    // JAIL CONSTRUCTOR
+    // JAIL CARD CONSTRUCTOR
     public Card(final String description, final ActionType action) {
     	this(description, -1, action);
     }

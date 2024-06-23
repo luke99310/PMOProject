@@ -64,7 +64,7 @@ public class Board implements BoardInterface{
  /*22*/ this.boxes.add(new Box("Stazione EST", 200, 25, BoxType.STATION, false));
  /*23*/ this.boxes.add(new Box("Largo Augusto", 320, 28, BoxType.GREEN, false));
  /*24*/ this.boxes.add(new Box("Imprevisti", 0, 0, BoxType.UNEXPECTED, true));
-    }
+	}
 
 	// METHODS
 	public List<BoxInterface> getBoxes() {

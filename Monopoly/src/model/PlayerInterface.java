@@ -30,7 +30,7 @@ public interface PlayerInterface {
 
     int getPositionIndex();
     
-    public int getTurnsInJail();
+    int getTurnsInJail();
 
     boolean isInJail();
 

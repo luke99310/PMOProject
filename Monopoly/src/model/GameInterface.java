@@ -17,7 +17,7 @@ public interface GameInterface {
 	
 	PlayerInterface getCurrentPlayer();
 	
-	public BankInterface getBank();
+	BankInterface getBank();
 
     void nextPlayer();
     
