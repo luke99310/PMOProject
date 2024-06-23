@@ -3,6 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+
 import enumeration.BoxType;
 
 public class Game implements GameInterface{
@@ -151,6 +153,17 @@ public class Game implements GameInterface{
 			else
 				this.unexpectedIndex = 0;
 		}
+	}
+	
+	public void removePlayer(PlayerInterface player) {
+		if(this.players.contains(player)) {
+			this.players.remove(player);
+			for (BoxInterface b : player.getProperties()) {
+				b.setOwner(Optional.empty());
+			}
+		}
+		if(this.players.size() == 1)
+			this.notEnoughPlayers();
 	}
 	
 	public void notEnoughPlayers() {

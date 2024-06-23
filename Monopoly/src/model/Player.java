@@ -75,10 +75,7 @@ public class Player implements PlayerInterface{
     	this.balance += amount;
     	// balance reached a negative value, the player loses
         if (this.balance < 0) {
-        	this.game.getPlayers().remove(this);
-        	if(this.game.getPlayers().size() == 1)
-        		this.game.notEnoughPlayers();
-        	
+        	this.game.removePlayer(this);
         }
     }
     

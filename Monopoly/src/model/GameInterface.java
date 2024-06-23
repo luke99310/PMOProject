@@ -23,5 +23,7 @@ public interface GameInterface {
     
     CardInterface drawCard(BoxType boxType) throws IllegalArgumentException;
     
+    void removePlayer(PlayerInterface player);
+    
     void notEnoughPlayers();
 }
