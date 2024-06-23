@@ -1,1 +1,8 @@
+/.classpath
+/.project
+/controller/
+/main/
 /model/
+/module-info.class
+/test/
+/view/

@@ -3,7 +3,6 @@ package model;
 
 import java.util.HashSet;
 import java.util.Optional;
-import java.util.Random;
 import java.util.Set;
 
 import model.Interfaces.BoxInterface;
@@ -95,9 +94,8 @@ public class Player implements PlayerInterface{
                 rent = 25 * box.getOwner().get().numberOfOwnedPropertiesOfType(BoxType.STATION);
             } else {
             	// if the owner has full set the rent is higher
-            	rent = box.getOwner().get().hasFullSet(box.getType())?
-            																  box.fullSet():
-            																  box.getRent();
+            	rent = box.getOwner().get().hasFullSet(box.getType())? box.fullSet(): 
+            														   box.getRent();
             }
             // transaction
         	this.updateBalance(-rent);
@@ -190,17 +188,14 @@ public class Player implements PlayerInterface{
         this.positionIndex = JAIL_INDEX_ON_BOARD;
     }
     
-    // method that generates a random boolean emulating player's choice
-    private Boolean askPlayer() {
-    	return new Random().nextBoolean();
-    }
-    
     // method that manages player's choice regarding the auction
     public void managePlayerChoice(BoxInterface BoxUpForAuction, int cost) {
     	System.out.println("is " + this.name + " going to buy the property "+ BoxUpForAuction.getName() 
     	                   + " at " + cost + "$ ?");
     	// if the player wants and he can buy the box
-    	if (this.askPlayer()) 
+    	if ((this.numberOfOwnedPropertiesOfType(BoxUpForAuction.getType()) ==  
+        	BoxUpForAuction.getType().getNumberOfStreets() -1) 
+        	&& this.balance >= 5*cost) 
     		this.buyBox(BoxUpForAuction, cost);
     	else
     		System.out.println(this.name + " did not buy the property.");
