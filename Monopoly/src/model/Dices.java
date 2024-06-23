@@ -19,8 +19,8 @@ public class Dices implements DicesInterface {
     // METHODS
     // this method simulates the throw of two dices
     public void throwDices() {
-    	this.dice1 = new Random().nextInt(1) + 1;
-    	this.dice2 = new Random().nextInt(1) + 1;
+    	this.dice1 = new Random().nextInt(6) + 1;
+    	this.dice2 = new Random().nextInt(6) + 1;
     }
     
     // returns the first dice

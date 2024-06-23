@@ -43,7 +43,7 @@ public class Game implements GameInterface{
 		if(this.players.size() < 4)
 			this.players.add(new Player(name, this));
 		else
-			throw new IllegalArgumentException("Il numero massimo di giocatori è già stato raggiunto!");
+			throw new IllegalArgumentException("The maximum number of players has already been reached!");
 	}
 
 	public void startGame() {

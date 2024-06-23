@@ -64,7 +64,7 @@ public class Player implements PlayerInterface{
     // checks how many properties of the same color a player has
     public int numberOfOwnedPropertiesOfType(BoxType type) {
         return (int)this.properties.stream()
-        					       .filter(box -> box.getType()== type)
+        					       .filter(box -> box.getType().equals(type))
         					       .count();
     }
 
@@ -166,7 +166,7 @@ public class Player implements PlayerInterface{
 		switch (card.getAction()) {
 		case BALANCE :
 			// deposits or withdraws from the bank
-			this.game.getBank().transaction(card.getValue()); 
+			this.game.getBank().transaction(-card.getValue()); 
 			this.updateBalance(card.getValue());
 			break;
 		case POSITION:
