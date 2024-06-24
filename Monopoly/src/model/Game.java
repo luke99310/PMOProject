@@ -3,9 +3,11 @@ package model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import model.Interfaces.BankInterface;
 import model.Interfaces.BoardInterface;
+import model.Interfaces.BoxInterface;
 import model.Interfaces.CardInterface;
 import model.Interfaces.DicesInterface;
 import model.Interfaces.GameInterface;
@@ -160,7 +162,18 @@ public class Game implements GameInterface{
 		}
 	}
 	
-	public void notEnoughPlayers() {
+	public void removePlayer(PlayerInterface player) {
+		if(this.players.contains(player)) {
+			this.players.remove(player);
+			for (BoxInterface b : player.getProperties()) {
+				b.setOwner(Optional.empty());
+			}
+		}
+		if(this.players.size() == 1)
+			this.notEnoughPlayers();
+	}
+	
+	private void notEnoughPlayers() {
 		if(this.gameStarted)
 			System.out.println("The match is over, player " + this.players + " won the game!");
 		else

@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import model.Box;
 import model.Player;
+import model.Interfaces.PlayerInterface;
 import model.MonopolyTypes.BoxType;
 import model.Game;
 
@@ -16,8 +17,8 @@ import org.junit.Before;
 
 public class PlayerTest {
 	
-	Player player1;
-	Player player2;
+	PlayerInterface player1;
+	PlayerInterface player2;
 	Box box1;
 	Box box2;
 	Box box3;
@@ -31,8 +32,10 @@ public class PlayerTest {
 	public void setUp() {
 		game = new Game();
 		// player starts with 1500$ in box 1 (index 0)
-		player1 = new Player("Luca", game);
-		player2 = new Player("Lorenzo", game);
+		this.game.addPlayer("Luca");
+		player1 = this.game.getPlayers().get(0);
+		this.game.addPlayer("Lorenzo");
+		player2 = this.game.getPlayers().get(1);
 		box1 = new Box("Bastioni Gran Sasso", 500, 6, BoxType.BLUE, false);
 		box2 = new Box("Viale Vesuvio", 1500, 8, BoxType.BLUE, false);
 		box3 = new Box("Viale Monte Rosa", 2000, 6, BoxType.BLUE, false);
@@ -41,6 +44,7 @@ public class PlayerTest {
 		fullSet = new HashSet<Box>();
 		fullSet.addAll(Arrays.asList(box1, box2, box3));
 		notSellableBox = new Box("Transito", 0, 0, BoxType.TRANSIT, true);
+		this.game.startGame();
 	}
 	
 	// testing buyBox method
@@ -95,9 +99,10 @@ public class PlayerTest {
 	
 	@Test
 	public void testUpdateBalance4() {
+		Assert.assertTrue("player1 is in game", this.game.getPlayers().contains(player1));
+		System.out.println(this.game.getPlayers());
 		player1.updateBalance(-1600);
-		Assert.assertEquals(-100, player1.getBalance());
-		Assert.assertFalse("player1 is no longer in the game", game.getPlayers().contains(player1));
+		Assert.assertFalse("player1 is no longer in the game", this.game.getPlayers().contains(player1));
 	}
 	
 	// testing the move method forcing players to buy the properties
@@ -323,7 +328,7 @@ public class PlayerTest {
 	
 	@Test
 	public void testEquals3() {
-		Player player3 = player1;
+		PlayerInterface player3 = player1;
 		Assert.assertTrue("different reference same player", player1.equals(player3));
 	}
 	

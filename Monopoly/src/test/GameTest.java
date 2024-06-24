@@ -1,9 +1,13 @@
 package test;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.junit.*;
 
+import model.Box;
 import model.Game;
+import model.Interfaces.BoxInterface;
 import model.Interfaces.CardInterface;
 import model.Interfaces.PlayerInterface;
 import model.MonopolyTypes.BoxType;
@@ -15,6 +19,7 @@ public class GameTest {
 	PlayerInterface player2;
 	PlayerInterface player3;
 	List<PlayerInterface> players;
+	BoxInterface box;
 	
 	@Before
 	public void setUpGameTest() {
@@ -25,8 +30,8 @@ public class GameTest {
 		player2 = this.game.getPlayers().get(1);
 		this.game.addPlayer("Marco");
 		player3 = this.game.getPlayers().get(2);
-		// players automatically add themselves to the game (addPlayer is invoked inside the constructor)
 		players = this.game.getPlayers();
+		box = new Box("Bastioni Gran Sasso", 500, 6, BoxType.BLUE, false);
 	}
 
 	// testing addPlayer method
@@ -40,6 +45,7 @@ public class GameTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void testAddPlayer2() {
 		this.game.addPlayer("Pluto");
+		// players can't be more than 4
 		this.game.addPlayer("Pippo");
 	}
 	
@@ -113,4 +119,27 @@ public class GameTest {
 		game.drawCard(BoxType.BLUE);
 	}
 	
+	@Test
+	public void testRemovePlayer1() {
+		this.game.startGame();
+		this.game.removePlayer(player1);
+		Assert.assertEquals("remaining players should be two", 2, game.getPlayers().size());
+		this.game.removePlayer(player2);
+		Assert.assertEquals("only one player is still in game", 1, game.getPlayers().size());
+	}
+	
+	@Test
+	public void testRemovePlayer2() {
+		this.player1.buyBox(box, box.getCost());
+		Assert.assertEquals("player1 is the owner of the box", Optional.of(player1), box.getOwner());
+		this.game.removePlayer(player1);
+		Assert.assertEquals("box has no owner", Optional.empty(), box.getOwner());
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testStartGame() {
+		this.game.getPlayers().remove(player1);
+		this.game.getPlayers().remove(player2);
+		this.game.startGame();
+	}
 }
