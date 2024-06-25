@@ -192,7 +192,7 @@ public class Player implements PlayerInterface{
     public void managePlayerChoice(BoxInterface BoxUpForAuction, int cost) {
     	System.out.println("is " + this.name + " going to buy the property "+ BoxUpForAuction.getName() 
     	                   + " at " + cost + "$ ?");
-    	// simulated logic for player's choice
+    	// simulated logic for player's choice 
     	if ((this.numberOfOwnedPropertiesOfType(BoxUpForAuction.getType()) ==  
         	BoxUpForAuction.getType().getNumberOfStreets() -1) 
         	&& this.balance >= 3*cost) 
