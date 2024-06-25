@@ -111,6 +111,10 @@ public class Game implements GameInterface{
 	public BankInterface getBank() {
 		return this.bank;
 	}
+	
+	public int getDoublesCounter() {
+		return this.doublesCounter;
+	}
 
 	// returns current player
     public PlayerInterface getCurrentPlayer() {
