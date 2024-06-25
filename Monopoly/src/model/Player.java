@@ -111,7 +111,7 @@ public class Player implements PlayerInterface{
     		return "You got double three times in a row, go to prison!!!";
     	}
     	// if you are not in jail
-    	else if (!inJail && displacement != 0) {
+    	else if (!inJail) {
         	System.out.println(displacement);
             int previousPosition = this.positionIndex;
             // calculating the index of the new position using % for a circular array
@@ -192,14 +192,13 @@ public class Player implements PlayerInterface{
     public void managePlayerChoice(BoxInterface BoxUpForAuction, int cost) {
     	System.out.println("is " + this.name + " going to buy the property "+ BoxUpForAuction.getName() 
     	                   + " at " + cost + "$ ?");
-    	// if the player wants and he can buy the box
+    	// simulated logic for player's choice
     	if ((this.numberOfOwnedPropertiesOfType(BoxUpForAuction.getType()) ==  
         	BoxUpForAuction.getType().getNumberOfStreets() -1) 
-        	&& this.balance >= 5*cost) 
+        	&& this.balance >= 3*cost) 
     		this.buyBox(BoxUpForAuction, cost);
     	else
-    		System.out.println(this.name + " did not buy the property.");
-    	
+    		System.out.println(this.name + " did not buy the property.");    	
     }
     
     // method that manages the auction

@@ -103,7 +103,7 @@ public class Controller {
         view.getButtons().getDiceButton().setText("LANCIO DADI: " + numeroDadi);
         view.getButtons().getDiceLabel().setText(game.getCurrentPlayer().move(numeroDadi));
         
-        if(numeroDadi > 0)
+        if(game.getDoublesCounter() == -1)
 	    	view.getButtons().getDiceButton().setEnabled(false);
         
         
