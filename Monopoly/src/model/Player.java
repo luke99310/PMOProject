@@ -107,8 +107,17 @@ public class Player implements PlayerInterface{
     		this.goToJail();
     		return "You got double three times in a row, go to prison!!!";
     	}
+    	
+	    // if you are in jail and able to throw the dices
+		else if(inJail && displacement != 0){
+			this.turnsInJail--;
+	        if (this.turnsInJail == 0)
+	            this.inJail = false;
+	        return "You passed 1 turn in jail";
+	    }
+
     	// if you are not in jail
-    	else if (!inJail) {
+    	else {
         	System.out.println(displacement);
             int previousPosition = this.positionIndex;
             // calculating the index of the new position using % for a circular array
@@ -124,15 +133,7 @@ public class Player implements PlayerInterface{
                   
             // based on the box the player landed has to do something
             return this.manageBoxAction();
-            
-            
-        // if you are in jail
-    	}else {
-            this.turnsInJail--;
-            if (this.turnsInJail == 0)
-                this.inJail = false;
-            return "You passed 1 turn in jail";
-        }
+    	}
     }
     
     // method that manages the action of the box

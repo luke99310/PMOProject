@@ -168,10 +168,10 @@ public class Game implements GameInterface{
 	
 	public void removePlayer(PlayerInterface player) {
 		if(this.players.contains(player)) {
-			this.players.remove(player);
 			for (BoxInterface b : player.getProperties()) {
 				b.setOwner(Optional.empty());
 			}
+			this.players.remove(player);
 		}
 		if(this.players.size() == 1)
 			this.notEnoughPlayers();

@@ -100,7 +100,6 @@ public class PlayerTest {
 	@Test
 	public void testUpdateBalance4() {
 		Assert.assertTrue("player1 is in game", this.game.getPlayers().contains(player1));
-		System.out.println(this.game.getPlayers());
 		player1.updateBalance(-1600);
 		Assert.assertFalse("player1 is no longer in the game", this.game.getPlayers().contains(player1));
 	}
