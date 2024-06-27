@@ -1,9 +1,12 @@
 package view;
 
 import javax.swing.*;
+
+import view.Interfaces.ViewInterface;
+
 import java.awt.*;
 
-public class View {
+public class View implements ViewInterface{
 	
 	//FIELDS
     private JFrame frame;
@@ -13,38 +16,36 @@ public class View {
     
     //CONSTRUCOTORS
     public View() {
-    	
+    
     		frame = new JFrame("Monopoly Board");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
             board = new Board();
             buttons = new Button();
             playerFields = new PlayerField();
-            
-            // Aggiungi panel2 al frame
-            frame.add(buttons.getPanel(), BorderLayout.EAST);
-                     
-            // Dopo aver creato panel1 e panel2...
-            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+                                 
+            //ottengo le dimensioni dello schermo            
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); 
             double width = screenSize.getWidth();
-            board.getPanel().setMinimumSize(new Dimension((int)(width * 0.7), 0));
             
-            // Creo un nuovo JSplitPane
+            board.getPanel().setMinimumSize(new Dimension((int)(width * 0.7), 0)); //imposto la dimensione minima del pannello di board al 70%
+            
+            //creo un JSplitPane per dividere orizzontalmente il pannello della board e il pannello dei pulsanti.
             JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, board.getPanel(), buttons.getPanel());
 
-            // Disabilito il trascinamento del divisore
+            //disabilito il trascinamento del divisore
             splitPane.setEnabled(false);
             
-            // Aggiungo il JSplitPane al frame
+            //aggiungo il JSplitPane al frame
             frame.add(splitPane);
 
-            frame.pack();
-            frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-            frame.setVisible(true);
+            frame.pack(); //adatto il frame alle dimensioni dei componenti
+            frame.setExtendedState(JFrame.MAXIMIZED_BOTH); //la finestra occupa tutto lo schermo
+            frame.setVisible(true); //rendo il frame visibile
                         
-            playerFields.getJDialog().pack();
-            playerFields.getJDialog().setLocationRelativeTo(frame);
-            playerFields.getJDialog().setVisible(true);
+            playerFields.getJDialog().pack(); //ridimensiono JDialog in modo che si adatti ai suoi componenti
+            playerFields.getJDialog().setLocationRelativeTo(frame); //il JDialogo viene posizionato al centro del frame
+            playerFields.getJDialog().setVisible(true); //rendo il JDialog visibile
     }
 
     //METHODS	

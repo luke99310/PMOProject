@@ -1,3 +1,4 @@
+/*
 package view;
 
 import java.awt.BorderLayout;
@@ -54,3 +55,4 @@ public class AuctionGUI {
 	}
 	
 }
+*/

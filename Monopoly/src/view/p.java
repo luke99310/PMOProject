@@ -1,3 +1,4 @@
+/*
 package view;
 
 import javax.swing.*;
@@ -60,4 +61,4 @@ public class p {
         return this.playerFields;
     }
 }
-      
+*/  

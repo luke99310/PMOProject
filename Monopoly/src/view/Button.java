@@ -1,71 +1,55 @@
 package view;
 
 import javax.swing.*;
+
+import view.Interfaces.ButtonInterface;
+
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class Button {
+public class Button implements ButtonInterface{
 	
 	//FIELDS
-    private JButton diceButton;
-    private JButton nextButton;
-    private JButton buyButton;
-    private JButton sellButton;
-    private JButton buildHouse;
+    private JPanel panel2;
+	private JPanel propertiesPanel;
 
     private JLabel playerLabel;
     private JLabel piecePlayer;
     private JLabel balanceLabel;
-    
-    
-    private JTextArea diceLabel;
-
-	private JPanel propertiesPanel;
+    private JLabel diceLabel;
+	
     private JComboBox<String> propertiesBox;
     
-    private JPanel panel2;
+    private JButton auctionButton;
+    private JButton diceButton;
+    private JButton buyButton;
+    private JButton buildHouse;
+    private JButton nextButton;
 
-    
     //CONSTRUTORS
     public Button() {
     	
     	this.panel2 = new JPanel();
     	this.panel2.setLayout(new BorderLayout());
 
-        // Inizializzo i pulsanti
+        //inizializzo i pulsanti
     	this.diceButton = new JButton("LANCIA I DADI");
     	this.nextButton = new JButton("PROSSIMO TURNO   ⇛");
     	this.buyButton = new JButton("COMPRA PROPRIETA'");
-    	this.sellButton = new JButton("VENDI PROPRIETA'");
+    	this.auctionButton = new JButton("METTI ALL'ASTA");
     	this.buildHouse = new JButton("CREA CASA   ⌂");
 
-        // Inizializzo le etichette
+        //inizializzo le etichette
     	this.playerLabel = new JLabel("");
     	this.piecePlayer = new JLabel("");
-    	this.balanceLabel = new JLabel("");
-    	this.diceLabel = new JTextArea("");
+    	this.balanceLabel = new JLabel(""); 
+    	this.diceLabel = new JLabel("");
     	
-    	propertiesPanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); // Usa FlowLayout
-        propertiesBox = new JComboBox<>();
-        propertiesBox.setPreferredSize(new Dimension(250, 30));
-        sellButton = new JButton("Vendi");
-        propertiesPanel.add(propertiesBox);
-        propertiesPanel.add(sellButton);
-
-
-        // Imposto le dimensioni dei pulsanti
-        this.diceButton.setPreferredSize(new Dimension(diceButton.getPreferredSize().width + 220, diceButton.getPreferredSize().height + 20));
-        this.nextButton.setPreferredSize(new Dimension(nextButton.getPreferredSize().width + 10, nextButton.getPreferredSize().height + 20));
-        this.buyButton.setPreferredSize(new Dimension(diceButton.getPreferredSize().width + 10, diceButton.getPreferredSize().height + 20));
-        //this.sellButton.setPreferredSize(new Dimension(diceButton.getPreferredSize().width + 10, diceButton.getPreferredSize().height + 20));
-        this.buildHouse.setPreferredSize(new Dimension(diceButton.getPreferredSize().width + 10, diceButton.getPreferredSize().height + 20));
-
-        // Creo un nuovo pannello per contenere le labels
+        //creo un nuovo pannello per contenere le labels
         JPanel labelPanel = new JPanel();
-        labelPanel.setLayout(new BoxLayout(labelPanel, BoxLayout.Y_AXIS));
-
-        // Aggiungo un filler in cima
-        labelPanel.add(Box.createVerticalGlue());
+        labelPanel.setLayout(new BoxLayout(labelPanel, BoxLayout.Y_AXIS)); //imposta il layout del pannello labelPanel 
+        																   //in modo che i suoi componenti siano disposti verticalmente
+        																   //(dall'alto al basso)
 
         //creo label player
         this.playerLabel.setFont(new Font("Serif", Font.PLAIN, 30));
@@ -81,75 +65,67 @@ public class Button {
         this.balanceLabel.setFont(new Font("Serif", Font.PLAIN, 20));
         this.balanceLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Centro la label
         labelPanel.add(balanceLabel);
-        
-        //creo textArea per balance
-        /*
-        this.properties.setFont(new Font("Serif", Font.PLAIN, 20));
-        this.properties.setAlignmentX(Component.CENTER_ALIGNMENT); // Centro la label
-        properties.setWrapStyleWord(true);
-        properties.setLineWrap(true);
-        properties.setOpaque(false);
-        properties.setEditable(false);
-        properties.setFocusable(false);
-        properties.setBackground(UIManager.getColor("Label.background"));
-        properties.setFont(UIManager.getFont("Label.font"));
-        properties.setBorder(UIManager.getBorder("Label.border"));
-                */
 
+        //panel delle proprietà del giocatore
+    	propertiesPanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); //dispongo i componenti da sinistra a destra, centrati verticalmente 
+    																   //in ogni riga, con ogni riga allineata a sinistra
+        propertiesBox = new JComboBox<>();
+        propertiesBox.setPreferredSize(new Dimension(250, 30));
+        propertiesPanel.add(propertiesBox);
+        propertiesPanel.add(auctionButton);
         labelPanel.add(this.propertiesPanel);
-        
-        // Aggiungo un filler in fondo
-        labelPanel.add(Box.createVerticalGlue());
 
-        // Aggiungo labelPanel a panel2
+        //imposto le dimensioni dei pulsanti
+        this.diceButton.setPreferredSize(new Dimension(diceButton.getPreferredSize().width + 220, diceButton.getPreferredSize().height + 20));
+        this.nextButton.setPreferredSize(new Dimension(nextButton.getPreferredSize().width + 10, nextButton.getPreferredSize().height + 20));
+        this.buyButton.setPreferredSize(new Dimension(diceButton.getPreferredSize().width + 10, diceButton.getPreferredSize().height + 20));
+        this.buildHouse.setPreferredSize(new Dimension(diceButton.getPreferredSize().width + 10, diceButton.getPreferredSize().height + 20));   
+
+        //aggiungo labelPanel a panel2
         this.panel2.add(labelPanel, BorderLayout.NORTH);
 
-        // Pannello per i pulsanti/label
+        //pannello per i pulsanti/label
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridBagLayout());
         
-        // Creo un GridBagConstraints per posizionare i pulsanti
+        //creo un GridBagConstraints per posizionare i pulsanti
         GridBagConstraints gbc = new GridBagConstraints();
 
-        // Imposto gli spazi intorno ai bottoni (top, left, bottom, right)
+        //imposto gli spazi (in pixel) intorno ai bottoni (top, left, bottom, right)
         gbc.insets = new Insets(50, 0, 20, 20); 
 
-        // Posiziono i pulsanti "Compra" e "Crea Casa"
+        //posiziono i pulsanti "Compra" e "Crea Casa"
         gbc.gridx = 0;
         gbc.gridy = 3;
         buttonPanel.add(this.buyButton, gbc);
 
         gbc.gridx = 1;
+        gbc.gridy = 3;
         buttonPanel.add(this.buildHouse, gbc);
 
-        // Posiziono il pulsante "Lancia Dadi"
+        //posiziono il pulsante "Lancia Dadi"
         gbc.gridx = 0;
         gbc.gridy = 1;
-        gbc.gridwidth = 2; // Occupa 2 colonne
+        gbc.gridwidth = 2; //occupa 2 colonne
         buttonPanel.add(this.diceButton, gbc);
         
         gbc.gridy = 2;
-        diceLabel.setWrapStyleWord(true);
         diceLabel.setSize(100, 80);
-        diceLabel.setOpaque(false);
-        diceLabel.setEditable(false);
-        diceLabel.setFocusable(false);
-        diceLabel.setBackground(UIManager.getColor("Label.background"));
         diceLabel.setFont(UIManager.getFont("Label.font"));
         diceLabel.setBorder(UIManager.getBorder("Label.border"));
         buttonPanel.add(this.diceLabel, gbc);
                 
-        // Posiziono il pulsante "Prossimo Turno"
+        //posiziono il pulsante "Prossimo Turno"
         gbc.gridx = 0;
         gbc.gridy = 5;
-        gbc.gridwidth = 2; // Occupa 1 colonna
+        gbc.gridwidth = 2; //occupa 2 colonna
         buttonPanel.add(this.nextButton, gbc);
 
-        // Aggiungo il pannello dei pulsanti a panel2
+        //aggiungo il pannello dei pulsanti a panel2
         this.panel2.add(buttonPanel, BorderLayout.CENTER);
     }
 
-    // Metodi getter per i pulsanti e le etichette
+    //METHODS
     public JButton getDiceButton() {
         return this.diceButton;
     }
@@ -162,8 +138,8 @@ public class Button {
         return this.buyButton;
     }
     
-    public JButton getSellButton() {
-        return this.sellButton;
+    public JButton getAuctionButton() {
+        return this.auctionButton;
     }
     
     public JButton getBuildHouse() {
@@ -182,7 +158,7 @@ public class Button {
         return this.balanceLabel;
     }
     
-    public JTextArea getDiceLabel() {
+    public JLabel getDiceLabel() {
         return this.diceLabel;
     }
     
@@ -191,23 +167,23 @@ public class Button {
     }
     
     public void addProperty(String propertyName) {
-        propertiesBox.addItem(propertyName);
-        propertiesPanel.revalidate();
-        propertiesPanel.repaint();
+        propertiesBox.addItem(propertyName); //aggiunge un elemento alla propertiesBox
+        propertiesPanel.revalidate(); //il pannello propertiesPanel viene aggiornato
+        propertiesPanel.repaint(); //il pannello propertiesPanel viene ridisegnato
     }
 
     public void clearProperties() {
-        propertiesBox.removeAllItems();
+        propertiesBox.removeAllItems(); //rimuove tutti gli elementi da propertiesBox
         propertiesPanel.revalidate();
         propertiesPanel.repaint();
     }
 
     public String getSelectedProperty() {
-        return (String) propertiesBox.getSelectedItem();
+        return (String) propertiesBox.getSelectedItem(); //restituisce l’elemento selezionato in propertiesBox
     }
 
-    public void addSellActionListener(ActionListener sellAction) {
-        sellButton.addActionListener(sellAction);
+    public void addSellActionListener(ActionListener auctionAction) {
+    	auctionButton.addActionListener(auctionAction);
     }
     
 }

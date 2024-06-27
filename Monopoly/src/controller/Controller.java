@@ -1,217 +1,229 @@
 package controller;
 
+import java.util.Optional;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-
 import model.Game;
 import model.Interfaces.BoxInterface;
-import view.p;
+import model.Interfaces.PlayerInterface;
+import model.MonopolyTypes.BoxType;
+import view.View;
 
 public class Controller {
+	
+	//CONSTANTS
     private static final int POSITION_ADJUSTMENT = 1;
+    private static final int STARTING_BOX_INDEX = 1;
+    private static final int MAX_HOUSE_LIMIT = 2;
 
     //FIELDS
-    private Game game; // Il Model
-    private p view; // La View
+    private Game game; //Model
+    private View view; //View
 
     //CONSTRUCTORS
-    public Controller(Game game, p view) {
+    public Controller(Game game, View view) {
+    	
         this.game = game;
         this.view = view;
         
-        // Aggiungo un ActionListener al pulsante "Inizia Gioco"
+        //aggiungo un ActionListener al pulsante "Inizia Gioco"
         view.getPlayerField().getStartButton().addActionListener(e -> addPlayers());
 
-        // Aggiungo un ActionListener al pulsante "Lancia Dadi"
+        //aggiungo un ActionListener al pulsante "Lancia Dadi"
         view.getButtons().getDiceButton().addActionListener(e -> handleDiceRoll());
 
-        // Aggiungo un ActionListener al pulsante "Prossimo giocatore"
+        //aggiungo un ActionListener al pulsante "Prossimo giocatore"
         view.getButtons().getNextButton().addActionListener(e -> handleNextPlayer());
 
-        // Aggiungo un ActionListener al pulsante "compra casella"
+        //aggiungo un ActionListener al pulsante "Compra Casella"
         view.getButtons().getBuyButton().addActionListener(e -> buyBox());
         
-        // Aggiungo un ActionListener al pulsante "Crea casa"
+        //aggiungo un ActionListener al pulsante "Crea Casa"
         view.getButtons().getBuildHouse().addActionListener(e -> buildHouse());
         
-        // Aggiungo un ActionListener al pulsante "Vendi"        
-        view.getButtons().getSellButton().addActionListener(e -> sellProperty(view.getButtons().getSelectedProperty()));
-
+        //aggiungo un ActionListener al pulsante "Metti all'Asta"        
+        view.getButtons().getAuctionButton().addActionListener(e -> auctionProperty(view.getButtons().getSelectedProperty()));
     }
 
     //METHODS
     public void addPlayers() {
-        // Controlla che ci siano almeno due giocatori
-        int playerCount = 0;
-        for (JTextField field : view.getPlayerField().getFields()) {
-            if (!field.getText().isEmpty()) {
-                playerCount++;
-            }
-        }
+        //controllo che ci siano almeno due giocatori
+    	int playerCount = 0;
+    	JTextField[] players = view.getPlayerField().getFields();
+    	for (JTextField field : players) {
+    	    if (!field.getText().isEmpty()) {
+    	        this.game.addPlayer(field.getText());
+    	        playerCount++;
+    	    }
+    	}
 
         if (playerCount >= 2) {
-            // Inizia il gioco
-            // Impedisci la chiusura della finestra quando viene creata
-            view.getPlayerField().getJDialog().dispose();
+            //inizio il gioco
+        	game.startGame();
+        	
+            //chiudo la finestra di dialogo quando i giocatori sono almeno 2
+            view.getPlayerField().getJDialog().dispose();  
 
-            int counter = 0;
-            JTextField[] players = view.getPlayerField().getFields();
-            for(int i = 0; i < players.length; i++) {
-                if(!players[i].getText().equals("")) {
-                    //new Player(playerName, game);
-                    this.game.addPlayer(players[i].getText());
-                    counter++;
-                }
-            }    
-            System.out.println("valore di i: " + counter);
-            for(int i = 0; i < counter; i++) {
-                view.getBoard().setLabelVisibilityOnBoard(1, i, true); 
+            //rendo visibili le pedine nella casella di partenza
+            for(int i = 0; i < playerCount; i++) {
+                view.getBoard().setLabelVisibilityOnBoard(STARTING_BOX_INDEX, i, true); 
             }
             
             view.getButtons().getPlayerLabel().setText("Giocatore attuale: " + game.getCurrentPlayer().getName());
-            view.getButtons().getPiecePlayer().setText("Numero pedina: " + (game.getPlayers().indexOf(game.getCurrentPlayer()) + 1));
+            view.getButtons().getPiecePlayer().setText("Numero pedina: " + (game.getPlayers().indexOf(game.getCurrentPlayer()) + POSITION_ADJUSTMENT));
             view.getButtons().getBalanceLabel().setText("Saldo: " + game.getCurrentPlayer().getBalance());
-
-            /*
-            Set<Box> boxes = game.getCurrentPlayer().getProperties();
-            Set<String> properties = boxes.stream().map(Box::getName).collect(Collectors.toSet());
-            String propertiesText = properties.stream().collect(Collectors.joining("\n"));
-            view.getButtons().getProperties().setText(propertiesText);
-            */
             this.updateProperties();
 
             view.getButtons().getBuyButton().setEnabled(false);
             view.getButtons().getBuildHouse().setEnabled(false);
-
             
-            System.out.println("giocatori: " + game.getPlayers());
-
-        } else {
-            // Mostra un messaggio di errore
+        }else {
+            //mostro un messaggio di errore
             JOptionPane.showMessageDialog(view.getPlayerField().getJDialog(), "Devono unirsi almeno due giocatori.", "Errore", JOptionPane.ERROR_MESSAGE);
+            for (PlayerInterface p : game.getPlayers()) {
+        	        this.game.removePlayer(p);
+        	}
         }
-
     }
     
     private void handleDiceRoll() {
-        // Chiama il metodo muovi() sul giocatore corrente
-        view.getBoard().setLabelVisibilityOnBoard(game.getCurrentPlayer().getPositionIndex() + POSITION_ADJUSTMENT, game.getPlayers().indexOf(game.getCurrentPlayer()), false);
+    	//aggiorno i test dei bottoni
+    	this.resetButtonsText();
         
-        System.out.println(" ");
-        System.out.println("Saldo prima di lanciare i dadi: " + game.getCurrentPlayer().getBalance());
+        //chiamo il metodo muovi() sul giocatore corrente
+        view.getBoard().setLabelVisibilityOnBoard(game.getCurrentPlayer().getPositionIndex() + POSITION_ADJUSTMENT, game.getPlayers().indexOf(game.getCurrentPlayer()), false);
         int numeroDadi = game.rollDices();
         view.getButtons().getDiceButton().setText("LANCIO DADI: " + numeroDadi);
         view.getButtons().getDiceLabel().setText(game.getCurrentPlayer().move(numeroDadi));
-        
-        if(game.getDoublesCounter() == -1)
-	    	view.getButtons().getDiceButton().setEnabled(false);
-        
-        
-        if(game.getCurrentPlayer().getPosition().isSpecial() || !game.getCurrentPlayer().getPosition().isSellable()) {
-        	view.getButtons().getBuyButton().setEnabled(false);
-        	view.getButtons().getDiceButton().setEnabled(false);
-        	view.getButtons().getBuildHouse().setEnabled(false);
-        }else
-        	view.getButtons().getBuyButton().setEnabled(true);
 
-        
-        
-        System.out.println("Saldo dopo lancio dadi: " + game.getCurrentPlayer().getBalance());
-        System.out.println("Proprietà: " + game.getCurrentPlayer().getProperties());
-
-        // Aggiorna la View
+        //aggiorno la pedina
         view.getBoard().setLabelVisibilityOnBoard(game.getCurrentPlayer().getPositionIndex() + POSITION_ADJUSTMENT, game.getPlayers().indexOf(game.getCurrentPlayer()), true);
         
-        //aggiorno il bilancio del giocatore corrente
-        view.getButtons().getBalanceLabel().setText("Saldo: " + game.getCurrentPlayer().getBalance());
+        if(game.getDoublesCounter() == -1 || game.getCurrentPlayer().isInJail())
+	    	view.getButtons().getDiceButton().setEnabled(false);
+        
+        if(!game.getCurrentPlayer().getPosition().isSellable()) {
+        	view.getButtons().getBuyButton().setEnabled(false);
+        }else {
+        	view.getButtons().getBuyButton().setEnabled(true);
+        }
+        
+        //abilito/disabilito il bottone crea casa
+        this.enableCreateHomeButton();             
 
+        //aggiorno il bilancio
+        this.updateBalance();
     }
 
     private void handleNextPlayer() {
-    	
-    	//il giocatore non può comprare la casella in cui è perché deve ancora lancviare i dadi
-        view.getButtons().getBuyButton().setEnabled(false);
-
-        // Passa al prossimo giocatore
-        System.out.println("Il giocatore attuale è: ");
+        //passo al prossimo giocatore
         game.nextPlayer();
-   	
-        // Aggiorna la label con il nome del giocatore corrente
-        view.getButtons().getPlayerLabel().setText("Giocatore attuale: " + game.getCurrentPlayer().getName());
-
         
-        // Aggiorna la label con il numero della pedian del giocatore corrente
-        view.getButtons().getPiecePlayer().setText("Numero pedina: " + (game.getPlayers().indexOf(game.getCurrentPlayer()) + 1));
+        //aggiorno la label con il nome del giocatore corrente
+        view.getButtons().getPlayerLabel().setText("Giocatore attuale: " + game.getCurrentPlayer().getName());
+        
+        //aggiorno la label con il numero della pedina del giocatore corrente
+        view.getButtons().getPiecePlayer().setText("Numero pedina: " + (game.getPlayers().indexOf(game.getCurrentPlayer()) + POSITION_ADJUSTMENT));
         
         //aggiorno il bilancio del giocatore corrente
-        view.getButtons().getBalanceLabel().setText("Saldo: " + game.getCurrentPlayer().getBalance());
-        System.out.println("saldo giocatore attuale: " + game.getCurrentPlayer().getBalance());
+        this.updateBalance();
         
-        // azzero la label diceLabel
+        //azzero la label diceLabel
         view.getButtons().getDiceLabel().setText("");
+        
+    	//aggiorno i test dei bottoni
+        this.resetButtonsText();
+        
+        //aggiorno le proprietà
+        this.updateProperties();       
+        
+    	//il giocatore non può comprare la casella o creare case in cui è perché deve ancora lanciare i dadi
+        view.getButtons().getBuyButton().setEnabled(false);
+        view.getButtons().getBuildHouse().setEnabled(false);   	        
 
         if(game.getCurrentPlayer().isInJail()) {
 	    	view.getButtons().getDiceButton().setEnabled(false);
-	    	game.getCurrentPlayer().move(game.rollDices());
+	    	game.getCurrentPlayer().move(game.rollDices()); //per scontare un giro in prigione
         }else {
 	    	view.getButtons().getDiceButton().setEnabled(true);
-        	view.getButtons().getDiceButton().setText("LANCIA DADI");
         }
-        
-        view.getButtons().getBuyButton().setText("COMPRA PROPRIETA'");
-        view.getButtons().getBuildHouse().setText("CREA CASA   ⌂");
-        
-        /*
-        Set<Box> boxes = game.getCurrentPlayer().getProperties();
-        Set<String> properties = boxes.stream().map(Box::getName).collect(Collectors.toSet());
-        String propertiesText = properties.stream().collect(Collectors.joining("\n"));
-        view.getButtons().getProperties().setText(propertiesText);
-        */
-        view.getButtons().clearProperties();
-        this.updateProperties();
-
-        
     }
     
-    private void buyBox() {    	
+    private void buyBox() {    
+    	//aggiorno i test dei bottoni
+        this.resetButtonsText();
+        
+    	//mostro il messaggio nel bottone "COMPRA PROPRIETA'"
     	String message = game.getCurrentPlayer().buyBox(game.getCurrentPlayer().getPosition(), game.getCurrentPlayer().getPosition().getCost());
-    	
-    	// Crea un nuovo timer
         view.getButtons().getBuyButton().setText(message);
         view.getButtons().getBuyButton().setEnabled(false);
     	
     	//aggiorno il bilancio del giocatore corrente
-        view.getButtons().getBalanceLabel().setText("Saldo: " + game.getCurrentPlayer().getBalance());
-        
-        //stampo tutte le proprietà del giocatore
-        /*
-        Set<Box> boxes = game.getCurrentPlayer().getProperties();
-        Set<String> properties = boxes.stream().map(Box::getName).collect(Collectors.toSet());
-        String propertiesText = properties.stream().collect(Collectors.joining("\n"));
-        view.getButtons().getProperties().setText(propertiesText);
-        */
-        this.updateProperties();
+        this.updateBalance();
 
+        //aggiorno le proprietà
+        this.updateProperties();
+        
+        //abilito/disabilito il bottone crea casa
+        this.enableCreateHomeButton();
     }
     
     private void buildHouse() {
+    	//aggiorno i test dei bottoni
+        this.resetButtonsText();
+        
+        //mostro il messaggio nel bottone "CREA CASA"
     	String message = game.getCurrentPlayer().buildHouse(game.getCurrentPlayer().getPosition());
-    	
-    	view.getButtons().getBuildHouse().setText("CREA CASA   ⌂");
     	view.getButtons().getBuildHouse().setText(message);
-  
+    	
+    	//aggiorno il bilancio
+        this.updateBalance();
     }
     
     private void updateProperties() {
         view.getButtons().clearProperties();
-
         for (BoxInterface box : game.getCurrentPlayer().getProperties()) {
             view.getButtons().addProperty(box.getName());
         }
     }
 
-    private void sellProperty(String propertyName) {
-        // codice...
+    private void auctionProperty(String  propertyName) {
+    	//aggiorno i test dei bottoni
+        this.resetButtonsText();
+
+        //cerco la casella selezionata nella comboBox
+        Optional<BoxInterface> box = game.getCurrentPlayer().getProperties().stream()
+            .filter(b -> b.getName().equals(propertyName))
+            .findFirst();
+
+        //metto all'asta la casella selezionata
+        if(box.isPresent()) {
+            game.getCurrentPlayer().putUpForAuction(box.get());
+        }
+        
+        //aggiorno il bilancio
+        this.updateBalance();
+        
+        //aggiorno le proprietà
         this.updateProperties();
+    }
+    
+    private void resetButtonsText() {
+        view.getButtons().getDiceButton().setText("LANCIA DADI");
+        view.getButtons().getBuyButton().setText("COMPRA PROPRIETA'");
+        view.getButtons().getBuildHouse().setText("CREA CASA   ⌂");
+    }
+    
+    private void updateBalance() {
+        view.getButtons().getBalanceLabel().setText("Saldo: " + game.getCurrentPlayer().getBalance());
+    }
+  
+    private void enableCreateHomeButton() {
+        if(!game.getCurrentPlayer().getPosition().getType().equals(BoxType.STATION) && game.getCurrentPlayer().hasFullSet(game.getCurrentPlayer().getPosition().getType()) &&
+        	game.getCurrentPlayer().getPosition().getBuiltHouses() <= MAX_HOUSE_LIMIT) {
+         	view.getButtons().getBuildHouse().setEnabled(true);
+        }else {
+          	view.getButtons().getBuildHouse().setEnabled(false);
+      	} 
     }
 }

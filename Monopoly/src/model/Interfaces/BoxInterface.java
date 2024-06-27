@@ -28,7 +28,7 @@ public interface BoxInterface {
     
     void markAsSellable(boolean b);
 
-    void buildHouse();
+    boolean buildHouse();
 	
 	int getBuiltHouses();
 	    

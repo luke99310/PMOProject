@@ -9,8 +9,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-public class MonopolyCell extends JPanel {
+import view.Interfaces.MonopolyCellInterface;
+
+public class MonopolyCell extends JPanel implements MonopolyCellInterface{
 	
+	//CONSTANTS
+	private static final int MAX_PLAYERS = 4;
+		
 	//FIELDS
     private static final long serialVersionUID = 1L;
     private String name;
@@ -24,25 +29,24 @@ public class MonopolyCell extends JPanel {
         this.id = id;
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-        // Crea un pannello per il titolo
+        //creo un pannello per il titolo
         JPanel titlePanel = new JPanel();
-        titlePanel.setBackground(color); // Imposta il colore di sfondo
+        titlePanel.setBackground(color); //imposto il colore di sfondo
 
-        // Crea la label per il titolo
+        //creo la label per il titolo
         JLabel titleLabel = new JLabel(name, SwingConstants.CENTER);
-        titleLabel.setForeground(Color.BLACK); // Imposta il colore del testo
+        titleLabel.setForeground(Color.BLACK); //imposto il colore del testo
         titlePanel.add(titleLabel);
 
-        // Aggiungi il pannello del titolo a questa cella
+        //aggiungo il pannello del titolo a questa cella --> perché MonopolyCell ha esteso JPanel e si comporta come un JPanel
         this.add(titlePanel, BorderLayout.NORTH);
 
-        JPanel subPanel = new JPanel(new GridLayout(2, 2));
-        labels = new JLabel[4];
-        for (int i = 0; i < 4; i++) {
+        JPanel subPanel = new JPanel(new GridLayout(2, 2)); //suddivido il subpanel in 4 parti
+        labels = new JLabel[MAX_PLAYERS];
+        for (int i = 0; i < labels.length; i++) {
             int j = 1;
-            labels[i] = new JLabel("" + (j+i), SwingConstants.CENTER);
+            labels[i] = new JLabel("" + (j+i), SwingConstants.CENTER); //metto i valori da 1 a 4, per indicare le 4 pedine
             subPanel.add(labels[i]);
-            //----
             labels[i].setVisible(false);
         }
         this.add(subPanel, BorderLayout.CENTER);

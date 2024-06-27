@@ -241,11 +241,13 @@ public class Player implements PlayerInterface{
     		if (this.hasFullSet(box.getType())) {
     			if (this.balance >= HOUSE_COST) {
     				// pays the bank the price of a house
-    				this.updateBalance(-HOUSE_COST);
-    				this.game.getBank().transaction(HOUSE_COST);
-    				// builds the house on this specific box
-    				box.buildHouse();
-    				return "house created";
+    				if(box.buildHouse()) {
+        				// builds the house on this specific box
+	    				this.updateBalance(-HOUSE_COST);
+	    				this.game.getBank().transaction(HOUSE_COST);
+	    				return "house created";
+    				} else
+    					return "reached max limit of houses!!!";
     			} else {
     				return "doesn't have enough money to buy the house";
     			}

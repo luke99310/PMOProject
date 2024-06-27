@@ -1,22 +1,18 @@
 package main;
 
 import model.Game;
-import view.p;
+import view.View;
 import controller.Controller;
 
 public class Main {
     public static void main(String[] args) {
-            // Crea il Model
+            //creo il Model
             Game game = new Game();
 
-            // Crea la View
-            p view = new p();
+            //creo la View
+            View view = new View();
 
-            // Crea il Controller e collega il Model e la View
+            //creo il Controller e collega il Model e la View
             Controller controller = new Controller(game, view);
-
-            // Visualizza la View
-            System.out.println("giocatori: " + game.getPlayers());
-
     }
 }

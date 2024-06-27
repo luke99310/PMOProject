@@ -78,11 +78,13 @@ public class Box implements BoxInterface{
     	this.sellable = b;
     }
 
-    public void buildHouse() {
+    public boolean buildHouse() {
         if (this.builtHouses < 2) {
             this.builtHouses++;
+            return true;
         }else {
             System.out.println("reached max limit of houses!!!");
+            return false;
         }
     }
     

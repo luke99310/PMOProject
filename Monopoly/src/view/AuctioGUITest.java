@@ -1,3 +1,4 @@
+/*
 package view;
 
 public class AuctioGUITest {
@@ -9,3 +10,4 @@ public class AuctioGUITest {
 	}
 
 }
+*/
