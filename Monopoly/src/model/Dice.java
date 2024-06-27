@@ -2,16 +2,16 @@ package model;
 
 import java.util.Random;
 
-import model.Interfaces.DicesInterface;
+import model.Interfaces.DiceInterface;
 
-public class Dices implements DicesInterface {
+public class Dice implements DiceInterface {
 	    
-    private static DicesInterface dicesInstance;
+    private static DiceInterface diceInstance;
     private int dice1;
     private int dice2;
 
     // PRIVATE CONSTRUCTOR
-    private Dices() {
+    private Dice() {
         this.dice1 = 0;
         this.dice2 = 0;
     }
@@ -34,10 +34,10 @@ public class Dices implements DicesInterface {
 	}
     
 	// returns the only possible instance of the singleton class dices
-	public static DicesInterface getInstance() {
-		if (dicesInstance == null)
-			dicesInstance = new Dices();
-		return dicesInstance;
+	public static DiceInterface getInstance() {
+		if (diceInstance == null)
+			diceInstance = new Dice();
+		return diceInstance;
 	}
     
 }

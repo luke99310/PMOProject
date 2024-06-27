@@ -90,9 +90,10 @@ public class Controller {
     	//aggiorno i test dei bottoni
     	this.resetButtonsText();
         
+
         //chiamo il metodo muovi() sul giocatore corrente
         view.getBoard().setLabelVisibilityOnBoard(game.getCurrentPlayer().getPositionIndex() + POSITION_ADJUSTMENT, game.getPlayers().indexOf(game.getCurrentPlayer()), false);
-        int numeroDadi = game.rollDices();
+        int numeroDadi = game.rollDice();
         view.getButtons().getDiceButton().setText("LANCIO DADI: " + numeroDadi);
         view.getButtons().getDiceLabel().setText(game.getCurrentPlayer().move(numeroDadi));
 
@@ -143,7 +144,7 @@ public class Controller {
 
         if(game.getCurrentPlayer().isInJail()) {
 	    	view.getButtons().getDiceButton().setEnabled(false);
-	    	game.getCurrentPlayer().move(game.rollDices()); //per scontare un giro in prigione
+	    	game.getCurrentPlayer().move(game.rollDice()); //per scontare un giro in prigione
         }else {
 	    	view.getButtons().getDiceButton().setEnabled(true);
         }

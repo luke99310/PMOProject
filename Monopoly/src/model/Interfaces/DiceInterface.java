@@ -1,6 +1,6 @@
 package model.Interfaces;
 
-public interface DicesInterface {
+public interface DiceInterface {
 
 	void throwDices();
 	

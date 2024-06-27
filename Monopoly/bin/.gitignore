@@ -1,5 +1,12 @@
+<<<<<<< HEAD
 /controller/
 /model/
 /test/
 /view/
 /main/
+=======
+/view/
+/model/
+/controller/
+/test/
+>>>>>>> luca
