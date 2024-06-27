@@ -99,7 +99,7 @@ public class Controller {
         
         System.out.println(" ");
         System.out.println("Saldo prima di lanciare i dadi: " + game.getCurrentPlayer().getBalance());
-        int numeroDadi = game.rollDices();
+        int numeroDadi = game.rollDice();
         view.getButtons().getDiceButton().setText("LANCIO DADI: " + numeroDadi);
         view.getButtons().getDiceLabel().setText(game.getCurrentPlayer().move(numeroDadi));
         
@@ -152,7 +152,7 @@ public class Controller {
 
         if(game.getCurrentPlayer().isInJail()) {
 	    	view.getButtons().getDiceButton().setEnabled(false);
-	    	game.getCurrentPlayer().move(game.rollDices());
+	    	game.getCurrentPlayer().move(game.rollDice());
         }else {
 	    	view.getButtons().getDiceButton().setEnabled(true);
         	view.getButtons().getDiceButton().setText("LANCIA DADI");

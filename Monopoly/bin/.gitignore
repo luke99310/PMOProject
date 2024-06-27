@@ -1,9 +1,4 @@
-/controller/
-/main/
-/model/
-<<<<<<< HEAD
-/test/
-=======
-/controller/
->>>>>>> prova2
 /view/
+/model/
+/controller/
+/test/

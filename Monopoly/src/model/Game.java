@@ -9,7 +9,7 @@ import model.Interfaces.BankInterface;
 import model.Interfaces.BoardInterface;
 import model.Interfaces.BoxInterface;
 import model.Interfaces.CardInterface;
-import model.Interfaces.DicesInterface;
+import model.Interfaces.DiceInterface;
 import model.Interfaces.GameInterface;
 import model.Interfaces.PlayerInterface;
 import model.MonopolyTypes.BoxType;
@@ -20,7 +20,7 @@ public class Game implements GameInterface{
 	private List<PlayerInterface> players;
 	private BoardInterface board;
     private int currentPlayerIndex;
-    private DicesInterface dices;
+    private DiceInterface dice;
     private int doublesCounter;
     private int unexpectedIndex; // this index is used for drawing a new card every time
     private int chanceIndex;     // same as above but in the chance cards deck 
@@ -32,7 +32,7 @@ public class Game implements GameInterface{
 		this.players = new ArrayList<>();
 		this.board = new Board();
         this.currentPlayerIndex = 0;
-        dices = Dices.getInstance();
+        dice = Dice.getInstance();
         bank = Bank.getInstance();
         this.doublesCounter = 0;
         this.unexpectedIndex = 0;
@@ -58,12 +58,12 @@ public class Game implements GameInterface{
 	}
 	
 	// this method manages the results of the throws every player does
-	public int rollDices(){
+	public int rollDice(){
 		
 		// rolls the two dices
-		dices.throwDices();
-		int dice1 = dices.getDice1(); 
-		int dice2 = dices.getDice2();
+		dice.throwDices();
+		int dice1 = dice.getDice1(); 
+		int dice2 = dice.getDice2();
 
         // player is able to throw the dice and got double so the counter increases
         if (dice1 == dice2 && this.doublesCounter != -1) 
