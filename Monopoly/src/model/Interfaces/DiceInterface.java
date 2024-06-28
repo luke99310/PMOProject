@@ -2,7 +2,7 @@ package model.Interfaces;
 
 public interface DiceInterface {
 
-	void throwDices();
+	void throwDice();
 	
 	int getDice1();
 

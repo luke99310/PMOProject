@@ -61,7 +61,7 @@ public class Game implements GameInterface{
 	public int rollDice(){
 		
 		// rolls the two dices
-		dice.throwDices();
+		dice.throwDice();
 		int dice1 = dice.getDice1(); 
 		int dice2 = dice.getDice2();
 
