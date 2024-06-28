@@ -52,9 +52,9 @@ public class GameTest {
 	// the player goes to prison FLAKY TEST
 	@Test
 	public void testRollDices1() {
-		game.rollDices();
-		game.rollDices();
-		int diceThrow = game.rollDices();
+		game.rollDice();
+		game.rollDice();
+		int diceThrow = game.rollDice();
 		Assert.assertEquals("the player is sent to prison", -1, diceThrow);
 		game.getCurrentPlayer().move(diceThrow);
 		Assert.assertTrue(game.getCurrentPlayer().isInJail());
@@ -63,19 +63,19 @@ public class GameTest {
 	// the player can't throw the dices
 	@Test
 	public void testRollDices2() {
-		game.rollDices();
-		game.rollDices();
-		game.rollDices();
-		int diceThrow = game.rollDices();
+		game.rollDice();
+		game.rollDice();
+		game.rollDice();
+		int diceThrow = game.rollDice();
 		Assert.assertEquals("the player can't throw the dices", 0, diceThrow);
 	}
 	
 	// a new player can throw the dices and move normally
 	@Test
 	public void testRollDices3() {
-		game.rollDices();
+		game.rollDice();
 		game.nextPlayer();
-		int diceThrow = game.rollDices();
+		int diceThrow = game.rollDice();
 		Assert.assertNotEquals("the player can move", 0, diceThrow);
 		Assert.assertNotEquals("the player is not sent to prison", -1, diceThrow);
 	}
