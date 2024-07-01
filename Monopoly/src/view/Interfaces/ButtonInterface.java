@@ -1,7 +1,5 @@
 package view.Interfaces;
 
-import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -34,5 +32,4 @@ public interface ButtonInterface {
 
     String getSelectedProperty();
 
-    void addSellActionListener(ActionListener auctionAction);
 }

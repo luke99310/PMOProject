@@ -5,7 +5,6 @@ import javax.swing.*;
 import view.Interfaces.ButtonInterface;
 
 import java.awt.*;
-import java.awt.event.ActionListener;
 
 public class Button implements ButtonInterface{
 	
@@ -27,74 +26,73 @@ public class Button implements ButtonInterface{
     private JButton nextButton;
 
     //CONSTRUTORS
-    public Button() {
-    	
+    public Button() {   	
     	this.panel2 = new JPanel();
     	this.panel2.setLayout(new BorderLayout());
 
-        //inizializzo i pulsanti
-    	this.diceButton = new JButton("LANCIA I DADI");
-    	this.nextButton = new JButton("PROSSIMO TURNO   ⇛");
-    	this.buyButton = new JButton("COMPRA PROPRIETA'");
-    	this.auctionButton = new JButton("METTI ALL'ASTA");
-    	this.buildHouse = new JButton("CREA CASA   ⌂");
+        //initialize the buttons
+    	this.diceButton = new JButton("DICE THROW");
+    	this.nextButton = new JButton("NEXT TURN   ⇛");
+    	this.buyButton = new JButton("BUY PROPERTY");
+    	this.auctionButton = new JButton("AUCTION");
+    	this.buildHouse = new JButton("CREATE HOME   ⌂");
 
-        //inizializzo le etichette
+        //initialize labels
     	this.playerLabel = new JLabel("");
     	this.piecePlayer = new JLabel("");
     	this.balanceLabel = new JLabel(""); 
     	this.diceLabel = new JLabel("");
     	
-        //creo un nuovo pannello per contenere le labels
-        JPanel labelPanel = new JPanel();
-        labelPanel.setLayout(new BoxLayout(labelPanel, BoxLayout.Y_AXIS)); //imposta il layout del pannello labelPanel 
-        																   //in modo che i suoi componenti siano disposti verticalmente
-        																   //(dall'alto al basso)
-
-        //creo label player
+        //create a new panel to hold the labels
+    	JPanel labelPanel = new JPanel();
+        labelPanel.setLayout(new BoxLayout(labelPanel, BoxLayout.Y_AXIS)); //sets the layout of the labelPanel  
+        																   //so that its components are arranged vertically
+        																   //(top to bottom)
+        
+        // create label player
         this.playerLabel.setFont(new Font("Serif", Font.PLAIN, 30));
-        this.playerLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Centro la label
+        this.playerLabel.setAlignmentX(Component.CENTER_ALIGNMENT); //center the label
         labelPanel.add(playerLabel);
 
-        //creo label piecePlayer
+        //create label piecePlayer
         this.piecePlayer.setFont(new Font("Serif", Font.PLAIN, 20));
-        this.piecePlayer.setAlignmentX(Component.CENTER_ALIGNMENT); // Centro la label
+        this.piecePlayer.setAlignmentX(Component.CENTER_ALIGNMENT); //center the label
         labelPanel.add(piecePlayer);
 
-        //creo label per balance
+        //create label per balance
         this.balanceLabel.setFont(new Font("Serif", Font.PLAIN, 20));
-        this.balanceLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Centro la label
+        this.balanceLabel.setAlignmentX(Component.CENTER_ALIGNMENT); //center the label
         labelPanel.add(balanceLabel);
 
-        //panel delle proprietà del giocatore
-    	propertiesPanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); //dispongo i componenti da sinistra a destra, centrati verticalmente 
-    																   //in ogni riga, con ogni riga allineata a sinistra
-        propertiesBox = new JComboBox<>();
-        propertiesBox.setPreferredSize(new Dimension(250, 30));
-        propertiesPanel.add(propertiesBox);
-        propertiesPanel.add(auctionButton);
+        //player properties panel
+        this.propertiesPanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); //display the components from left to right, centered vertically 
+        															   //in each row, with each row aligned to the left        
+        this.propertiesBox = new JComboBox<>();
+        this.propertiesBox.setPreferredSize(new Dimension(250, 30));
+        this.propertiesPanel.add(propertiesBox);
+        this.propertiesPanel.add(auctionButton);
         labelPanel.add(this.propertiesPanel);
 
-        //imposto le dimensioni dei pulsanti
+        //add labelPanel to panel2
+        this.panel2.add(labelPanel, BorderLayout.NORTH);
+        
+        //set the size of the buttons
         this.diceButton.setPreferredSize(new Dimension(diceButton.getPreferredSize().width + 220, diceButton.getPreferredSize().height + 20));
         this.nextButton.setPreferredSize(new Dimension(nextButton.getPreferredSize().width + 10, nextButton.getPreferredSize().height + 20));
         this.buyButton.setPreferredSize(new Dimension(diceButton.getPreferredSize().width + 10, diceButton.getPreferredSize().height + 20));
         this.buildHouse.setPreferredSize(new Dimension(diceButton.getPreferredSize().width + 10, diceButton.getPreferredSize().height + 20));   
 
-        //aggiungo labelPanel a panel2
-        this.panel2.add(labelPanel, BorderLayout.NORTH);
-
-        //pannello per i pulsanti/label
+        //panel for buttons/label
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridBagLayout());
         
-        //creo un GridBagConstraints per posizionare i pulsanti
+        //create a GridBagConstraints to place the buttons
         GridBagConstraints gbc = new GridBagConstraints();
 
-        //imposto gli spazi (in pixel) intorno ai bottoni (top, left, bottom, right)
+        //set the spaces (in pixels) around the buttons (top, left, bottom, right)
         gbc.insets = new Insets(50, 0, 20, 20); 
 
-        //posiziono i pulsanti "Compra" e "Crea Casa"
+        //position the "Buy" and "Create Home" buttons.
         gbc.gridx = 0;
         gbc.gridy = 3;
         buttonPanel.add(this.buyButton, gbc);
@@ -103,10 +101,10 @@ public class Button implements ButtonInterface{
         gbc.gridy = 3;
         buttonPanel.add(this.buildHouse, gbc);
 
-        //posiziono il pulsante "Lancia Dadi"
+        //position the "Throw Dice" button.
         gbc.gridx = 0;
         gbc.gridy = 1;
-        gbc.gridwidth = 2; //occupa 2 colonne
+        gbc.gridwidth = 2; //occupies 2 columns
         buttonPanel.add(this.diceButton, gbc);
         
         gbc.gridy = 2;
@@ -115,13 +113,13 @@ public class Button implements ButtonInterface{
         diceLabel.setBorder(UIManager.getBorder("Label.border"));
         buttonPanel.add(this.diceLabel, gbc);
                 
-        //posiziono il pulsante "Prossimo Turno"
+        //position the "Next Player" button.
         gbc.gridx = 0;
         gbc.gridy = 5;
-        gbc.gridwidth = 2; //occupa 2 colonna
+        gbc.gridwidth = 2; //occupies 2 columns
         buttonPanel.add(this.nextButton, gbc);
 
-        //aggiungo il pannello dei pulsanti a panel2
+        //add button panel to panel2
         this.panel2.add(buttonPanel, BorderLayout.CENTER);
     }
 
@@ -167,23 +165,19 @@ public class Button implements ButtonInterface{
     }
     
     public void addProperty(String propertyName) {
-        propertiesBox.addItem(propertyName); //aggiunge un elemento alla propertiesBox
-        propertiesPanel.revalidate(); //il pannello propertiesPanel viene aggiornato
-        propertiesPanel.repaint(); //il pannello propertiesPanel viene ridisegnato
+        propertiesBox.addItem(propertyName);//adds an element to the propertiesBox
+        propertiesPanel.revalidate(); 		//the propertiesPanel panel is updated
+        propertiesPanel.repaint();  		//the propertiesPanel panel is redrawn
     }
 
     public void clearProperties() {
-        propertiesBox.removeAllItems(); //rimuove tutti gli elementi da propertiesBox
+        propertiesBox.removeAllItems(); //removes all elements from propertiesBox
         propertiesPanel.revalidate();
         propertiesPanel.repaint();
     }
 
     public String getSelectedProperty() {
-        return (String) propertiesBox.getSelectedItem(); //restituisce l’elemento selezionato in propertiesBox
+        return (String) propertiesBox.getSelectedItem(); //returns the selected element to propertiesBox
     }
 
-    public void addSellActionListener(ActionListener auctionAction) {
-    	auctionButton.addActionListener(auctionAction);
-    }
-    
 }

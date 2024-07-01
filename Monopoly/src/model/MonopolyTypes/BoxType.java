@@ -16,7 +16,7 @@ public enum BoxType {
 	private final String description;
 	private final int numberOfStreets;
 
-	 // CONSTRUCTOR
+	 // PRIVATE CONSTRUCTOR
 	 private BoxType(final String description, final int numberOfStreets) {
 		 this.description = description;
 	     this.numberOfStreets = numberOfStreets;

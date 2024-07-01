@@ -18,8 +18,8 @@ public class Card implements CardInterface{
     }
     
     // JAIL CARD CONSTRUCTOR
-    public Card(final String description, final ActionType action) {
-    	this(description, -1, action);
+    public Card(final String description) {
+    	this(description, -1, ActionType.JAIL);
     }
 
     // METHODS

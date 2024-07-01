@@ -334,7 +334,7 @@ public class PlayerTest {
 	@Test
 	public void testEquals4() {
 		player1.buyBox(box1, 0);
-		Player player3 = new Player("Luca", game);
+		Player player3 = new Player("Luca", game, 1500);
 		Assert.assertFalse("same fields except properties", player1.equals(player3));
 	}
 	

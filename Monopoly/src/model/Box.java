@@ -8,6 +8,7 @@ import model.MonopolyTypes.BoxType;
 
 public class Box implements BoxInterface{
     
+	// CONSTANTS
 	private static final int DOUBLE_RENT_FOR_COMPLETE_SERIES = 2;
     	
 	// FIELDS
@@ -18,18 +19,18 @@ public class Box implements BoxInterface{
 	private final int rent;			// box rent
     private int builtHouses;		// amount of houses on the box
 	private boolean sellable;		// is sellable
-	private final boolean isSpecial;// is special (transit, chance, unexpected...)
+	//private final boolean isSpecial;// is special (transit, chance, unexpected...)
         
     // CONSTRUCTOR
-    public Box(final String name, final int cost, final int rent, final BoxType type, final boolean isSpecial) {
+    public Box(final String name, final int cost, final int rent, final BoxType type, final boolean isSellable) {
     	this.name = name;
     	this.cost = cost;
     	this.rent = rent;
     	this.type = type;
-    	this.isSpecial = isSpecial;
+    	//this.isSpecial = isSpecial;
     	this.owner = Optional.empty();
         this.builtHouses = 0;
-    	this.sellable = !isSpecial;  // special boxes can't be sold
+    	this.sellable = isSellable;
     }
     
     // METHODS
@@ -62,9 +63,11 @@ public class Box implements BoxInterface{
     	this.owner = owner;
     }
     
+    /*
     public boolean isSpecial() {
     	return this.isSpecial;
     }
+    */
 
     public String toString() {
     	return this.name;
@@ -83,7 +86,7 @@ public class Box implements BoxInterface{
             this.builtHouses++;
             return true;
         }else {
-            System.out.println("reached max limit of houses!!!");
+            System.out.println("Reached max limit of houses!!!");
             return false;
         }
     }
@@ -103,8 +106,7 @@ public class Box implements BoxInterface{
     	return this.name.equals(b.getName()) && this.cost == b.getCost()
     		   && this.owner.equals(b.getOwner()) && this.type.equals(b.getType())
     		   && this.rent == b.getRent() && this.builtHouses == b.getBuiltHouses()
-    		   && this.sellable == b.isSellable() && this.isSpecial == b.isSpecial();
+    		   && this.sellable == b.isSellable() /*&& this.isSpecial == b.isSpecial()*/;
     } 
 
 }
-

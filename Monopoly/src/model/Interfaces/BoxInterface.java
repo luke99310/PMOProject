@@ -20,7 +20,7 @@ public interface BoxInterface {
     
     void setOwner(Optional<PlayerInterface> owner);
 
-	boolean isSpecial();
+	//boolean isSpecial();
 
     String toString();
 

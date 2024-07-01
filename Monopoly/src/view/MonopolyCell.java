@@ -29,23 +29,23 @@ public class MonopolyCell extends JPanel implements MonopolyCellInterface{
         this.id = id;
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-        //creo un pannello per il titolo
+        //create a title panel
         JPanel titlePanel = new JPanel();
-        titlePanel.setBackground(color); //imposto il colore di sfondo
+        titlePanel.setBackground(color); //set the background color
 
-        //creo la label per il titolo
+        //create the label for the title
         JLabel titleLabel = new JLabel(name, SwingConstants.CENTER);
-        titleLabel.setForeground(Color.BLACK); //imposto il colore del testo
+        titleLabel.setForeground(Color.BLACK); //set the color of the text
         titlePanel.add(titleLabel);
 
-        //aggiungo il pannello del titolo a questa cella --> perché MonopolyCell ha esteso JPanel e si comporta come un JPanel
+        //add title panel to this cell --> because MonopolyCell has extended JPanel and behaves like a JPanel
         this.add(titlePanel, BorderLayout.NORTH);
 
-        JPanel subPanel = new JPanel(new GridLayout(2, 2)); //suddivido il subpanel in 4 parti
+        JPanel subPanel = new JPanel(new GridLayout(2, 2)); //subdividing the subpanel into 4 parts.
         labels = new JLabel[MAX_PLAYERS];
         for (int i = 0; i < labels.length; i++) {
             int j = 1;
-            labels[i] = new JLabel("" + (j+i), SwingConstants.CENTER); //metto i valori da 1 a 4, per indicare le 4 pedine
+            labels[i] = new JLabel("" + (j+i), SwingConstants.CENTER); //I put values from 1 to 4, to indicate the 4 pawns
             subPanel.add(labels[i]);
             labels[i].setVisible(false);
         }

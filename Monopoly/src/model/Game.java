@@ -15,6 +15,9 @@ import model.Interfaces.PlayerInterface;
 import model.MonopolyTypes.BoxType;
 
 public class Game implements GameInterface{
+	
+	//CONSTANTS
+    private static final int STARTING_MONEY = 1500;
 		
 	// FIELDS
 	private List<PlayerInterface> players;
@@ -42,8 +45,10 @@ public class Game implements GameInterface{
 
 	// METHODS
 	public void addPlayer(String name) {
-		if(this.players.size() < 4)
-			this.players.add(new Player(name, this));
+		if(this.players.size() < 4) {
+			this.players.add(new Player(name, this, STARTING_MONEY));
+			this.bank.transaction(-STARTING_MONEY);
+		}
 		else
 			throw new IllegalArgumentException("The maximum number of players has already been reached!");
 	}
@@ -58,8 +63,7 @@ public class Game implements GameInterface{
 	}
 	
 	// this method manages the results of the throws every player does
-	public int rollDice(){
-		
+	public int rollDice(){		
 		// rolls the two dices
 		dice.throwDice();
 		int dice1 = dice.getDice1(); 
@@ -128,17 +132,16 @@ public class Game implements GameInterface{
     }
 	
 	public CardInterface drawCard(BoxType boxType) {
+		// checking if there are cards available 
+		this.checkDeck(boxType);
+		
 		switch (boxType) {
 			case UNEXPECTED:
-				// checking if there are cards available 
-				this.checkDeck(boxType);
 				// drawing the unexpected card
 				System.out.println("the player is drawing the unexpected card number " +
 								   (this.unexpectedIndex + 1));
 				return this.board.getCards(boxType).get(this.unexpectedIndex++);
 			case CHANCE:
-				// checking if there are cards available 
-				this.checkDeck(boxType);
 				// drawing the chance card
 				System.out.println("the player is drawing the chance card number " +
 						   (this.chanceIndex + 1));

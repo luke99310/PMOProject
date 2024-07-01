@@ -31,9 +31,9 @@ public class Player implements PlayerInterface{
     private Set<BoxInterface> properties = new HashSet<>();
      
     // CONSTRUCTORS
-    public Player(String name, Game game) {
+    public Player(String name, Game game, int balance) {
         this.name = name;
-        this.balance = 1500;
+        this.balance = balance;
         this.positionIndex = START_BOX_INDEX_ON_BOARD;
         this.positionBox = game.getBoard().getBox(START_BOX_INDEX_ON_BOARD);
         this.inJail = false;
@@ -55,7 +55,7 @@ public class Player implements PlayerInterface{
             box.setOwner(Optional.ofNullable(this));
             this.properties.add(box);
             box.markAsSellable(false);
-            return "bought: " + box.getName()+ " at " + cost +"$" ;
+            return "Bought: " + box.getName() + " at " + cost + "$";
         }else
         	return "you cannot buy this property";
     }
@@ -83,7 +83,7 @@ public class Player implements PlayerInterface{
     }
     
     // method that allows the player to pay the rent
-    private void payRent(BoxInterface box) {
+    private String payRent(BoxInterface box) {
     	// if someone else owns the property you have to pay the rent
     	if (box.getOwner().isPresent() && !this.properties.contains(box)) {
             int rent = 0;
@@ -97,7 +97,9 @@ public class Player implements PlayerInterface{
             // transaction
         	this.updateBalance(-rent);
             box.getOwner().get().updateBalance(rent);
-        }
+            return "You pay the rent!";
+        } else
+        	return "";
     }
     
     // method that manages player movement
@@ -109,7 +111,7 @@ public class Player implements PlayerInterface{
     	}
     	
 	    // if you are in jail and able to throw the dices
-		else if(inJail && displacement != 0){
+		else if(this.inJail && displacement != 0){
 			this.turnsInJail--;
 	        if (this.turnsInJail == 0)
 	            this.inJail = false;
@@ -144,14 +146,11 @@ public class Player implements PlayerInterface{
         // you go to jail if you land on the "go to jail" box (box 19)
         else if (this.positionBox.equals(this.game.getBoard().getBox(GO_TO_JAIL_BOX_INDEX_ON_BOARD))) { 
             this.goToJail();
-            return "you go to prison!";
+            return "You go to prison!";
         }
         // if the box belong to someone you have to pay the rent
-        else if (this.positionBox.getOwner().isPresent() && !this.properties.contains(positionBox)) {
-            this.payRent(this.positionBox);
-            return "You pay the rent!";
-        }
-		return "";
+        else
+            return this.payRent(this.positionBox);
     }
     
     // method that executes the action in a card box
@@ -235,9 +234,9 @@ public class Player implements PlayerInterface{
     	}
     }
     
-    // method that allows the player to buy a house
+	// method that allows the player to buy a house
     public String buildHouse(BoxInterface box) {
-    	if (this.properties.contains(box) && box.getType() != BoxType.STATION && !box.isSpecial()) {
+    	if (this.properties.contains(box) && box.getType() != BoxType.STATION /*&& !box.isSpecial()*/) {
     		if (this.hasFullSet(box.getType())) {
     			if (this.balance >= HOUSE_COST) {
     				// pays the bank the price of a house
@@ -245,17 +244,17 @@ public class Player implements PlayerInterface{
         				// builds the house on this specific box
 	    				this.updateBalance(-HOUSE_COST);
 	    				this.game.getBank().transaction(HOUSE_COST);
-	    				return "house created";
+	    				return "House created";
     				} else
-    					return "reached max limit of houses!!!";
+    					return "Reached max limit of houses!!!";
     			} else {
-    				return "doesn't have enough money to buy the house";
+    				return "Doesn't have enough money to buy the house";
     			}
     		} else {
-    			return "you dont have the full set";
+    			return "You don't have the full set";
     		}
     	} else {
-    		return "you can't build a house in this property";
+    		return "You can't build a house in this property";
     	}
     }
     

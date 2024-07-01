@@ -17,7 +17,7 @@ public class BoxTest {
 	public void setUpBox() {
 		box1 = new Box("Bastioni Gran Sasso", 500, 6, BoxType.BLUE, false);
 		box2 = new Box("Via Marco Polo", 220, 18, BoxType.RED, false);
-		player1 = new Player("Luca", new Game());
+		player1 = new Player("Luca", new Game(), 1500);
 	}
 	
 	// testing buildHouse method

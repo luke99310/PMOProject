@@ -5,6 +5,7 @@ import javax.swing.*;
 import view.Interfaces.ViewInterface;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class View implements ViewInterface{
 	
@@ -13,42 +14,51 @@ public class View implements ViewInterface{
     private Board board;
     private Button buttons;
     private PlayerField playerFields;
+    private JSplitPane splitPane;
     
     //CONSTRUCOTORS
     public View() {
     
-    		frame = new JFrame("Monopoly Board");
+    		frame = new JFrame("Monopoly Game");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
             board = new Board();
             buttons = new Button();
             playerFields = new PlayerField();
                                  
-            //ottengo le dimensioni dello schermo            
+            //get the screen size            
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); 
             double width = screenSize.getWidth();
             
-            board.getPanel().setMinimumSize(new Dimension((int)(width * 0.7), 0)); //imposto la dimensione minima del pannello di board al 70%
+            board.getPanel().setMinimumSize(new Dimension((int)(width * 0.7), 0)); //set the minimum board size to 70%.
             
-            //creo un JSplitPane per dividere orizzontalmente il pannello della board e il pannello dei pulsanti.
-            JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, board.getPanel(), buttons.getPanel());
+            //create a JSplitPane to horizontally split the board panel and the button panel.
+            splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, board.getPanel(), buttons.getPanel());
 
-            //disabilito il trascinamento del divisore
+            //disabled the dragging of the divider
             splitPane.setEnabled(false);
             
-            //aggiungo il JSplitPane al frame
+            //add the JSplitPane to the frame
             frame.add(splitPane);
 
-            frame.pack(); //adatto il frame alle dimensioni dei componenti
-            frame.setExtendedState(JFrame.MAXIMIZED_BOTH); //la finestra occupa tutto lo schermo
-            frame.setVisible(true); //rendo il frame visibile
+            frame.pack(); //adapt the frame to the size of the components
+            frame.setExtendedState(JFrame.MAXIMIZED_BOTH); //the window takes up the whole screen
+            frame.setVisible(true); //make the frame visible
                         
-            playerFields.getJDialog().pack(); //ridimensiono JDialog in modo che si adatti ai suoi componenti
-            playerFields.getJDialog().setLocationRelativeTo(frame); //il JDialogo viene posizionato al centro del frame
-            playerFields.getJDialog().setVisible(true); //rendo il JDialog visibile
+            playerFields.getJDialog().pack();  //resize JDialog so that it fits its components
+            playerFields.getJDialog().setLocationRelativeTo(frame);  //the JDialog is placed in the center of the frame
+            playerFields.getJDialog().setVisible(true);  //make the JDialog visible
     }
 
     //METHODS	
+    public void initBoard(ArrayList<String> names) {
+        //creation of the Board with names
+    	this.board.update(names);
+
+        //replacing the blank panel with the Board panel.
+    	this.splitPane.setLeftComponent(board.getPanel());
+    }
+    
 	public Button getButtons() {
         return this.buttons;
     }

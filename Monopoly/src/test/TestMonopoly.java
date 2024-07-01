@@ -7,9 +7,9 @@ public class TestMonopoly {
 	public static void main (String args[]) {      
 		Game game = new Game();
 		
-		Player lorenzo = new Player("Lorenzo", game);
-		Player luca = new Player("Luca", game);
-		Player marco = new Player("Marco", game);
+		Player lorenzo = new Player("Lorenzo", game, 1500);
+		Player luca = new Player("Luca", game, 1500);
+		Player marco = new Player("Marco", game, 1500);
 		
 		System.out.println("lorenzo bilancio: " + lorenzo.getBalance());
 		System.out.println("Si sposta di: ");

@@ -24,50 +24,50 @@ public class Board implements BoardInterface{
 		this.boxes = new ArrayList<>(); 
 
     	// unexpected cards list
-    	this.unexpectedCards.add(new Card("Avete preso una multa per eccesso di velocità. Pagate 45.", -45, ActionType.BALANCE));
-    	this.unexpectedCards.add(new Card("Eseguite dei lavori di manutenzione su tutti i vostri edifici. Il costo totale della manutenzione è 90.", -90, ActionType.BALANCE));
-    	this.unexpectedCards.add(new Card("Andate in prigione", ActionType.JAIL));
-    	this.unexpectedCards.add(new Card("Le vostre azioni sono andate male. Pagate 65 euro alla banca.", -65, ActionType.BALANCE));
-    	this.unexpectedCards.add(new Card("La banca vi paga gli interessi del vostro conto corrente, ritirate 125 euro. ", 125, ActionType.BALANCE));
-    	this.unexpectedCards.add(new Card("Tornate indietro di 3 poszioni", -3, ActionType.POSITION));
-    	this.unexpectedCards.add(new Card("Avete tutti i vostri stabili da riparare, pagate 60 euro.", -60, ActionType.BALANCE));
+    	this.unexpectedCards.add(new Card("Speeding fine. Pay 45.", -45, ActionType.BALANCE));
+    	this.unexpectedCards.add(new Card("Building maintenance. Cost 90.", -90, ActionType.BALANCE));
+    	this.unexpectedCards.add(new Card("Go to jail"));
+    	this.unexpectedCards.add(new Card("Stocks down. Pay 65.", -65, ActionType.BALANCE));
+    	this.unexpectedCards.add(new Card("Bank interest. Withdraw 125.", 125, ActionType.BALANCE));
+    	this.unexpectedCards.add(new Card("Back 3 positions", -3, ActionType.POSITION));
+    	this.unexpectedCards.add(new Card("Building repairs. Pay 60.", -60, ActionType.BALANCE));
     	Collections.shuffle(this.unexpectedCards);
     	
     	// chance cards list
-    	this.chanceCards.add(new Card("La banca vi paga un dividendo di 55", 55, ActionType.BALANCE));
-    	this.chanceCards.add(new Card("Maturano le cedole dei vostri fondi immobiliari. Ritirate 105", 105, ActionType.BALANCE));
-    	this.chanceCards.add(new Card("Avete perso una causa. Andate in prigione", ActionType.JAIL));
-    	this.chanceCards.add(new Card("Scade il vostro premio di assicurazione pagate 125 euro. ", -125, ActionType.BALANCE));
-    	this.chanceCards.add(new Card("Avete perso una causa: pagate 250 euro." , -250, ActionType.BALANCE));
-    	this.chanceCards.add(new Card("Avete ceduto delle azioni: ricavate 125 euro. ", 125, ActionType.BALANCE));
-    	this.chanceCards.add(new Card("Bonus: avanzate di altre 5 poszioni", 5, ActionType.POSITION));
+    	this.chanceCards.add(new Card("Dividend of 55", 55, ActionType.BALANCE));
+    	this.chanceCards.add(new Card("Real estate coupons. Withdraw 105", 105, ActionType.BALANCE));
+    	this.chanceCards.add(new Card("Lost lawsuit. To jail"));
+    	this.chanceCards.add(new Card("Insurance due. Pay 125.", -125, ActionType.BALANCE));
+    	this.chanceCards.add(new Card("Lost lawsuit. Pay 250." , -250, ActionType.BALANCE));
+    	this.chanceCards.add(new Card("Sold stocks. Earn 125.", 125, ActionType.BALANCE));
+    	this.chanceCards.add(new Card("Bonus: advance 5", 5, ActionType.POSITION));
     	Collections.shuffle(this.chanceCards);
     	
 /*box*/ // board's boxes
- /*1*/  this.boxes.add(new Box("Partenza", 0, 0, BoxType.START, true));
- /*2*/  this.boxes.add(new Box("Bastioni Gran Sasso", 100, 6, BoxType.BLUE, false));
- /*3*/  this.boxes.add(new Box("Viale Monte Rosa", 100, 6, BoxType.BLUE, false));
- /*4*/  this.boxes.add(new Box("Stazione SUD", 200, 25, BoxType.STATION, false));
- /*5*/  this.boxes.add(new Box("Viale Vesuvio", 120, 8, BoxType.BLUE, false));
- /*6*/  this.boxes.add(new Box("Probabilità", 0, 0, BoxType.CHANCE, true));
- /*7*/  this.boxes.add(new Box("Transito/Prigione", 0, 0, BoxType.TRANSIT, true)); 
- /*8*/  this.boxes.add(new Box("Via Marco Polo", 220, 18, BoxType.RED, false));       
- /*9*/  this.boxes.add(new Box("Corso Magellano", 220, 18, BoxType.RED, false));
- /*10*/ this.boxes.add(new Box("Stazione OVEST", 200, 25, BoxType.STATION, false));
- /*11*/ this.boxes.add(new Box("Largo Colombo", 240, 20, BoxType.RED, false));
- /*12*/ this.boxes.add(new Box("Imprevisti", 0, 0, BoxType.UNEXPECTED, true));
- /*13*/ this.boxes.add(new Box("Transito", 0, 0, BoxType.TRANSIT, true));
- /*14*/ this.boxes.add(new Box("Viale Costantino", 260, 22, BoxType.YELLOW, false));
- /*15*/ this.boxes.add(new Box("Viale Traiano", 260, 22, BoxType.YELLOW, false));
- /*16*/ this.boxes.add(new Box("Stazione NORD", 200, 25, BoxType.STATION, false));
- /*17*/ this.boxes.add(new Box("Piazza Giulio Cesare", 280, 24, BoxType.YELLOW, false));
- /*18*/ this.boxes.add(new Box("Probabilità", 0, 0, BoxType.CHANCE, true));
- /*19*/ this.boxes.add(new Box("Vai in prigione", 0, 0, BoxType.JAIL, true));
- /*20*/ this.boxes.add(new Box("Via Roma", 300, 26, BoxType.GREEN, false));
- /*21*/ this.boxes.add(new Box("Corso Impero", 300, 26, BoxType.GREEN, false));
- /*22*/ this.boxes.add(new Box("Stazione EST", 200, 25, BoxType.STATION, false));
- /*23*/ this.boxes.add(new Box("Largo Augusto", 320, 28, BoxType.GREEN, false));
- /*24*/ this.boxes.add(new Box("Imprevisti", 0, 0, BoxType.UNEXPECTED, true));
+ /*1*/  this.boxes.add(new Box("PARTENZA", 0, 0, BoxType.START, false));
+ /*2*/  this.boxes.add(new Box("BASTIONI GRAN SASSO", 100, 6, BoxType.BLUE, true));
+ /*3*/  this.boxes.add(new Box("VIALE MONTE ROSA", 100, 6, BoxType.BLUE, true));
+ /*4*/  this.boxes.add(new Box("STAZIONE SUD", 200, 25, BoxType.STATION, true));
+ /*5*/  this.boxes.add(new Box("VIALE VESUVIO", 120, 8, BoxType.BLUE, true));
+ /*6*/  this.boxes.add(new Box("PROBABILITA'", 0, 0, BoxType.CHANCE, false));
+ /*7*/  this.boxes.add(new Box("TRANSITO/PRIGIONE", 0, 0, BoxType.TRANSIT, false)); 
+ /*8*/  this.boxes.add(new Box("VIA MARCO POLO", 220, 18, BoxType.RED, true));       
+ /*9*/  this.boxes.add(new Box("CORSO MAGELLANO", 220, 18, BoxType.RED, true));
+ /*10*/ this.boxes.add(new Box("STAZIONE OVEST", 200, 25, BoxType.STATION, true));
+ /*11*/ this.boxes.add(new Box("LARGO COLOMBO", 240, 20, BoxType.RED, true));
+ /*12*/ this.boxes.add(new Box("IMPREVISTI", 0, 0, BoxType.UNEXPECTED, false));
+ /*13*/ this.boxes.add(new Box("TRANSITO", 0, 0, BoxType.TRANSIT, false));
+ /*14*/ this.boxes.add(new Box("VIALE COSTANTINO", 260, 22, BoxType.YELLOW, true));
+ /*15*/ this.boxes.add(new Box("VIALE TRAIANO", 260, 22, BoxType.YELLOW, true));
+ /*16*/ this.boxes.add(new Box("STAZIONE NORD", 200, 25, BoxType.STATION, true));
+ /*17*/ this.boxes.add(new Box("PIAZZA GIULIO CESARE", 280, 24, BoxType.YELLOW, true));
+ /*18*/ this.boxes.add(new Box("PROBABILITA'", 0, 0, BoxType.CHANCE, false));
+ /*19*/ this.boxes.add(new Box("VAI IN PRIGIONE", 0, 0, BoxType.JAIL, false));
+ /*20*/ this.boxes.add(new Box("VIA ROMA", 300, 26, BoxType.GREEN, true));
+ /*21*/ this.boxes.add(new Box("CORSO IMPERO", 300, 26, BoxType.GREEN, true));
+ /*22*/ this.boxes.add(new Box("STAZIONE EST", 200, 25, BoxType.STATION, true));
+ /*23*/ this.boxes.add(new Box("LARGO AUGUSTO", 320, 28, BoxType.GREEN, true));
+ /*24*/ this.boxes.add(new Box("IMPREVISTI", 0, 0, BoxType.UNEXPECTED, false));
     }
 
 	// METHODS
@@ -85,14 +85,14 @@ public class Board implements BoardInterface{
 				cards = this.chanceCards;
 				break;
 			default:
-				throw new IllegalArgumentException("the specified box type is not a card type");
+				throw new IllegalArgumentException("The specified box type is not a card type");
 		}
 		return cards; 
 	}
 
 	public BoxInterface getBox(int boxIndex) {
 		if (boxIndex >= 0 && boxIndex < boxes.size())
-			return boxes.get(boxIndex);
+			return this.boxes.get(boxIndex);
 		else 
 			throw new IllegalArgumentException("The index of the box on the board is not valid");	
 	}

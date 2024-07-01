@@ -5,7 +5,8 @@ import java.util.Random;
 import model.Interfaces.DiceInterface;
 
 public class Dice implements DiceInterface {
-	    
+	
+	// FIELDS
     private static DiceInterface diceInstance;
     private int dice1;
     private int dice2;

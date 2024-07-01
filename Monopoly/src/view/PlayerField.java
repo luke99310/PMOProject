@@ -14,46 +14,46 @@ public class PlayerField implements PlayerFieldInterface{
 	
 	//FIELDS
     private JTextField[] playerFields;
-    private JDialog dialog; //finestra di dialogo
+    private JDialog dialog; //dialog box
     private JButton startButton;
 
     //CONSTRUCTORS
-    public PlayerField() {
-    	
+    public PlayerField() {   	
     	playerFields = new JTextField[MAX_PLAYERS];
     	
-    	//creo il bottone
-        this.startButton = new JButton("Start game");
+    	//create button
+    	this.startButton = new JButton("Start game");
         this.startButton.setPreferredSize(new Dimension(10, 20));
 
-    	//creo la finestra di dialogo per l'inserimento dei nomi dei giocatori
-        dialog = new JDialog();
-        dialog.setLayout(new GridLayout(5, 1)); //imposto griglia di 5 righe e 1 colonna
-        dialog.setSize(1000, 800);
+    	//create dialog box for entering player names.
+        this.dialog = new JDialog();
+        this.dialog.setLayout(new GridLayout(5, 1)); //set grid of 5 rows and 1 column
+        this.dialog.setSize(1000, 800);
         
-        //impedisco la chiusura della finestra quando viene creata
-        dialog.setDefaultCloseOperation(dialog.DO_NOTHING_ON_CLOSE);
-
-        //creo i campi di testo per l'inserimento dei nomi dei giocatori e li aggiungo al JDialog
+        //prevent the window from closing when it is created
+        this.dialog.setDefaultCloseOperation(dialog.DO_NOTHING_ON_CLOSE);
+        this.dialog.setAlwaysOnTop(true); //the dialog box will not close if you click outside of it
+        
+        //create text fields for entering player names and add them to the JDialog
         for (int i = 0; i < MAX_PLAYERS; i++) {
-            playerFields[i] = new JTextField();
-            dialog.add(playerFields[i]);
+            this.playerFields[i] = new JTextField();
+            this.dialog.add(playerFields[i]);
         }
         
-        //aggiungo il bottone al JDialog
-        dialog.add(startButton);
+        //add the button to the JDialog
+        this.dialog.add(startButton);
     }
 
     //METHODS    
     public JTextField[] getFields() {
-        return playerFields;
+        return this.playerFields;
     }
     
     public JDialog getJDialog() {
-        return dialog;
+        return this.dialog;
     }
     
     public JButton getStartButton() {
-        return startButton;
+        return this.startButton;
     }
 }
