@@ -279,7 +279,7 @@ public class Player implements PlayerInterface{
     // getters
 	public String getName() {
 		return this.name;
-	}
+	} 
 	
 	public int getBalance() {
 		return this.balance;

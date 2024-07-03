@@ -1,6 +1,7 @@
 package view.Interfaces;
 
 public interface MonopolyCellInterface {
+	
 	String getName();
 
     int getId();

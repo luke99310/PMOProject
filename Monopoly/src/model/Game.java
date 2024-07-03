@@ -18,15 +18,16 @@ public class Game implements GameInterface{
 	
 	//CONSTANTS
     private static final int STARTING_MONEY = 1500;
+    private static final int MAX_PLAYERS = 4;
 		
 	// FIELDS
 	private List<PlayerInterface> players;
 	private BoardInterface board;
-    private int currentPlayerIndex;
+    private int currentPlayerIndex;	// index of player currently playing
     private DiceInterface dice;
     private int doublesCounter;
-    private int unexpectedIndex; // this index is used for drawing a new card every time
-    private int chanceIndex;     // same as above but in the chance cards deck 
+    private int unexpectedIndex; 	// this index is used for drawing a new card every time
+    private int chanceIndex;     	// same as above but in the chance cards deck 
 	private BankInterface bank;
 	private boolean gameStarted;
 	
@@ -45,14 +46,14 @@ public class Game implements GameInterface{
 
 	// METHODS
 	public void addPlayer(String name) {
-		if(this.players.size() < 4) {
+		if(this.players.size() < MAX_PLAYERS) {
 			this.players.add(new Player(name, this, STARTING_MONEY));
 			this.bank.transaction(-STARTING_MONEY);
 		}
 		else
 			throw new IllegalArgumentException("The maximum number of players has already been reached!");
 	}
-
+ 
 	public void startGame() {
 		if(this.players.size() > 1) {
 			this.gameStarted = true;
@@ -94,11 +95,11 @@ public class Game implements GameInterface{
 	    		else
 	    			System.out.println(this.getCurrentPlayer() + " got double (1/2)");
 	    		return dice1 + dice2;
-	    	// player goes to prison because he got double three times in a row
+	    	// player got double three times in a row
 	    	case 3:
 	    		this.doublesCounter = -1;
 	    		System.out.println(this.getCurrentPlayer() + " got double three times");
-	    		return -1;
+	    		return -1; // -1 sends player to jail
 	    	default:
 	    		return 0;
         }
@@ -148,7 +149,7 @@ public class Game implements GameInterface{
 				return this.board.getCards(boxType).get(this.chanceIndex++);
 			// if the wrong type of box is given an exception is thrown
 			default:
-				throw new IllegalArgumentException("the specified box type is not a card type");
+				throw new IllegalArgumentException("The specified box type is not a card type");
 		}
 	}
 	
@@ -167,12 +168,13 @@ public class Game implements GameInterface{
 			else
 				this.unexpectedIndex = 0;
 		}
-	}
+	} 
 	
 	public void removePlayer(PlayerInterface player) {
 		if(this.players.contains(player)) {
 			for (BoxInterface b : player.getProperties()) {
 				b.setOwner(Optional.empty());
+				b.markAsSellable(true);
 			}
 			this.players.remove(player);
 		}

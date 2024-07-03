@@ -14,14 +14,14 @@ public class Board implements BoardInterface{
     private HashMap<Integer, MonopolyCell> boardMap; //numbered boxes list
     private JPanel panel1;
 
-    //CONSTRUCTORS
+    // CONSTRUCTORS
     public Board() {
         panel1 = new JPanel();
         panel1.setLayout(new GridBagLayout()); // it is used to place components in a grid of cells  
         boardMap = new HashMap<>();        
     }
-
-    //METHODS
+ 
+    // METHODS
     public void update(ArrayList<String> names) {
     	GridBagConstraints constraints = new GridBagConstraints(); //it is used to specify restrictions for components  
         constraints.weightx = 1; //when the window is resized the horizontal space is distributed evenly
@@ -50,7 +50,6 @@ public class Board implements BoardInterface{
                     } else if (i == 0 && j > 0) {  //we are on the 7th row and scroll up all the columns
                         id = 13 + j; //from value 13 (box we arrived in) I add the column value
                     } else {  //we are on the 7th column and scroll down the rows
-                    	//id = 25 - (6 - i); 
                         id = 19 + i; //from value 19 (box we arrived in) I add the value of the row
                         if (id > 24)
                             id = 1;  //the first box is checked again and to not assign the value 25, it is set to 1

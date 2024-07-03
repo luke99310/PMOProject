@@ -12,18 +12,17 @@ import view.View;
 
 public class Controller {
 	
-	//CONSTANTS
+	// CONSTANTS
     private static final int POSITION_ADJUSTMENT = 1;
     private static final int STARTING_BOX_INDEX = 1;
     private static final int MAX_HOUSE_LIMIT = 2;
 
-    //FIELDS
+    // FIELDS
     private Game game; //Model
     private View view; //View
-
-    //CONSTRUCTORS
-    public Controller(Game game, View view) {
-    	
+ 
+    // CONSTRUCTORS
+    public Controller(Game game, View view) {  	
         this.game = game;
         this.view = view;
         this.view.initBoard(new ArrayList<>(game.getBoard().getBoxes().stream().map(box -> box.getName()).toList()));
@@ -47,8 +46,8 @@ public class Controller {
         view.getButtons().getAuctionButton().addActionListener(e -> auctionProperty(view.getButtons().getSelectedProperty()));
     }
 
-    //METHODS
-    public void addPlayers() {
+    // METHODS
+    private void addPlayers() {
         //check that there are at least two players
     	int playerCount = 0;
     	JTextField[] players = view.getPlayerField().getFields();
@@ -74,7 +73,6 @@ public class Controller {
             view.getButtons().getPlayerLabel().setText("Current player: " + game.getCurrentPlayer().getName());
             view.getButtons().getPiecePlayer().setText("Pawn number: " + (game.getPlayers().indexOf(game.getCurrentPlayer()) + POSITION_ADJUSTMENT));
             view.getButtons().getBalanceLabel().setText("Balance: " + game.getCurrentPlayer().getBalance());
-            this.updateProperties();
 
             view.getButtons().getBuyButton().setEnabled(false);
             view.getButtons().getBuildHouse().setEnabled(false);
@@ -82,7 +80,7 @@ public class Controller {
         }else {
             //show an error message
         	JOptionPane.showMessageDialog(view.getPlayerField().getJDialog(), "At least two players must join.", "Error", JOptionPane.ERROR_MESSAGE);
-            for (PlayerInterface p : game.getPlayers()) {
+        	for (PlayerInterface p : game.getPlayers()) {
         	        this.game.removePlayer(p);
         	}
         }
@@ -94,9 +92,9 @@ public class Controller {
 
         //let's run the move() method on the current player
     	view.getBoard().setLabelVisibilityOnBoard(game.getCurrentPlayer().getPositionIndex() + POSITION_ADJUSTMENT, game.getPlayers().indexOf(game.getCurrentPlayer()), false);
-        int numeroDadi = game.rollDice();
-        view.getButtons().getDiceButton().setText("DICE THROW:" + numeroDadi);
-        view.getButtons().getDiceLabel().setText(game.getCurrentPlayer().move(numeroDadi));
+        int diceNumber = game.rollDice();
+        view.getButtons().getDiceButton().setText("DICE THROW:" + diceNumber);
+        view.getButtons().getDiceLabel().setText(game.getCurrentPlayer().move(diceNumber));
 
         //add the pawn
         view.getBoard().setLabelVisibilityOnBoard(game.getCurrentPlayer().getPositionIndex() + POSITION_ADJUSTMENT, game.getPlayers().indexOf(game.getCurrentPlayer()), true);
@@ -145,7 +143,7 @@ public class Controller {
 
         if(game.getCurrentPlayer().isInJail()) {
 	    	view.getButtons().getDiceButton().setEnabled(false);
-	    	game.getCurrentPlayer().move(game.rollDice()); //to serve a prison term
+	    	game.getCurrentPlayer().move(game.rollDice()); //player passes 1 turn in jail
         }else {
 	    	view.getButtons().getDiceButton().setEnabled(true);
         }
@@ -198,7 +196,7 @@ public class Controller {
     	this.resetButtonsText();
 
         //find the selected box in the comboBox
-    	String s = propertyName.substring(0, propertyName.length() -3);
+    	String s = propertyName.substring(0, propertyName.length() -3); // string -3 characters
     	
     	Optional<BoxInterface> box = game.getCurrentPlayer().getProperties().stream()
             .filter(b -> b.getName().equals(s))

@@ -6,24 +6,23 @@ import view.Interfaces.ViewInterface;
 
 import java.awt.*;
 import java.util.ArrayList;
-
+ 
 public class View implements ViewInterface{
 	
 	//FIELDS
     private JFrame frame;
     private Board board;
-    private Button buttons;
+    private ButtonsPanel buttons;
     private PlayerField playerFields;
     private JSplitPane splitPane;
     
     //CONSTRUCOTORS
-    public View() {
-    
+    public View() {   
     		frame = new JFrame("Monopoly Game");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
             board = new Board();
-            buttons = new Button();
+            buttons = new ButtonsPanel();
             playerFields = new PlayerField();
                                  
             //get the screen size            
@@ -59,7 +58,7 @@ public class View implements ViewInterface{
     	this.splitPane.setLeftComponent(board.getPanel());
     }
     
-	public Button getButtons() {
+	public ButtonsPanel getButtons() {
         return this.buttons;
     }
 

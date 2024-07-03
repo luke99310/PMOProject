@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import view.Interfaces.MonopolyCellInterface;
-
+ 
 public class MonopolyCell extends JPanel implements MonopolyCellInterface{
 	
 	//CONSTANTS
@@ -44,8 +44,7 @@ public class MonopolyCell extends JPanel implements MonopolyCellInterface{
         JPanel subPanel = new JPanel(new GridLayout(2, 2)); //subdividing the subpanel into 4 parts.
         labels = new JLabel[MAX_PLAYERS];
         for (int i = 0; i < labels.length; i++) {
-            int j = 1;
-            labels[i] = new JLabel("" + (j+i), SwingConstants.CENTER); //I put values from 1 to 4, to indicate the 4 pawns
+            labels[i] = new JLabel("" + (i+1), SwingConstants.CENTER); //put values from 1 to 4, to indicate the 4 pawns
             subPanel.add(labels[i]);
             labels[i].setVisible(false);
         }

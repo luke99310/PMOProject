@@ -1,12 +1,12 @@
 package view.Interfaces;
 
 import view.Board;
-import view.Button;
+import view.ButtonsPanel;
 import view.PlayerField;
 
 public interface ViewInterface {
 
-	Button getButtons();
+	ButtonsPanel getButtons();
 
     Board getBoard();
     

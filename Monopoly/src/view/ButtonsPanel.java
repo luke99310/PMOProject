@@ -6,7 +6,7 @@ import view.Interfaces.ButtonInterface;
 
 import java.awt.*;
 
-public class Button implements ButtonInterface{
+public class ButtonsPanel implements ButtonInterface{
 	
 	//FIELDS
     private JPanel panel2;
@@ -26,7 +26,7 @@ public class Button implements ButtonInterface{
     private JButton nextButton;
 
     //CONSTRUTORS
-    public Button() {   	
+    public ButtonsPanel() {   	
     	this.panel2 = new JPanel();
     	this.panel2.setLayout(new BorderLayout());
 

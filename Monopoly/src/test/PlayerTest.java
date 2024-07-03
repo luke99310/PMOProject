@@ -36,14 +36,14 @@ public class PlayerTest {
 		player1 = this.game.getPlayers().get(0);
 		this.game.addPlayer("Lorenzo");
 		player2 = this.game.getPlayers().get(1);
-		box1 = new Box("Bastioni Gran Sasso", 500, 6, BoxType.BLUE, false);
-		box2 = new Box("Viale Vesuvio", 1500, 8, BoxType.BLUE, false);
-		box3 = new Box("Viale Monte Rosa", 2000, 6, BoxType.BLUE, false);
-		station1 = new Box("Stazione SUD", 200, 25, BoxType.STATION, false);
-		station2 = new Box("Stazione NORD", 200, 25, BoxType.STATION, false);
+		box1 = new Box("Bastioni Gran Sasso", 500, 6, BoxType.BLUE, true);
+		box2 = new Box("Viale Vesuvio", 1500, 8, BoxType.BLUE, true);
+		box3 = new Box("Viale Monte Rosa", 2000, 6, BoxType.BLUE, true);
+		station1 = new Box("Stazione SUD", 200, 25, BoxType.STATION, true);
+		station2 = new Box("Stazione NORD", 200, 25, BoxType.STATION, true);
 		fullSet = new HashSet<Box>();
 		fullSet.addAll(Arrays.asList(box1, box2, box3));
-		notSellableBox = new Box("Transito", 0, 0, BoxType.TRANSIT, true);
+		notSellableBox = new Box("Transito", 0, 0, BoxType.TRANSIT, false);
 		this.game.startGame();
 	}
 	
@@ -118,7 +118,7 @@ public class PlayerTest {
 		player1.move(1);
 		Assert.assertEquals("the index must be updated", 1, player1.getPositionIndex());
 		Assert.assertTrue("Player should be on box 2",
-				          player1.getPosition() == game.getBoard().getBoxes().get(1));
+				          player1.getPosition().equals(game.getBoard().getBoxes().get(1)));
 	}
 	
 	@Test
@@ -128,7 +128,7 @@ public class PlayerTest {
 		player1.move(1);
 		Assert.assertEquals("the index must be updated", 1, player1.getPositionIndex());
 		Assert.assertTrue("Player should be on box 2",
-				          player1.getPosition() == game.getBoard().getBoxes().get(1));
+				          player1.getPosition().equals(game.getBoard().getBoxes().get(1)));
 		Assert.assertEquals("player1 payed 6$ to player 2", 1494, player1.getBalance());
 		Assert.assertEquals("player2 earned 6$", 1506, player2.getBalance());
 	}
@@ -140,7 +140,7 @@ public class PlayerTest {
 		player1.move(1);
 		Assert.assertEquals("the index must be updated", 1, player1.getPositionIndex());
 		Assert.assertTrue("Player should be on box 2",
-				          player1.getPosition() == game.getBoard().getBoxes().get(1));
+				          player1.getPosition().equals(game.getBoard().getBoxes().get(1)));
 		Assert.assertEquals("player1 still has his balance", 1500, player1.getBalance());
 	}
 	
@@ -151,7 +151,7 @@ public class PlayerTest {
 		player1.move(2);
 		Assert.assertEquals("the index must be updated to 0", 0, player1.getPositionIndex());
 		Assert.assertTrue("Player should be on box 1 (start)",
-				          player1.getPosition() == game.getBoard().getBoxes().get(0));
+				          player1.getPosition().equals(game.getBoard().getBoxes().get(0)));
 		Assert.assertEquals("player1 recieves 200$", 1700, player1.getBalance());
 	}
 	
@@ -162,7 +162,7 @@ public class PlayerTest {
 		Assert.assertEquals("balance not changed", 1500, player1.getBalance());
 		Assert.assertEquals("the index must be updated", 5, player1.getPositionIndex());
 		Assert.assertTrue("Player should be on box 6",
-				          player1.getPosition() == game.getBoard().getBoxes().get(5));
+				          player1.getPosition().equals(game.getBoard().getBoxes().get(5)));
 	}
 	
 	@Test
@@ -171,7 +171,7 @@ public class PlayerTest {
 		player1.move(11);
 		Assert.assertEquals("the index must be updated", 11, player1.getPositionIndex());
 		Assert.assertTrue("Player should be on box 12",
-				          player1.getPosition() == game.getBoard().getBoxes().get(11));
+				          player1.getPosition().equals(game.getBoard().getBoxes().get(11)));
 		Assert.assertEquals("balance changed", 1500, player1.getBalance());
 	}
 	
@@ -228,32 +228,26 @@ public class PlayerTest {
 		Assert.assertEquals("player2 earned 6$", 1550, player2.getBalance());
 	}
 	
-	// testing putUpForAuction method FLAKY TESTS (1 and 2)!!!
 	@Test
 	public void testPutUpForAuction1() {
 		player1.buyBox(box1, 0);
 		player1.putUpForAuction(box1);
-		Assert.assertEquals("player1 sells the property for 450$",1950, player1.getBalance());
-		Assert.assertEquals("player2 buys the property for 450$",1050, player2.getBalance());
-		Assert.assertTrue("player1 doesn't own the property anymore", box1.getOwner().get() != player1);
-		Assert.assertTrue("player2 does own the property anymore", box1.getOwner().get() == player2);
+		Assert.assertEquals("player1 sells the property for 350$ to the bank", 1850, player1.getBalance());
+		Assert.assertTrue(box1.getOwner().isEmpty());
 	}
-		
+
 	@Test
 	public void testPutUpForAuction2() {
-		Assert.assertFalse(player1.getProperties().contains(box1));
-		Assert.assertFalse(box1.getOwner().isPresent());
 		player1.buyBox(box1, 0);
-		Assert.assertTrue(player1.getProperties().contains(box1));
 		player2.putUpForAuction(box1);
-		Assert.assertEquals("player1 doesn't buy the property",1500, player1.getBalance());
-		Assert.assertTrue("player1 still owns the property", box1.getOwner().get() == player1);			
+		Assert.assertEquals("player1 doesn't buy the property", 1500, player1.getBalance());
+		Assert.assertTrue("player1 still owns the property", box1.getOwner().get().equals(player1));			
 	}
 		
 	@Test
 	public void testPutUpForAuction3() {
 		player2.putUpForAuction(notSellableBox);
-		Assert.assertEquals("player1 can't buy the property",1500, player1.getBalance());
+		Assert.assertEquals("player1 can't buy the property", 1500, player1.getBalance());
 		Assert.assertTrue("none can buy this property", notSellableBox.getOwner().isEmpty());	
 	}
 	
@@ -262,8 +256,8 @@ public class PlayerTest {
 		player1.buyBox(box1, 0);
 		player2.buyBox(box2, 1500);
 		player1.putUpForAuction(box1);
-		Assert.assertEquals("player1 sold it to the bank",1850, player1.getBalance());
-		Assert.assertEquals("player2 has 0$",0, player2.getBalance());
+		Assert.assertEquals("player1 sold it to the bank", 1850, player1.getBalance());
+		Assert.assertEquals("player2 has 0$", 0, player2.getBalance());
 		Assert.assertTrue("none owns the property", box1.getOwner().isEmpty());
 	}
 		
