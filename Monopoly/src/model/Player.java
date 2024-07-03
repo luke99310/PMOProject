@@ -19,6 +19,10 @@ public class Player implements PlayerInterface{
     private static final int GO_TO_JAIL_BOX_INDEX_ON_BOARD = 18;
     private static final int TURNS_IN_JAIL = 3;
     private static final int HOUSE_COST = 100;
+    private static final int CICLES_FOR_AUCTION = 3;
+    private static final int COST_REDUCTION = 10;
+    private static final int BALANCE_TO_BUY_IN_AUCTION = 3;
+    private static final int MISSING_BOX = 1;
 
     // FIELDS
     private String name;
@@ -28,7 +32,7 @@ public class Player implements PlayerInterface{
     private boolean inJail;
     private int turnsInJail;
     private GameInterface game;
-    private Set<BoxInterface> properties = new HashSet<>();
+    private Set<BoxInterface> properties;
      
     // CONSTRUCTORS
     public Player(String name, Game game, int balance) {
@@ -39,6 +43,7 @@ public class Player implements PlayerInterface{
         this.inJail = false;
         this.turnsInJail = 0;
         this.game = game;
+        this.properties = new HashSet<>();
     }
     
     // METHODS
@@ -57,7 +62,7 @@ public class Player implements PlayerInterface{
             box.markAsSellable(false);
             return "Bought: " + box.getName() + " at " + cost + "$";
         }else
-        	return "you cannot buy this property";
+        	return "You cannot buy this property";
     }
     
     // checks how many properties of the same color a player has
@@ -104,13 +109,13 @@ public class Player implements PlayerInterface{
     
     // method that manages player movement
     public String move(int displacement) {
-    	// if the displacement is -1 means that you got "double" three times in a row (illegal throw)
+    	// if the displacement is -1 means that you must go to jail
     	if (displacement == -1) {
     		this.goToJail();
-    		return "You got double three times in a row, go to prison!!!";
+    		return "You go to prison!!";
     	}
     	
-	    // if you are in jail and able to throw the dices
+	    // if you are in jail skip a turn
 		else if(this.inJail && displacement != 0){
 			this.turnsInJail--;
 	        if (this.turnsInJail == 0)
@@ -123,14 +128,13 @@ public class Player implements PlayerInterface{
         	System.out.println(displacement);
             int previousPosition = this.positionIndex;
             // calculating the index of the new position using % for a circular array
-            int newPosition = (previousPosition + displacement) % this.game.getBoard().getBoxes().size();
-            this.positionIndex = newPosition;
+            this.positionIndex = (previousPosition + displacement) % this.game.getBoard().getBoxes().size();
             
             // actually finding the new position on the board using the calculated index
-            this.positionBox = this.game.getBoard().getBox(newPosition);
+            this.positionBox = this.game.getBoard().getBox(this.positionIndex);
             
             // if you pass the start box you get +200$ from the bank
-            if (displacement > 0 && previousPosition > this.positionIndex)
+            if (previousPosition > this.positionIndex)
                 this.updateBalance(this.game.getBank().getStartMoney());
                   
             // based on the box the player landed has to do something
@@ -146,7 +150,7 @@ public class Player implements PlayerInterface{
         // you go to jail if you land on the "go to jail" box (box 19)
         else if (this.positionBox.equals(this.game.getBoard().getBox(GO_TO_JAIL_BOX_INDEX_ON_BOARD))) { 
             this.goToJail();
-            return "You go to prison!";
+            return "You go to prison!!";
         }
         // if the box belong to someone you have to pay the rent
         else
@@ -185,19 +189,6 @@ public class Player implements PlayerInterface{
         this.positionIndex = JAIL_INDEX_ON_BOARD;
     }
     
-    // method that manages player's choice regarding the auction
-    public void managePlayerChoice(BoxInterface BoxUpForAuction, int cost) {
-    	System.out.println("is " + this.name + " going to buy the property "+ BoxUpForAuction.getName() 
-    	                   + " at " + cost + "$ ?");
-    	// simulated logic for player's choice 
-    	if ((this.numberOfOwnedPropertiesOfType(BoxUpForAuction.getType()) ==  
-        	BoxUpForAuction.getType().getNumberOfStreets() -1) 
-        	&& this.balance >= 3*cost) 
-    		this.buyBox(BoxUpForAuction, cost);
-    	else
-    		System.out.println(this.name + " did not buy the property.");    	
-    }
-    
     // method that manages the auction
     public void putUpForAuction(BoxInterface propertyToSell) {
     	// if the seller is actually the owner of the property he can put it to auction
@@ -212,15 +203,15 @@ public class Player implements PlayerInterface{
     		// asking every player (except seller) 3 times if they want to buy the property 
     		// and lowering the price every time
     		// checking if the property is sellable for loop optimization (if it's sold the loop stops)
-    		for (int i = 0; i < 3 && propertyToSell.isSellable(); i++) {
+    		for (int i = 0; i < CICLES_FOR_AUCTION && propertyToSell.isSellable(); i++) {
     			// reduction of the cost by 10% every loop
-    			decrement += (propertyToSell.getCost() / 10);
+    			decrement += (propertyToSell.getCost() / COST_REDUCTION);
     			for (PlayerInterface p: this.game.getPlayers()) {
     				if (propertyToSell.isSellable() && p != seller)
     					p.managePlayerChoice(propertyToSell, propertyToSell.getCost() - decrement);
     			}
     		}
-    		// if none buys the property it is sold to the bank
+    		// if none buys the property bank buys the box
     		if (propertyToSell.isSellable()) {
     			// resets owner
     			propertyToSell.setOwner(Optional.empty());
@@ -234,19 +225,32 @@ public class Player implements PlayerInterface{
     	}
     }
     
+    // method that manages player's choice regarding the auction
+    public void managePlayerChoice(BoxInterface BoxUpForAuction, int cost) {
+    	System.out.println("is " + this.name + " going to buy the property "+ BoxUpForAuction.getName() 
+    	                   + " at " + cost + "$ ?");
+    	// simulated logic for player's choice 
+    	if ((this.numberOfOwnedPropertiesOfType(BoxUpForAuction.getType()) ==  
+        	BoxUpForAuction.getType().getNumberOfStreets() - MISSING_BOX) 
+        	&& this.balance >= BALANCE_TO_BUY_IN_AUCTION * cost) 
+    		this.buyBox(BoxUpForAuction, cost);
+    	else
+    		System.out.println(this.name + " did not buy the property.");    	
+    }
+    
 	// method that allows the player to buy a house
     public String buildHouse(BoxInterface box) {
-    	if (this.properties.contains(box) && box.getType() != BoxType.STATION /*&& !box.isSpecial()*/) {
+    	if (this.properties.contains(box) && box.getType() != BoxType.STATION) {
     		if (this.hasFullSet(box.getType())) {
     			if (this.balance >= HOUSE_COST) {
     				// pays the bank the price of a house
-    				if(box.buildHouse()) {
+    				if (box.buildHouse()) {
         				// builds the house on this specific box
 	    				this.updateBalance(-HOUSE_COST);
 	    				this.game.getBank().transaction(HOUSE_COST);
 	    				return "House created";
     				} else
-    					return "Reached max limit of houses!!!";
+    					return "Reached max limit of houses!!";
     			} else {
     				return "Doesn't have enough money to buy the house";
     			}
@@ -298,7 +302,7 @@ public class Player implements PlayerInterface{
 	}
 	
 	public Set<BoxInterface> getProperties() {
-		return new HashSet<BoxInterface>(this.properties);
+		return this.properties;
 	}	
 	
 	public String toString() {

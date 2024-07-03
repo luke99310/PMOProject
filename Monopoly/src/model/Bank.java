@@ -6,14 +6,15 @@ public class Bank implements BankInterface {
 
 	// COSNTANTS
 	private static final int MONEY_EVERY_LAP = 200;
+	private static final int BANK_MONEY = 1000000000;
 
-	//FIELDS
+	// FIELDS
 	private static BankInterface bankInstance;
 	private int money;
 	
 	// PRIVATE CONSTRUCOTOR
 	private Bank() {
-		this.money = 1000000000; // bank has 1 bilion $ 
+		this.money = BANK_MONEY; // bank has 1 bilion $ 
 	}
 	
 	// METHOD

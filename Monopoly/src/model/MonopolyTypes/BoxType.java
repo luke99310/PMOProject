@@ -7,9 +7,9 @@ public enum BoxType {
 	GREEN("Green", 3),
 	START("Start", 1),
 	STATION("Station", 4),
-	CHANCE("Chance", 3),
-	UNEXPECTED("Unexpected", 3),
-	TRANSIT("Transit", 6),
+	CHANCE("Chance", 2),
+	UNEXPECTED("Unexpected", 2),
+	TRANSIT("Transit", 2),
 	JAIL("Jail", 1);
 
 	// FIELDS

@@ -12,14 +12,13 @@ public class Box implements BoxInterface{
 	private static final int DOUBLE_RENT_FOR_COMPLETE_SERIES = 2;
     	
 	// FIELDS
-	private final String name;		// box name
-	private final int cost;			// box cost
+	private final String name;					// box name
+	private final int cost;						// box cost
 	private Optional<PlayerInterface> owner;	// box owner
-	private final BoxType type;		// box type
-	private final int rent;			// box rent
-    private int builtHouses;		// amount of houses on the box
-	private boolean sellable;		// is sellable
-	//private final boolean isSpecial;// is special (transit, chance, unexpected...)
+	private final BoxType type;					// box type
+	private final int rent;						// box rent
+    private int builtHouses;					// amount of houses on the box
+	private boolean sellable;					// is sellable
         
     // CONSTRUCTOR
     public Box(final String name, final int cost, final int rent, final BoxType type, final boolean isSellable) {
@@ -27,10 +26,14 @@ public class Box implements BoxInterface{
     	this.cost = cost;
     	this.rent = rent;
     	this.type = type;
-    	//this.isSpecial = isSpecial;
     	this.owner = Optional.empty();
         this.builtHouses = 0;
     	this.sellable = isSellable;
+    }
+    
+    // SPECIAL BOX COSNTRUCTOR
+    public Box(final String name, final BoxType type) {
+    	this(name, 0, 0, type, false);
     }
     
     // METHODS
@@ -62,12 +65,6 @@ public class Box implements BoxInterface{
     public void setOwner(Optional<PlayerInterface> owner) {
     	this.owner = owner;
     }
-    
-    /*
-    public boolean isSpecial() {
-    	return this.isSpecial;
-    }
-    */
 
     public String toString() {
     	return this.name;
@@ -106,7 +103,7 @@ public class Box implements BoxInterface{
     	return this.name.equals(b.getName()) && this.cost == b.getCost()
     		   && this.owner.equals(b.getOwner()) && this.type.equals(b.getType())
     		   && this.rent == b.getRent() && this.builtHouses == b.getBuiltHouses()
-    		   && this.sellable == b.isSellable() /*&& this.isSpecial == b.isSpecial()*/;
+    		   && this.sellable == b.isSellable();
     } 
 
 }

@@ -241,10 +241,13 @@ public class PlayerTest {
 		
 	@Test
 	public void testPutUpForAuction2() {
+		Assert.assertFalse(player1.getProperties().contains(box1));
+		Assert.assertFalse(box1.getOwner().isPresent());
 		player1.buyBox(box1, 0);
+		Assert.assertTrue(player1.getProperties().contains(box1));
 		player2.putUpForAuction(box1);
 		Assert.assertEquals("player1 doesn't buy the property",1500, player1.getBalance());
-		Assert.assertTrue("player1 still owns the property", box1.getOwner().get() == player1);	
+		Assert.assertTrue("player1 still owns the property", box1.getOwner().get() == player1);			
 	}
 		
 	@Test
