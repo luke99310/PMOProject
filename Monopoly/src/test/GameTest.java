@@ -31,7 +31,7 @@ public class GameTest {
 		this.game.addPlayer("Marco");
 		player3 = this.game.getPlayers().get(2);
 		players = this.game.getPlayers();
-		box = new Box("Bastioni Gran Sasso", 500, 6, BoxType.BLUE, false);
+		box = new Box("Bastioni Gran Sasso", 500, 6, BoxType.BLUE, true);
 	}
 
 	// testing addPlayer method

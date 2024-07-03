@@ -15,19 +15,19 @@ public class BoardTest {
 	@Before
 	public void setUpBoard() {
 		board = new Board();
-		box1 = new Box("Bastioni Gran Sasso", 500, 6, BoxType.BLUE, false);
-		box2 = new Box("Stazione OVEST", 200, 25, BoxType.STATION, false);
+		box1 = new Box("BASTIONI GRAN SASSO", 500, 6, BoxType.BLUE, true);
+		box2 = new Box("STAZIONE OVEST", 200, 25, BoxType.STATION, true);
 	}
 	
 	// testing getbox method
 	@Test
 	public void testGetBox_1() {
-		Assert.assertEquals("casella all'indice 1 del tabellone", box1.getName(), board.getBox(1).getName());
+		Assert.assertEquals("first box of the board", box1.getName(), board.getBox(1).getName());
 	}
 
 	@Test
 	public void testGetBox_2() {
-		Assert.assertEquals("casella all'indice 9", box2.getName(), board.getBox(9).getName());
+		Assert.assertEquals("box at index 9", box2.getName(), board.getBox(9).getName());
 	}
 	
 	@Test(expected = IllegalArgumentException.class)

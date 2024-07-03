@@ -34,7 +34,7 @@ public class Box implements BoxInterface{
     // SPECIAL BOX COSNTRUCTOR
     public Box(final String name, final BoxType type) {
     	this(name, 0, 0, type, false);
-    }
+    } 
     
     // METHODS
     public String getName() {
